@@ -1,0 +1,25 @@
+﻿<Window x:Class="Degano.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Degano"
+        mc:Ignorable="d"
+        Title="Degano" Height="450" Width="360">
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="2" Background="#FF6AD3FF" Click="INeedGas_Click">I Need Gas!</Button>
+
+    </Grid>
+  
+</Window>
