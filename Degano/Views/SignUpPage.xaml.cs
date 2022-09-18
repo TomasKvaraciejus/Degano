@@ -2,7 +2,7 @@ namespace Degano.Views;
 
 public partial class SignUpPage : ContentPage
 {
-    public string eMail { get; set; }
+    public string EMail { get; set; }
     public string Password { get; set; }
     public SignUpPage()
     {
@@ -11,7 +11,7 @@ public partial class SignUpPage : ContentPage
 
     private void OnNameComplete(object sender, EventArgs e)
     {
-        eMail = ((Entry)sender).Text;
+        EMail = ((Entry)sender).Text;
     }
 
     private void OnPasswordComplete(object sender, EventArgs e)
