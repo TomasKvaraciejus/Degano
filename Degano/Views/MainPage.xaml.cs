@@ -6,4 +6,9 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+	private async void OnINeedGasClick(object sender, EventArgs e)
+	{
+        await DisplayAlert("STOP", "You need gas", "OK");
+    }
 }
