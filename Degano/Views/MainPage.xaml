@@ -6,7 +6,10 @@
     <ScrollView>
         <VerticalStackLayout>
             <Button
-                Text="Still working on this page"/>
+                Text="I need gas!"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Clicked="OnINeedGasClick"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

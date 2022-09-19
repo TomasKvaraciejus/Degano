@@ -25,7 +25,7 @@
 
             <Button
                 x:Name="ContinueWithoutSignIn"
-                Text="Continue without sign in"
+                Text="Continue without signing in"
                 Clicked="OnContinueWithoutSignInClick"
                 WidthRequest="300"
                 HorizontalOptions="Center" />

@@ -21,6 +21,6 @@ public partial class SignUpPage : ContentPage
 
     private void OnSubmitClick(object sender, EventArgs e)
     {
-        Navigation.PopAsync();
+        Navigation.PushAsync(new MainPage());
     }
 }
