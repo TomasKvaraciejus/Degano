@@ -49,6 +49,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Mapsui.Maui" Version="4.0.0-beta.5" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\LandingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -61,6 +65,12 @@
 	  <MauiXaml Update="Views\SignUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
+	  <PackageReference Include="Xamarin.GooglePlayServices.Maps">
+	    <Version>118.0.2.2</Version>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>

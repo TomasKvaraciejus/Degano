@@ -5,7 +5,7 @@ public partial class LandingPage : ContentPage
 	public LandingPage()
 	{
 		InitializeComponent();
-	}
+    }
 
     private void OnSignInClick(object sender, EventArgs e)
     {
