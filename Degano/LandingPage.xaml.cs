@@ -7,17 +7,18 @@ public partial class LandingPage : ContentPage
 		InitializeComponent();
 	}
 
-    private void OnSignInClick(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new SignInPage());
-    }
+	private void OnSignInClick(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new SignInPage());
+	}
 
-    private void OnSignUpClick(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new SignUpPage());
-    }
-    private void OnContinueWithoutSignInClick(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new MainPage());
-    }
+	private void OnSignUpClick(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new SignUpPage());
+	}
+
+	private void OnContinueWithoutSignInClick(object sender, EventArgs e)
+	{
+		Navigation.PushAsync(new MainPage());
+	}
 }
