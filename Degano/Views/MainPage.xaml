@@ -16,8 +16,8 @@
             VerticalTextAlignment="Center" 
             Grid.Row = "0" 
             Grid.Column="1" 
-            Placeholder="Search here"
-            />
+            Placeholder="Search here" />
+        
         <Button 
             x:Name="Settings" 
             Text="Settings" 
@@ -27,14 +27,12 @@
             Grid.Row="0" 
             Grid.Column="2" 
             BackgroundColor="Gray" 
-            BorderColor="Black"
-            />
+            BorderColor="Black" />
 
         <mapsui:MapView 
             x:Name="MapView"
             Grid.Row="1"
-            Grid.ColumnSpan="3"
-            />
+            Grid.ColumnSpan="3" />
 
         <Button 
             x:Name="GasButton" 
@@ -44,7 +42,7 @@
             BackgroundColor="Red" 
             Text="⚠️ I Need Gas! ⚠" 
             WidthRequest="300" 
-            BorderColor="Black"
-        />
+            BorderColor="Black" />
+        
 	</Grid>
 </ContentPage>
