@@ -11,7 +11,7 @@
         (double, double, double, double) MapBounds { get; }
 
         // Adds Marker to map,
-        // currently takes tuple argument (double, double) as position
+        // currently takes GasStation as argument to be tagged to marker
         void AddMarker(object? args);
     }
 }
