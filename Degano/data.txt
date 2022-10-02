@@ -1,0 +1,426 @@
+Baltic Petroleum
+Savanorių pr. 121, Vilnius
+1.769
+1.639
+1.689
+0.699
+Circle K Vilkpėdė I
+Savanorių pr. 118, Vilnius
+1.839
+1.719
+-
+0.749
+Circle K Vilkpėdė II
+Savanorių pr. 119A, Vilnius
+1.839
+1.719
+-
+0.749
+Circle K Vingis
+Geležinio Vilko g. 2A, Vilnius
+1.859
+1.759
+1.858
+0.769
+Neste Santariškių
+Molėtų pl. 8, Vilnius
+1.779
+1.639
+-
+-
+Orlen
+O. Milašiaus g. 31, Vilnius
+1.759
+1.649
+1.689
+0.739
+Circle K Šalia Parlamento
+A. Goštauto g. 13, Vilnius
+1.849
+1.729
+-
+-
+Neste Saltoniškių
+Geležinio Vilko g. 37, Vilnius
+1.809
+1.669
+-
+-
+Neste Gariūnų
+Gariūnų g. 55, Vilnius
+1.839
+1.709
+-
+-
+Neste
+Panerių g. 44, Vilnius
+1.829
+1.679
+-
+-
+EMSI Kareiviai
+Kareivių g. 4, Vilnius
+1.68
+1.58
+-
+0.71
+Neste Trakų Vokės
+J. Tiškevičiaus g. 19, Vilnius
+1.779
+1.679
+-
+-
+Baltic Petroleum
+Rinktinės g. 59, Vilnius
+1.769
+1.639
+1.699
+0.69
+Neste Kauno
+Kauno g. 26, Vilnius
+1.911
+1.689
+-
+-
+Neste Viršuliškių
+Justiniškių g. 14B, Vilnius
+1.809
+1.669
+-
+-
+Alauša
+Pelesos g. 1/2, Vilnius
+1.759
+1.639
+-
+0.729
+Neste Kirtimų
+Dariaus ir Girėno g. 17, Vilnius
+1.829
+1.689
+-
+-
+Circle K Oro Uostas
+Eišiškių pl. 11, Vilnius
+1.849
+1.739
+-
+0.779
+Neste Eišiškių
+Eišiškių pl. 82, Vilnius
+1.829
+1.689
+-
+-
+Circle K Žirmūnai
+Kareivių g. 13, Vilnius
+1.819
+1.685
+-
+0.733
+Neste Savanorių 2
+Savanorių pr. 187D, Vilnius
+1.809
+1.679
+-
+-
+Circle K Vokė
+J. Tiškevičiaus g. 24, Vilnius
+1.819
+1.699
+-
+0.763
+Neste Lazdynų
+Erfurto g. 41, Vilnius
+1.839
+1.709
+-
+-
+Viada
+Laisvės pr. 8, Vilnius
+1.889
+1.775
+1.889
+0.769
+Neste Litexpo
+Parodų g. 1A, Vilnius
+1.839
+1.709
+1.749
+-
+Takuras
+Geležinio Vilko g. 24, Vilnius
+1.706
+1.609
+1.629
+0.71
+Circle K Šeškinės kalnas II
+Geležinio Vilko g. 4, Vilnius
+1.829
+1.709
+-
+0.779
+Circle K Šeškinės kalnas I
+Geležinio Vilko g. 39, Vilnius
+1.829
+1.689
+-
+0.779
+Neste
+Geležinio Vilko g. 41, Vilnius
+1.799
+1.679
+1.719
+-
+Jozita
+Pramonės g. 18, Vilnius
+1.65
+1.56
+-
+0.69
+Neste Žirmūnų
+Žirmūnų g. 68B, Vilnius
+1.789
+1.649
+1.689
+-
+Kvistija
+Vilkpėdės g. 2, Vilnius
+1.789
+1.619
+-
+0.689
+Baltic Petroleum
+Gerosios Vilties g. 33, Vilnius
+1.829
+1.689
+-
+0.749
+Circle K Tūkstantmetis
+Prūsų g. 26A, Vilnius
+1.869
+1.749
+-
+0.779
+Neste Žirnių
+Žirnių g. 17, Vilnius
+1.819
+1.679
+-
+-
+EMSI Liepkalnis
+Liepkalnio g. 112A, Vilnius
+1.76
+1.62
+1.67
+0.71
+Viada
+Liepkalnio g. 128A, Vilnius
+1.859
+1.869
+1.889
+0.759
+Viada
+Dariaus ir Girėno g. 18A, Vilnius
+1.859
+1.739
+-
+0.779
+Viada
+Kirtimų g. 29, Vilnius
+1.849
+1.719
+-
+0.79
+Alauša
+Šiaurės g. 39, Vilnius
+1.649
+1.559
+-
+0.689
+Neste Savanorių 1
+Savanorių pr. 220A, Vilnius
+1.809
+1.679
+1.719
+-
+Viada
+Gariūnų g. 16A, Vilnius
+1.859
+1.739
+-
+0.799
+Circle K Gariūnai
+Gariūnų g. 45, Vilnius
+1.859
+1.729
+-
+-
+Circle K Karoliniškės
+A. P. Kavoliuko g. 32A, Vilnius
+1.849
+1.709
+-
+0.765
+Viada
+Justiniškių g. 10, Vilnius
+1.82
+1.699
+-
+-
+Baltic Petroleum
+Metalo g. 4B, Vilnius
+1.889
+1.769
+-
+0.739
+Viada
+Saltoniškių g. 12, Vilnius
+1.829
+1.709
+1.839
+0.779
+Baltic Petroleum
+Visalaukio g. 2, Vilnius
+1.769
+1.639
+1.689
+0.719
+Circle K Automatas Oslas
+Oslo g. 12, Vilnius
+1.849
+1.729
+-
+-
+Alauša
+Kirtimų g. 23A, Vilnius
+1.799
+1.659
+1.699
+0.699
+Neste Rimi
+Kedrų g. 2, Vilnius
+1.839
+1.709
+-
+-
+EMSI Bukiškės
+Ukmergės g. 437, Vilnius
+1.76
+1.62
+1.66
+0.7
+Ecoil
+Ukmergės g. 130, Vilnius
+1.779
+1.659
+-
+-
+EMSI Savanoriai
+Savanorių pr. 225, Vilnius
+1.75
+1.62
+-
+0.7
+A. Lingės degalinė
+Liepkalnio g. 184, Vilnius
+1.79
+1.69
+-
+-
+Neste Architektų
+Architektų g. 130, Vilnius
+1.819
+1.689
+-
+-
+A. Lingės degalinė
+Minsko pl. 40, Vilnius
+1.84
+1.76
+-
+-
+Jozita
+Parko g. 69A, Vilnius
+1.65
+1.56
+1.56
+0.69
+Neste
+Pilaitės pr. 27, Vilnius
+1.779
+1.639
+-
+-
+Viada
+Pilaitės pr. 13, Vilnius
+1.839
+1.739
+-
+0.779
+Viada
+Pilaitės pr. 28, Vilnius
+1.839
+1.729
+-
+0.779
+Circle K Talinas
+Talino g. 2B, Vilnius
+1.931
+1.555
+1.998
+-
+EMSI Trakų Vokė
+Gunkliškių g., Vilnius
+1.77
+1.65
+-
+0.68
+Orlen
+Juodasis kel. 32, Vilnius
+1.759
+1.639
+-
+0.729
+Viada
+Sodų g. 22, Vilnius
+1.839
+1.699
+-
+0.829
+Viada
+Naugarduko g. 74, Vilnius
+1.859
+1.759
+-
+0.769
+Viada
+Nemenčinės pl. 5, Vilnius
+1.799
+1.699
+-
+0.759
+Baltic Petroleum
+Antakalnio g. 128, Vilnius
+1.759
+1.639
+-
+0.699
+Circle K Viršuliškės
+Laisvės pr. 43C, Vilnius
+1.839
+1.709
+-
+0.769
+Takuras
+Kirtimų g. 33A, Vilnius
+1.82
+1.84
+1.86
+0.71
+EMSI Pilaitė
+Pajautos g. 31, Vilnius
+1.75
+1.61
+-
+0.72
