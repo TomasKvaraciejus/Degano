@@ -42,19 +42,19 @@ namespace Degano.Handlers
             handler.PlatformView.ShowsUserLocation = map.IsShowingUser;
         }
 
-        public static void MapHasScrollEnabled(IMapHandler handler, IMap map)
+        public static void MapIsScrollEnabled(IMapHandler handler, IMap map)
         {
-            handler.PlatformView.ScrollEnabled = map.HasScrollEnabled;
+            handler.PlatformView.ScrollEnabled = map.IsScrollEnabled;
         }
 
-        public static void MapHasTrafficEnabled(IMapHandler handler, IMap map)
+        public static void MapIsTrafficEnabled(IMapHandler handler, IMap map)
         {
-            handler.PlatformView.ShowsTraffic = map.HasTrafficEnabled;
+            handler.PlatformView.ShowsTraffic = map.IsTrafficEnabled;
         }
 
-        public static void MapHasZoomEnabled(IMapHandler handler, IMap map)
+        public static void MapIsZoomEnabled(IMapHandler handler, IMap map)
         {
-            handler.PlatformView.ZoomEnabled = map.HasZoomEnabled;
+            handler.PlatformView.ZoomEnabled = map.IsZoomEnabled;
         }
 
         public static void MapMinZoomLevel(IMapHandler handler, IMap map)

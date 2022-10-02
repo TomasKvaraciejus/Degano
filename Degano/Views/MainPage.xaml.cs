@@ -22,7 +22,7 @@ public partial class MainPage : ContentPage
 	public static void InitializeMap()															
 	{																										
 		mainPageMap.MapBounds = (54.765296, 25.371505, 54.619564, 25.146730); // These parameters are necessary for Google Maps to initialize properly
-		mainPageMap.HasTrafficEnabled = false;
+		mainPageMap.IsTrafficEnabled = false;
 		mainPageMap.MinZoomLevel = 10f;																		
 		mainPageMap.MaxZoomLevel = 16f;
 

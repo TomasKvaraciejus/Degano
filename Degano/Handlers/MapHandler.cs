@@ -26,9 +26,9 @@ public partial class MapHandler : IMapHandler
     public static IPropertyMapper<IMap, IMapHandler> Mapper = new PropertyMapper<IMap, IMapHandler>(ViewMapper)
     {
         [nameof(IMap.IsShowingUser)] = MapIsShowingUser,
-        [nameof(IMap.HasScrollEnabled)] = MapHasScrollEnabled,
-        [nameof(IMap.HasTrafficEnabled)] = MapHasTrafficEnabled,
-        [nameof(IMap.HasZoomEnabled)] = MapHasZoomEnabled,
+        [nameof(IMap.IsScrollEnabled)] = MapIsScrollEnabled,
+        [nameof(IMap.IsTrafficEnabled)] = MapIsTrafficEnabled,
+        [nameof(IMap.IsZoomEnabled)] = MapIsZoomEnabled,
         [nameof(IMap.MinZoomLevel)] = MapMinZoomLevel,
         [nameof(IMap.MaxZoomLevel)] = MapMaxZoomLevel,
         [nameof(IMap.MapBounds)] = MapSetBounds

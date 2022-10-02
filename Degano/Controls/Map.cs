@@ -8,11 +8,11 @@ namespace Degano.Controls
 
         public static readonly BindableProperty IsShowingUserProperty = BindableProperty.Create(nameof(IsShowingUser), typeof(bool), typeof(Map), null);
 
-        public static readonly BindableProperty HasTrafficEnabledProperty = BindableProperty.Create(nameof(HasTrafficEnabled), typeof(bool), typeof(Map), null);
+        public static readonly BindableProperty IsTrafficEnabledProperty = BindableProperty.Create(nameof(IsTrafficEnabled), typeof(bool), typeof(Map), null);
 
-        public static readonly BindableProperty HasScrollEnabledProperty = BindableProperty.Create(nameof(HasScrollEnabled), typeof(bool), typeof(Map), null);
+        public static readonly BindableProperty IsScrollEnabledProperty = BindableProperty.Create(nameof(IsScrollEnabled), typeof(bool), typeof(Map), null);
 
-        public static readonly BindableProperty HasZoomEnabledProperty = BindableProperty.Create(nameof(HasZoomEnabled), typeof(bool), typeof(Map), null);
+        public static readonly BindableProperty IsZoomEnabledProperty = BindableProperty.Create(nameof(IsZoomEnabled), typeof(bool), typeof(Map), null);
 
         public static readonly BindableProperty MinZoomLevelProperty = BindableProperty.Create(nameof(MinZoomLevel), typeof(float), typeof(Map), null);
 
@@ -20,16 +20,16 @@ namespace Degano.Controls
 
         public static readonly BindableProperty MapBoundsProperty = BindableProperty.Create(nameof(MapBounds), typeof((double, double, double, double)), typeof(Map), null);
 
-        public bool HasScrollEnabled
+        public bool IsScrollEnabled
         {
-            get { return (bool)GetValue(HasScrollEnabledProperty); }
-            set { SetValue(HasScrollEnabledProperty, value); }
+            get { return (bool)GetValue(IsScrollEnabledProperty); }
+            set { SetValue(IsScrollEnabledProperty, value); }
         }
 
-        public bool HasZoomEnabled
+        public bool IsZoomEnabled
         {
-            get { return (bool)GetValue(HasZoomEnabledProperty); }
-            set { SetValue(HasZoomEnabledProperty, value); }
+            get { return (bool)GetValue(IsZoomEnabledProperty); }
+            set { SetValue(IsZoomEnabledProperty, value); }
         }
 
         public bool IsShowingUser
@@ -38,10 +38,10 @@ namespace Degano.Controls
             set { SetValue(IsShowingUserProperty, value); }
         }
 
-        public bool HasTrafficEnabled
+        public bool IsTrafficEnabled
         {
-            get => (bool)GetValue(HasTrafficEnabledProperty);
-            set => SetValue(HasTrafficEnabledProperty, value);
+            get => (bool)GetValue(IsTrafficEnabledProperty);
+            set => SetValue(IsTrafficEnabledProperty, value);
         }
 
         public float MinZoomLevel

@@ -3,9 +3,9 @@
     public interface IMap : IView
     {
         bool IsShowingUser { get; }
-        bool HasScrollEnabled { get; }
-        bool HasZoomEnabled { get; }
-        bool HasTrafficEnabled { get; }
+        bool IsScrollEnabled { get; }
+        bool IsZoomEnabled { get; }
+        bool IsTrafficEnabled { get; }
         float MinZoomLevel { get; }
         float MaxZoomLevel { get; }
         (double, double, double, double) MapBounds { get; }
