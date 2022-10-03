@@ -52,10 +52,6 @@
 	  <None Remove="Platforms\Android\Resources\layout\info_window.axml" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.2-prerelease.220830001" />
-	</ItemGroup>
-
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">
 		<Compile Remove="**\**\*.Android.cs" />
 		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
