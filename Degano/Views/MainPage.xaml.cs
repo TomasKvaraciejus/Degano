@@ -6,7 +6,7 @@ namespace Degano.Views;
 public partial class MainPage : ContentPage
 {
 	private static Controls.Map mainPageMap;
-	private static PermissionStatus locationPermission;
+	internal static PermissionStatus locationPermission;
 
     // We should probably figure out a way to keep the map in between
     // content pages, otherwise a new one to be generated every time this                                                                              
@@ -14,8 +14,7 @@ public partial class MainPage : ContentPage
 
     public MainPage()                                                                                      
     {
-		InitializeComponent();
-		CheckPermissions();
+        InitializeComponent();
 		mainPageMap = MainPageMap;
 	}
 
@@ -47,21 +46,6 @@ public partial class MainPage : ContentPage
     {
 
 	}
-
-	private async void CheckPermissions() // We need a better way to keep track of user permissions
-	{
-		try
-		{
-			locationPermission = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-		}
-		catch
-		{
-			// Not currently implemented
-		}
-        if (locationPermission == PermissionStatus.Denied)
-            await DisplayAlert("Location permissions denied",
-                                "Your location permissions must be adjusted for the functionality of the \"I need gas!\" feature.", "okey");
-    }
 
 	private async void OnINeedGasClick(object sender, EventArgs e)
 	{
