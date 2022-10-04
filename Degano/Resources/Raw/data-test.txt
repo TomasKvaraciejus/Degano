@@ -1,0 +1,27 @@
+Neste
+Neste Saltoniškių
+Geležinio Vilko g. 37, Vilnius
+54.7013152
+25.2637881
+1.769
+1.649
+-
+-
+Circle K
+Circle K Šeškinės kalnas II
+Geležinio Vilko g. 4, Vilnius
+54.7028607
+25.263901
+1.799
+1.679
+-
+0.789
+Viada
+Viada
+Saltoniškių g. 12, Vilnius
+54.6993488
+25.2597979
+1.819
+1.679
+1.809
+0.789
