@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors"
              x:Class="Degano.Views.SignUpPage"
              Title="Sign Up">
+
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -11,21 +13,43 @@
             WidthRequest="400">
 
             <Entry
-                x:Name="NameEntry"
+                x:Name="EmailEntry"
+                Keyboard="Email"
                 Placeholder="Enter e-mail"
                 ClearButtonVisibility="WhileEditing"
-                Completed="OnNameComplete"/>
+                TextChanged="OnEmailTextChange">
+                <Entry.Behaviors>
+                    <behaviors:EmailValidatorBehavior />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label 
+                x:Name="EmailLabel"
+                Text="Should be valid e-mail!"
+                TextColor="Red"
+                IsVisible="True" />
 
             <Entry
                 x:Name="PasswordEntry"
                 IsPassword="True"
                 Placeholder="Enter password"
-                Completed="OnPasswordComplete"
-                />
+                TextChanged="OnPasswordTextChange" >
+                <Entry.Behaviors>
+                    <behaviors:TextValidatorBehavior />
+                </Entry.Behaviors>
+            </Entry>
+            
+            <Label 
+                x:Name="PasswordLabel"
+                Text="Password should contain at least 10 characters!"
+                TextColor="Red"
+                IsVisible="True" />
 
             <Button
+                x:Name="Submit"
                 Text="Submit"
-                Clicked="OnSubmitClick"/>
+                Clicked="OnSubmitClick"
+                IsEnabled="false" />
 
         </VerticalStackLayout>
     </ScrollView>

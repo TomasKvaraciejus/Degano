@@ -1,7 +1,4 @@
-﻿using Android.OS;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-
-namespace Degano.Controls
+﻿namespace Degano.Controls
 {
     public partial class Map : View, IMap
     {
