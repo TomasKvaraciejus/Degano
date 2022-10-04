@@ -17,5 +17,5 @@ public partial class LandingPage : ContentPage
 		Navigation.PushAsync(new SignUpPage());
 	}
 
-	private async void OnContinueWithoutSignInClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
+	private void OnContinueWithoutSignInClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
 }

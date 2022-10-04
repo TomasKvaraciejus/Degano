@@ -21,7 +21,7 @@ namespace Degano.Views
             CheckIsValid();
         }
 
-        private async void OnSubmitClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
+        private void OnSubmitClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
 
         private void CheckIsValid()
         {
