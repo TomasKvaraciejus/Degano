@@ -6,7 +6,6 @@ namespace Degano.Views;
 public partial class MainPage : ContentPage
 {
 	private static Controls.Map mainPageMap;
-	internal static PermissionStatus locationPermission;
 
     // We should probably figure out a way to keep the map in between
     // content pages, otherwise a new one to be generated every time this                                                                              
@@ -25,8 +24,8 @@ public partial class MainPage : ContentPage
 		mainPageMap.MinZoomLevel = 10f;																		
 		mainPageMap.MaxZoomLevel = 16f;
 
-        if (locationPermission == PermissionStatus.Granted)
-            mainPageMap.IsShowingUser = true;
+		if (UserPermissions.locationPermissionStatus)
+			mainPageMap.IsShowingUser = true;
 
         var gasStation = new GasStation("Viada", "Pilaite", (54.7, 25.2), 0, 0, 0, 0, "Viada"); // The rest of the function is used to create a marker for a single gas station
 		mainPageMap.AddMarker(gasStation);														// on the map for debugging purposes

@@ -19,8 +19,9 @@ public partial class SignInPage : ContentPage
         Password = ((Entry)sender).Text;
     }
 
-    private void OnSubmitClick(object sender, EventArgs e)
+    private async void OnSubmitClick(object sender, EventArgs e)
     {
+        await UserPermissions.GetPermissions();
         Navigation.PushAsync(new MainPage());
     }
 }
