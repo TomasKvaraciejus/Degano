@@ -17,24 +17,5 @@ public partial class LandingPage : ContentPage
 		Navigation.PushAsync(new SignUpPage());
 	}
 
-	private async void OnContinueWithoutSignInClick(object sender, EventArgs e)
-	{
-		await CheckPermissions();
-		Navigation.PushAsync(new MainPage());
-	}
-
-    private async Task CheckPermissions() // We need a better way to keep track of user permissions
-    {
-        try
-        {
-            MainPage.locationPermission = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        }
-        catch
-        {
-            // Not currently implemented
-        }
-        if (MainPage.locationPermission == PermissionStatus.Denied)
-            await DisplayAlert("Location permissions denied",
-                                "Your location permissions must be adjusted for the functionality of the \"I need gas!\" feature.", "okey");
-    }
+	private void OnContinueWithoutSignInClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
 }

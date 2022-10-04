@@ -3,7 +3,6 @@ namespace Degano.Views
 	public partial class MainPage : ContentPage
 	{
 		private static Controls.Map mainPageMap;
-		private static PermissionStatus locationPermission;
 
 		// We should probably figure out a way to keep the map in between
 		// content pages, otherwise a new one to be generated every time this                                                                              
@@ -12,9 +11,14 @@ namespace Degano.Views
 		public MainPage()
 		{
 			InitializeComponent();
-			CheckPermissions();
 			mainPageMap = MainPageMap;
 		}
+
+		internal static async void InitializeMainPage(ContentPage _p)
+		{
+            await UserPermissions.GetPermissions();
+            _p.Navigation.PushAsync(new MainPage());
+        }
 
 		public static void InitializeMap()
 		{
@@ -23,7 +27,7 @@ namespace Degano.Views
 			mainPageMap.MinZoomLevel = 10f;
 			mainPageMap.MaxZoomLevel = 16f;
 
-			if (locationPermission == PermissionStatus.Granted)
+			if (UserPermissions.locationPermissionStatus)
 				mainPageMap.IsShowingUser = true;
 
 			var gasStation = new GasStation("Viada", "Pilaite", (54.7, 25.2), 0, 0, 0, 0, "Viada"); // The rest of the function is used to create a marker for a single gas station
@@ -43,21 +47,6 @@ namespace Degano.Views
 		public void OnSettingsClick(object sender, EventArgs e)
 		{
 
-		}
-
-		private async void CheckPermissions() // We need a better way to keep track of user permissions
-		{
-			try
-			{
-				locationPermission = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-			}
-			catch
-			{
-				// Not currently implemented
-			}
-			if (locationPermission == PermissionStatus.Denied)
-				await DisplayAlert("Location permissions denied",
-									"Your location permissions must be adjusted for the functionality of the \"I need gas!\" feature.", "okey");
 		}
 
 		private async void OnINeedGasClick(object sender, EventArgs e)
