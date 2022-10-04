@@ -33,8 +33,7 @@
         <maps:Map
             x:Name="MainPageMap"
             Grid.Row="1"
-            Grid.ColumnSpan="3"
-            />
+            Grid.ColumnSpan="3" />
 
         <Button 
             x:Name="GasButton" 
