@@ -3,12 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Degano"
              x:Class="Degano.App">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="Primary">White</Color>
+            <Color x:Key="PrimaryDark">#332E3C</Color>
+            
+            <Color x:Key="Background">#F00</Color>
+            <Color x:Key="BackgroundDark">#1D1B23</Color>
+
+            <Color x:Key="LabelText">#333</Color>
+            <Color x:Key="LabelTextDark">White</Color>
+
+            <Style x:Key="ButtonDefault" TargetType="Button">
+                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource BackgroundDark}}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                <Setter Property="CornerRadius" Value="20" />
+            </Style>
+
+            <Style x:Key="ButtonGas" TargetType="Button">
+                <Setter Property="Background" Value="Red" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="30" />
+            </Style>
+
+
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

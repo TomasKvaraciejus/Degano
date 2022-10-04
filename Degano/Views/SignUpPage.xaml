@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:Behaviors"
+             NavigationPage.HasNavigationBar="false"
              x:Class="Degano.Views.SignUpPage"
              Title="Sign Up">
 
@@ -11,6 +12,14 @@
             Padding="30,0"
             VerticalOptions="Center"
             WidthRequest="400">
+
+            <Label Text="Sign up"
+                   HorizontalTextAlignment="Start"
+                   FontSize="36"
+                   TextColor="{AppThemeBinding Light=Red, Dark=White}"
+                   FontAttributes="None"
+                   Padding="0,0,0,30"
+                   CharacterSpacing="0"/>
 
             <Entry
                 x:Name="EmailEntry"
@@ -47,6 +56,8 @@
 
             <Button
                 x:Name="Submit"
+                Style="{StaticResource ButtonDefault}"
+                TextColor="White"
                 Text="Submit"
                 Clicked="OnSubmitClick"
                 IsEnabled="false" />

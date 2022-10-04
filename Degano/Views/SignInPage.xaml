@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             NavigationPage.HasNavigationBar="false"
              xmlns:behaviors="clr-namespace:Behaviors"
              x:Class="Degano.Views.SignInPage"
              Title="Sign In">
@@ -11,6 +12,14 @@
             Padding="30,0"
             VerticalOptions="Center"
             WidthRequest="400">
+
+            <Label Text="Sign in"
+                   HorizontalTextAlignment="Start"
+                   FontSize="36"
+                   TextColor="{AppThemeBinding Light=Red, Dark=White}"
+                   FontAttributes="None"
+                   Padding="0,0,0,30"
+                   CharacterSpacing="0"/>
 
             <Entry
                 x:Name="EmailEntry"
@@ -28,7 +37,7 @@
                 Text="Should be valid e-mail!"
                 TextColor="Red"
                 IsVisible="True" />
-
+            
             <Entry
                 x:Name="PasswordEntry"
                 IsPassword="True"
@@ -47,6 +56,8 @@
 
             <Button
                 x:Name="Submit"
+                Style="{StaticResource ButtonDefault}"
+                TextColor="White"
                 Text="Submit"
                 Clicked="OnSubmitClick"
                 IsEnabled="false" />
