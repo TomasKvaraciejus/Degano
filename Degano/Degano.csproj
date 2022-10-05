@@ -50,6 +50,7 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\layout\info_window.axml" />
+	  <None Remove="Platforms\Android\Resources\Raw\map_style.json" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android')) != true">

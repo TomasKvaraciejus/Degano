@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.Gms.Common.Apis;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Speech;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
@@ -153,6 +154,8 @@ namespace Degano.Handlers
 
             Map = map;
             Map.SetInfoWindowAdapter(new InfoWindowAdapter());
+            var R = Android.App.Application.Context;
+            Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 
             Views.MainPage.InitializeMap();
         }
