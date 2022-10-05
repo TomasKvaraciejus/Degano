@@ -198,8 +198,7 @@ namespace Degano.Handlers
             Map = map;
             Map.SetInfoWindowAdapter(new InfoWindowAdapter());
             var R = Android.App.Application.Context;
-            if (!Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style)))
-                throw new Exception("map style not found!"); // TODO: implement appropriate exception
+            Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 
             Views.MainPage.InitializeMap();
         }
