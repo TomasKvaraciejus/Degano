@@ -1,0 +1,19 @@
+﻿[
+    {
+        "featureType": "poi",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    }
+]
