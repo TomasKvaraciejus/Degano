@@ -63,5 +63,20 @@
         {
             Handler?.Invoke(nameof(AddMarker), args);
         }
+
+        public void AnimateCamera(object? args)
+        {
+            Handler?.Invoke(nameof(AnimateCamera), args);
+        }
+
+        public void MoveCamera(object? args)
+        {
+            Handler?.Invoke(nameof(MoveCamera), args);
+        }
+
+        public void ZoomCamera(object? args)
+        {
+            Handler?.Invoke(nameof(ZoomCamera), args);
+        }
     }
 }

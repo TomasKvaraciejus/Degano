@@ -3,6 +3,7 @@ namespace Degano.Views
 	public partial class MainPage : ContentPage
 	{
 		private static Controls.Map mainPageMap;
+        public static (double, double) userLocation;
 
 		// We should probably figure out a way to keep the map in between
 		// content pages, otherwise a new one to be generated every time this                                                                              
@@ -20,18 +21,19 @@ namespace Degano.Views
             _p.Navigation.PushAsync(new MainPage());
         }
 
-		public static void InitializeMap()
+		public static async void InitializeMap()
 		{
 			mainPageMap.MapBounds = (54.765296, 25.371505, 54.619564, 25.146730); // These parameters are necessary for Google Maps to initialize properly
 			mainPageMap.IsTrafficEnabled = false;
 			mainPageMap.MinZoomLevel = 10f;
 			mainPageMap.MaxZoomLevel = 16f;
 
-			if (UserPermissions.locationPermissionStatus)
-				mainPageMap.IsShowingUser = true;
-
-			var gasStation = new GasStation("Viada", "Pilaite", (54.7, 25.2), 0, 0, 0, 0, "Viada"); // The rest of the function is used to create a marker for a single gas station
-			mainPageMap.AddMarker(gasStation); // on the map for debugging purposes
+            if (UserPermissions.locationPermissionStatus)
+            {
+                mainPageMap.IsShowingUser = true;
+                await UserLocation.GetLastKnownLocation(); // preliminary
+                mainPageMap.AnimateCamera((UserLocation.location, 14f, 800)); // preliminary
+            }
 
             GetGasStationData();
 		}
