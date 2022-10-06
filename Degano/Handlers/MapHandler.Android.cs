@@ -160,6 +160,7 @@ namespace Degano.Handlers
             var _latlng = new LatLng(_args.Item1.lat, _args.Item1.lng);
             var _zoom = googleMap.CameraPosition.Zoom;
             var _animationLength = 800;
+            
             if (_args.Item2 != 0)
                 _zoom = _args.Item2;
             if (_args.Item3 > 0)
