@@ -8,6 +8,7 @@ using Android.Speech;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
+using Degano.Views;
 using Java.Interop;
 using Microsoft.Maui.Handlers;
 using Debug = System.Diagnostics.Debug;
@@ -146,7 +147,49 @@ namespace Degano.Handlers
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
             _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
         }
-        
+
+        public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
+        {
+            GoogleMap? googleMap = handler?.Map;
+            if (googleMap == null)
+                return;
+
+            var _args = ((Location, float, int))args; // args should consist of Location, Zoom (0 if zoom is to remain unchanged), Animation Length (>0 for custom animation length)
+            var _latlng = new LatLng(_args.Item1.lat, _args.Item1.lng);
+            var _zoom = googleMap.CameraPosition.Zoom;
+            var _animationLength = 0;
+            if (_args.Item2 != 0)
+                _zoom = _args.Item2;
+            if (_args.Item3 > 0)
+                _animationLength = _args.Item3;
+            var cameraPosition = CameraUpdateFactory.NewCameraPosition(new CameraPosition(_latlng, _zoom, googleMap.CameraPosition.Tilt, googleMap.CameraPosition.Bearing));
+
+            googleMap.AnimateCamera(cameraPosition, _animationLength, null);
+        }
+
+        public static void MapMoveCamera(IMapHandler handler, IMap map, object? args)
+        {
+            GoogleMap? googleMap = handler?.Map;
+            if (googleMap == null)
+                return;
+
+            var _args = ((Location, float, int))args; 
+            var _latlng = new LatLng(_args.Item1.lat, _args.Item1.lng);
+
+            googleMap.AnimateCamera(CameraUpdateFactory.NewLatLng(_latlng), 800, null);
+        }
+
+        public static void MapZoomCamera(IMapHandler handler, IMap map, object? args)
+        {
+            GoogleMap? googleMap = handler?.Map;
+            if (googleMap == null)
+                return;
+
+            var _args = (float)args;
+
+            googleMap.AnimateCamera(CameraUpdateFactory.ZoomTo(_args), 800, null);
+        }
+
         internal void OnMapReady(GoogleMap map)
         {
             if (map == null)

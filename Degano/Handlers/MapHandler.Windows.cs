@@ -23,5 +23,11 @@ namespace Degano.Handlers
         public static void MapSetBounds(IMapHandler handler, IMap map) => throw new PlatformNotSupportedException("No Map control on Windows.");
 
         public static void MapAddMarker(IMapHandler handler, IMap map, object? args) => throw new PlatformNotSupportedException("No Map control on Windows.");
+
+        public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args) => throw new PlatformNotSupportedException("No Map control on Windows.");
+
+        public static void MapMoveCamera(IMapHandler handler, IMap map, object? args) => throw new PlatformNotSupportedException("No Map control on Windows.");
+
+        public static void MapZoomCamera(IMapHandler handler, IMap map, object? args) => throw new PlatformNotSupportedException("No Map control on Windows.");
     }
 }

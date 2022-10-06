@@ -13,5 +13,8 @@
         // Adds Marker to map,
         // currently takes GasStation as argument to be tagged to marker
         void AddMarker(object? args);
+        void AnimateCamera(object? args);
+        void MoveCamera(object? args);
+        void ZoomCamera(object? args);
     }
 }

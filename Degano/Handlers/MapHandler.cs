@@ -36,6 +36,9 @@ public partial class MapHandler : IMapHandler
 
     public static CommandMapper<IMap, IMapHandler> CommandMapper = new(ViewCommandMapper)
     {
-        [nameof(IMap.AddMarker)] = MapAddMarker
+        [nameof(IMap.AddMarker)] = MapAddMarker,
+        [nameof(IMap.AnimateCamera)] = MapAnimateCamera,
+        [nameof(IMap.MoveCamera)] = MapMoveCamera,
+        [nameof(IMap.ZoomCamera)] = MapZoomCamera
     };
 }

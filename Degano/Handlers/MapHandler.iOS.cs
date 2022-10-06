@@ -76,5 +76,20 @@ namespace Degano.Handlers
         {
             // Not currently implemented
         }
+
+        public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
+        {
+            // Not currently implemented
+        }
+
+        public static void MapMoveCamera(IMapHandler handler, IMap map, object? args)
+        {
+            // Not currently implemented
+        }
+
+        public static void MapZoomCamera(IMapHandler handler, IMap map, object? args)
+        {
+            // Not currently implemented
+        }
     }
 }
