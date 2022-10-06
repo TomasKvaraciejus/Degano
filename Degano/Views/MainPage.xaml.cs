@@ -3,13 +3,13 @@ namespace Degano.Views
 	public partial class MainPage : ContentPage
 	{
 		private static Controls.Map mainPageMap;
-        public static (double, double) userLocation;
+        private static List<GasStation> gasStationList = new List<GasStation>();
 
-		// We should probably figure out a way to keep the map in between
-		// content pages, otherwise a new one to be generated every time this                                                                              
-		// page is opened
+        // We should probably figure out a way to keep the map in between
+        // content pages, otherwise a new one to be generated every time this                                                                              
+        // page is opened
 
-		public MainPage()
+        public MainPage()
 		{
 			InitializeComponent();
 			mainPageMap = MainPageMap;
@@ -18,7 +18,7 @@ namespace Degano.Views
 		internal static async void InitializeMainPage(ContentPage _p)
 		{
             await UserPermissions.GetPermissions();
-            _p.Navigation.PushAsync(new MainPage());
+            await _p.Navigation.PushAsync(new MainPage());
         }
 
 		public static async void InitializeMap()
@@ -40,8 +40,6 @@ namespace Degano.Views
 
         public async static void GetGasStationData()
         {
-            List<GasStation> gasStationList = new List<GasStation>();
-
             using var stream = await FileSystem.OpenAppPackageFileAsync("data-test.txt");
 
             using (StreamReader file = new StreamReader(stream))
@@ -94,7 +92,7 @@ namespace Degano.Views
                                 LPGPrice = -1;
                             else
                                 LPGPrice = double.Parse(line);
-                            var gasStation = new GasStation(name, address, ((lat), (lng)), petrol95Price, petrol98Price, dieselPrice, LPGPrice, brand);
+                            var gasStation = new GasStation(name, address, new Location(lat, lng), petrol95Price, petrol98Price, dieselPrice, LPGPrice, brand);
                             mainPageMap.AddMarker(gasStation); // The rest of the function is used to create a marker for a single gas station
                                                                // on the map for debugging purposes
                             gasStationList.Add(gasStation);
@@ -120,8 +118,14 @@ namespace Degano.Views
 
 		}
 
+        public void OnCenterUserClick(object sender, EventArgs e)
+        {
+            mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
+        }
+
 		private async void OnINeedGasClick(object sender, EventArgs e)
 		{
+            UserLocation.location.OpenInExternalApp();
 			await DisplayAlert("STOP", "You need gas", "OK");
 		}
 	}

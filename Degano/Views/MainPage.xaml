@@ -8,12 +8,13 @@
 	<Grid 
         x:Name="MainGrid" 
         RowDefinitions="48,12*,*" 
-        Grid.ColumnDefinitions="*, *,*"
-        Padding="0,10,0,10"
-        RowSpacing="10">
+        Grid.ColumnDefinitions="*, 220,*"
+        Padding="0,0,0,0"
+        RowSpacing="0">
 		
         <Entry 
             x:Name="NavigationBar" 
+            BackgroundColor="White"
             VerticalTextAlignment="Center" 
             Grid.Row = "0" 
             Grid.Column="1" 
@@ -26,13 +27,24 @@
             HorizontalOptions="Start" 
             WidthRequest="80" 
             Grid.Row="0" 
+            Grid.Column="0" 
+            BackgroundColor="Gray" 
+            BorderColor="Black" />
+
+        <Button 
+            x:Name="CenterUser" 
+            Text="Center" 
+            Clicked="OnCenterUserClick"
+            WidthRequest="80" 
+            Grid.Row="0" 
             Grid.Column="2" 
             BackgroundColor="Gray" 
             BorderColor="Black" />
 
         <maps:Map
             x:Name="MainPageMap"
-            Grid.Row="1"
+            ZIndex="-1"
+            Grid.RowSpan="2"
             Grid.ColumnSpan="3" />
 
         <Button 

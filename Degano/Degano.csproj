@@ -69,6 +69,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Xamarin.Google.iOS.Maps" Version="6.0.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\LandingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
