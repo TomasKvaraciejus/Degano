@@ -11,10 +11,10 @@ namespace Degano
     IComparable
     {
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
-        public (double, double) location;
+        public Location location;
         public double price95, price98, priceDiesel, priceLPG;
 
-        public GasStation(string _name, string _address, (double, double) _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _type = "other")
+        public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _type = "other")
         {
             name = _name;
             address = _address;

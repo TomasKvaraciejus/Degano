@@ -62,17 +62,19 @@ namespace Degano.Handlers
                 var fineLocationPermission = ContextCompat.CheckSelfPermission(handler.MauiContext.Context, Manifest.Permission.AccessFineLocation);
 
                 if (coarseLocationPermission == Permission.Granted || fineLocationPermission == Permission.Granted)
-                    googleMap.MyLocationEnabled = googleMap.UiSettings.MyLocationButtonEnabled = true;
+                    googleMap.MyLocationEnabled = true;
                 else
                 {
                     Debug.WriteLine("Missing location permissions for IsShowingUser.");
-                    googleMap.MyLocationEnabled = googleMap.UiSettings.MyLocationButtonEnabled = false;
+                    googleMap.MyLocationEnabled = false;
                 }
             }
             else
             {
-                googleMap.MyLocationEnabled = googleMap.UiSettings.MyLocationButtonEnabled = false;
+                googleMap.MyLocationEnabled = false;
             }
+
+            googleMap.UiSettings.MyLocationButtonEnabled = false;
         }
 
         public static void MapIsScrollEnabled(IMapHandler handler, IMap map)
@@ -141,7 +143,7 @@ namespace Degano.Handlers
             var _args = (GasStation)args;
 
             var marker = new MarkerOptions();
-            marker.SetPosition(new LatLng(_args.location.Item1, _args.location.Item2));
+            marker.SetPosition(new LatLng(_args.location.lat, _args.location.lng));
             marker.SetTitle(_args.name);
 
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
@@ -157,12 +159,13 @@ namespace Degano.Handlers
             var _args = ((Location, float, int))args; // args should consist of Location, Zoom (0 if zoom is to remain unchanged), Animation Length (>0 for custom animation length)
             var _latlng = new LatLng(_args.Item1.lat, _args.Item1.lng);
             var _zoom = googleMap.CameraPosition.Zoom;
-            var _animationLength = 0;
+            var _animationLength = 800;
+            
             if (_args.Item2 != 0)
                 _zoom = _args.Item2;
             if (_args.Item3 > 0)
                 _animationLength = _args.Item3;
-            var cameraPosition = CameraUpdateFactory.NewCameraPosition(new CameraPosition(_latlng, _zoom, googleMap.CameraPosition.Tilt, googleMap.CameraPosition.Bearing));
+            var cameraPosition = CameraUpdateFactory.NewCameraPosition(new CameraPosition(_latlng, _zoom, 0, 0));
 
             googleMap.AnimateCamera(cameraPosition, _animationLength, null);
         }
@@ -196,7 +199,9 @@ namespace Degano.Handlers
                 return;
 
             Map = map;
-            Map.SetInfoWindowAdapter(new InfoWindowAdapter());
+            var _infoWindowAdapter = new InfoWindowAdapter();
+            Map.SetInfoWindowAdapter(_infoWindowAdapter);
+            Map.SetOnInfoWindowClickListener(_infoWindowAdapter);
             var R = Android.App.Application.Context;
             Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 
@@ -204,7 +209,7 @@ namespace Degano.Handlers
         }
     }
 
-    class InfoWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter
+    class InfoWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter, GoogleMap.IOnInfoWindowClickListener
     {
         public Android.Views.View GetInfoContents(Marker marker)
         {
@@ -221,10 +226,38 @@ namespace Degano.Handlers
             viewText.Text = gasStation.name;
             viewText = (TextView)view.FindViewById(Resource.Id.station_address);
             viewText.Text = gasStation.address;
+
             viewText = (TextView)view.FindViewById(Resource.Id.station_price95);
-            viewText.Text += gasStation.price95;
+            if (gasStation.price95 != -1)
+                viewText.Text += gasStation.price95;
+            else
+                viewText.Text += "-";
+
+            viewText = (TextView)view.FindViewById(Resource.Id.station_price98);
+            if (gasStation.price98 != -1)
+                viewText.Text += gasStation.price98;
+            else
+                viewText.Text += "-";
+
+            viewText = (TextView)view.FindViewById(Resource.Id.station_priceDiesel);
+            if (gasStation.priceDiesel != -1)
+                viewText.Text += gasStation.priceDiesel;
+            else
+                viewText.Text += "-";
+
+            viewText = (TextView)view.FindViewById(Resource.Id.station_priceLPG);
+            if (gasStation.priceLPG != -1)
+                viewText.Text += gasStation.priceLPG;
+            else
+                viewText.Text += "-";
 
             return view;
+        }
+
+        public void OnInfoWindowClick(Marker marker)
+        {
+            var gasStation = (GasStation)marker.Tag;
+            gasStation.location.OpenInExternalApp();
         }
     }
 
