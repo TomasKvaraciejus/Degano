@@ -125,7 +125,6 @@ namespace Degano.Views
 
 		private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            UserLocation.location.OpenInExternalApp();
 			await DisplayAlert("STOP", "You need gas", "OK");
 		}
 	}
