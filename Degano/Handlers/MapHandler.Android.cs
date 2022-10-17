@@ -4,12 +4,15 @@ using Android.Content.PM;
 using Android.Gms.Common.Apis;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.Speech;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
 using Degano.Views;
 using Java.Interop;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Handlers;
 using Debug = System.Diagnostics.Debug;
 using IMap = Degano.Controls.IMap;
@@ -20,6 +23,8 @@ namespace Degano.Handlers
     {
         MapView? _mapView;
         MapCallbackHandler? _mapReady;
+
+        private static Bitmap GasStation_Default;
 
         public GoogleMap? Map { get; set; }
 
@@ -134,7 +139,7 @@ namespace Degano.Handlers
             googleMap.SetLatLngBoundsForCameraTarget(new LatLngBounds(sw, ne));
         }
 
-        public static void MapAddMarker(IMapHandler handler, IMap map, object? args)
+        public static async void MapAddMarker(IMapHandler handler, IMap map, object? args)
         {
             GoogleMap? googleMap = handler?.Map;
             if (googleMap == null)
@@ -145,6 +150,14 @@ namespace Degano.Handlers
             var marker = new MarkerOptions();
             marker.SetPosition(new LatLng(_args.location.lat, _args.location.lng));
             marker.SetTitle(_args.name);
+
+            if(GasStation_Default == null)
+            {
+                var imgSrc = ImageSource.FromResource("Degano.Resources.Images.gasstationdefault.png");
+                var _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
+                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true);
+            }
+            marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
 
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
             _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
@@ -160,7 +173,6 @@ namespace Degano.Handlers
             var _latlng = new LatLng(_args.Item1.lat, _args.Item1.lng);
             var _zoom = googleMap.CameraPosition.Zoom;
             var _animationLength = 800;
-            
             if (_args.Item2 != 0)
                 _zoom = _args.Item2;
             if (_args.Item3 > 0)
