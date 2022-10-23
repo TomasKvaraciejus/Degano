@@ -14,15 +14,16 @@ namespace Degano
         public Location location;
         public double price95, price98, priceDiesel, priceLPG;
 
-        public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _type = "other")
+        public GasStation(string _name, string _address, Location _location, double _petrol95, double _petrol98, double _diesel, double _lpg, string _brand)
         {
             name = _name;
             address = _address;
             location = _location;
-            price95 = _price95;
-            price98 = _price98;
-            priceDiesel = _priceDiesel;
-            priceLPG = _priceLPG;
+            price95 = _petrol95;
+            price98 = _petrol98;
+            priceDiesel = _diesel;
+            priceLPG = _lpg;
+            type = _brand;
         }
 
         int IComparable.CompareTo(object? obj) // This function is only preliminary

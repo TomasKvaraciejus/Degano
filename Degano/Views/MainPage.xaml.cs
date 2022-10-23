@@ -1,3 +1,11 @@
+using FireSharp;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+using Newtonsoft.Json;
+using System.Text.Json;
+using static Android.Gms.Common.Apis.Api;
+
 namespace Degano.Views
 {
 	public partial class MainPage : ContentPage
@@ -40,66 +48,49 @@ namespace Degano.Views
 
         public async static void GetGasStationData()
         {
-            using var stream = await FileSystem.OpenAppPackageFileAsync("data-test.txt");
-
-            using (StreamReader file = new StreamReader(stream))
+            IFirebaseConfig config = new FirebaseConfig
             {
-                int counter = 0;
-                string line, brand = "", name = "", address = "";
-                double lat = 0.0, lng = 0.0;
-                double dieselPrice = 0, petrol95Price = 0, petrol98Price = 0, LPGPrice = 0;
-                while ((line = file.ReadLine()) != null)
+                //AuthSecret = "mpbd3Up8Hykggejr0R8IRtsUhnnLrfwjNtPnmVaJ",
+                BasePath = "https://degano-70426-default-rtdb.europe-west1.firebasedatabase.app/"
+            };
+            try
+            {
+                IFirebaseClient client = new FirebaseClient(config);
+                FirebaseResponse response = await client.GetAsync("Degano/");
+                Dictionary<string, DatabaseEntry> data = JsonConvert.DeserializeObject<Dictionary<string, DatabaseEntry>>(response.Body.ToString());
+                foreach(var item in data)
                 {
-                    System.Diagnostics.Debug.WriteLine(line);
-                    counter++;
-                    switch (counter)
+                    double dieselPrice = double.Parse(item.Value.diesel);
+                    double lpgPrice;
+                    if (item.Value.lpg != "-")
                     {
-                        case 1:
-                            brand = line;
-                            break;
-                        case 2:
-                            name = line;
-                            break;
-                        case 3:
-                            address = line;
-                            break;
-                        case 4:
-                            lat = double.Parse(line);
-                            break;
-                        case 5:
-                            lng = double.Parse(line);
-                            break;
-                        case 6:
-                            if(line == "-")
-                                dieselPrice = -1;
-                            else
-                                dieselPrice = double.Parse(line);
-                            break;
-                        case 7:
-                            if (line == "-")
-                                petrol95Price = -1;
-                            else
-                                petrol95Price = double.Parse(line);
-                            break;
-                        case 8:
-                            if (line == "-")
-                                petrol98Price = -1;
-                            else
-                                petrol98Price = double.Parse(line);
-                            break;
-                        case 9:
-                            if (line == "-")
-                                LPGPrice = -1;
-                            else
-                                LPGPrice = double.Parse(line);
-                            var gasStation = new GasStation(name, address, new Location(lat, lng), petrol95Price, petrol98Price, dieselPrice, LPGPrice, brand);
-                            mainPageMap.AddMarker(gasStation); // The rest of the function is used to create a marker for a single gas station
-                                                               // on the map for debugging purposes
-                            gasStationList.Add(gasStation);
-                            counter = 0;
-                            break;
+                        lpgPrice = double.Parse(item.Value.lpg);
                     }
+                    else
+                    {
+                        lpgPrice = 0;
+                    }
+                    double lat = double.Parse(item.Value.lat);
+                    double lng = double.Parse(item.Value.lng);
+                    double petrol95Price = double.Parse(item.Value.petrol95);
+                    double petrol98Price;
+                    if (item.Value.petrol98 != "-")
+                    {
+                        petrol98Price = double.Parse(item.Value.petrol98);
+                    }
+                    else
+                    {
+                        petrol98Price = 0;
+                    }
+                    GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
+                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
+                    mainPageMap.AddMarker(gasStation);
+                    gasStationList.Add(gasStation);
                 }
+            }
+            catch
+            {
+                // Error handling here
             }
         }
 
