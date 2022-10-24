@@ -3,7 +3,6 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
-using System.Text.Json;
 using static Android.Gms.Common.Apis.Api;
 
 namespace Degano.Views
