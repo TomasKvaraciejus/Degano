@@ -45,6 +45,8 @@ namespace Degano.Views
             GetGasStationData();
 		}
 
+        // We need to implement a system to only load gas stations if they are within a certain range of the user / 
+        // in the viewable area of their screen
         public async static void GetGasStationData()
         {
             IFirebaseConfig config = new FirebaseConfig
@@ -83,6 +85,7 @@ namespace Degano.Views
                     }
                     GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
+                    gasStation.GetDistanceToUser(); // if you see this here please remove it, we shouldn't be running it for no reason
                     mainPageMap.AddMarker(gasStation);
                     gasStationList.Add(gasStation);
                 }
@@ -115,8 +118,9 @@ namespace Degano.Views
 
 		private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            UserLocation.location.OpenInExternalApp();
-			await DisplayAlert("STOP", "You need gas", "OK");
+            gasStationList.Sort(GasStation.ComparePrice95);
+            mainPageMap.AnimateCamera((gasStationList[0].location, 16f, 0));
+			//await DisplayAlert("STOP", "You need gas", "OK");
 		}
 	}
 }

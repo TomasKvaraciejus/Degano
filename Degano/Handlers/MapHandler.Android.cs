@@ -263,6 +263,19 @@ namespace Degano.Handlers
             else
                 viewText.Text += "-";
 
+            viewText = (TextView)view.FindViewById(Resource.Id.station_distance);
+            if (gasStation.distance != -1)
+            {
+                string dist;
+                if (gasStation.distance > 1)
+                    dist = Math.Round((gasStation.distance), 1).ToString() + "km";
+                else
+                    dist = Math.Round(gasStation.distance * 1000, 0).ToString() + "m";
+                viewText.Text = "Distance: " + dist;
+            }
+            else
+                viewText.Text += "err: distance not available";
+
             return view;
         }
 
