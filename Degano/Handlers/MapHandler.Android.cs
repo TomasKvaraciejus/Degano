@@ -269,26 +269,30 @@ namespace Degano.Handlers
             viewText.Text = gasStation.address;
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price95);
+            viewText.Text = "95: ";
             if (gasStation.price95 != -1)
-                viewText.Text += gasStation.price95;
+                viewText.Text += gasStation.price95.ToString("0.000");
             else
                 viewText.Text += "-";
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price98);
+            viewText.Text = "98: ";
             if (gasStation.price98 != -1)
-                viewText.Text += gasStation.price98;
+                viewText.Text += gasStation.price98.ToString("0.000");
             else
                 viewText.Text += "-";
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceDiesel);
+            viewText.Text = "Diesel: ";
             if (gasStation.priceDiesel != -1)
-                viewText.Text += gasStation.priceDiesel;
+                viewText.Text += gasStation.priceDiesel.ToString("0.000");
             else
                 viewText.Text += "-";
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceLPG);
+            viewText.Text = "LPG: ";
             if (gasStation.priceLPG != -1)
-                viewText.Text += gasStation.priceLPG;
+                viewText.Text += gasStation.priceLPG.ToString("0.000");
             else
                 viewText.Text += "-";
 

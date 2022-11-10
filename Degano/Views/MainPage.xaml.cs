@@ -133,7 +133,6 @@ namespace Degano.Views
             GasStation g = await FindGasStation();
             mainPageMap.AnimateCamera((g.location, 16f, 0));
             mainPageMap.SelectGasStation(g);
-            mainPageMap.RemoveGasStation(g);
 		}
 	}
 }

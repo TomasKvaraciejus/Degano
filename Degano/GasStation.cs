@@ -55,9 +55,8 @@
 
         private double GetAppeal()
         {
-            double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin));
-            double dist = ((distMax - distance) / distMax);
-            //System.Diagnostics.Debug.WriteLine("p / d: " + " " + price + ' ' + distance + " " + dist);
+            double price = (preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin);
+            double dist = (distMax - distance) / distMax;
             return ((price * wPrice) + (dist * wDist));
         }
 
