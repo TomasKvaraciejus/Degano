@@ -1,9 +1,9 @@
+using System.Diagnostics;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
-using static Android.Gms.Common.Apis.Api;
 
 namespace Degano.Views
 {
@@ -45,6 +45,8 @@ namespace Degano.Views
             GetGasStationData();
 		}
 
+        // We need to implement a system to only load gas stations if they are within a certain range of the user / 
+        // in the viewable area of their screen
         public async static void GetGasStationData()
         {
             IFirebaseConfig config = new FirebaseConfig
@@ -83,9 +85,13 @@ namespace Degano.Views
                     }
                     GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
+                    gasStation.GetDistanceToUser();
                     mainPageMap.AddMarker(gasStation);
                     gasStationList.Add(gasStation);
                 }
+
+                GasStation.preferredPriceMin = gasStationList.Min(g => g.price95);
+                GasStation.preferredPriceMax = gasStationList.Max(g => g.price95);
             }
             catch
             {
@@ -113,10 +119,20 @@ namespace Degano.Views
             mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
         }
 
-		private async void OnINeedGasClick(object sender, EventArgs e)
+        private async Task<GasStation> FindGasStation()
+        {
+            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
+            gasStationList.ForEach(g => g.GetDistanceToUser());
+            // finds GasStation with highest appealCoef within specified distance
+            var g = gasStationList.Where(g => g.distance < GasStation.distMax).Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1); 
+            return g;
+        }
+
+        private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            UserLocation.location.OpenInExternalApp();
-			await DisplayAlert("STOP", "You need gas", "OK");
+            GasStation g = await FindGasStation();
+            mainPageMap.AnimateCamera((g.location, 16f, 0));
+            mainPageMap.SelectGasStation(g);
 		}
 	}
 }

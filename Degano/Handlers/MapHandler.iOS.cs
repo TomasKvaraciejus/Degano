@@ -91,5 +91,15 @@ namespace Degano.Handlers
         {
             // Not currently implemented
         }
+
+        public static void MapSelectGasStation(IMapHandler handler, IMap map, object? args)
+        {
+            // Not currently implemented
+        }
+
+        public static void MapRemoveGasStation(IMapHandler handler, IMap map, object? args)
+        {
+            // Not currently implemented
+        }
     }
 }
