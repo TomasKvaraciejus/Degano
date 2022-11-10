@@ -85,7 +85,7 @@ namespace Degano.Views
                     }
                     GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
-                    gasStation.GetDistanceToUser(); // if you see this here please remove it, we shouldn't be running it for no reason
+                    gasStation.GetDistanceToUser();
                     mainPageMap.AddMarker(gasStation);
                     gasStationList.Add(gasStation);
                 }
@@ -121,6 +121,8 @@ namespace Degano.Views
 
         private async Task<GasStation> FindGasStation()
         {
+            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
+            gasStationList.ForEach(g => g.GetDistanceToUser());
             // finds GasStation with highest appealCoef within specified distance
             var g = gasStationList.Where(g => g.distance < GasStation.distMax).Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1); 
             return g;
@@ -131,6 +133,7 @@ namespace Degano.Views
             GasStation g = await FindGasStation();
             mainPageMap.AnimateCamera((g.location, 16f, 0));
             mainPageMap.SelectGasStation(g);
+            mainPageMap.RemoveGasStation(g);
 		}
 	}
 }

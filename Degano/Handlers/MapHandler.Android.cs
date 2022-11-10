@@ -215,6 +215,18 @@ namespace Degano.Handlers
             gasStationMap[gasStation].ShowInfoWindow();
         }
 
+        public static void MapRemoveGasStation(IMapHandler handler, IMap map, object? args)
+        {
+            GoogleMap? googleMap = handler?.Map;
+            if (googleMap == null)
+                return;
+
+            GasStation g = (GasStation)args;
+
+            Marker marker = gasStationMap[g];
+            marker.Remove();
+        }
+
         internal void OnMapReady(GoogleMap map)
         {
             if (map == null)

@@ -40,6 +40,7 @@ public partial class MapHandler : IMapHandler
         [nameof(IMap.AnimateCamera)] = MapAnimateCamera,
         [nameof(IMap.MoveCamera)] = MapMoveCamera,
         [nameof(IMap.ZoomCamera)] = MapZoomCamera,
-        [nameof(IMap.SelectGasStation)] = MapSelectGasStation
+        [nameof(IMap.SelectGasStation)] = MapSelectGasStation,
+        [nameof(IMap.RemoveGasStation)] = MapRemoveGasStation
     };
 }

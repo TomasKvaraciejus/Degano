@@ -83,5 +83,10 @@
         {
             Handler?.Invoke(nameof(SelectGasStation), args);
         }
+
+        public void RemoveGasStation(object? args)
+        {
+            Handler?.Invoke(nameof(RemoveGasStation), args);
+        }
     }
 }
