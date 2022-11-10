@@ -78,5 +78,10 @@
         {
             Handler?.Invoke(nameof(ZoomCamera), args);
         }
+
+        public void SelectGasStation(object? args)
+        {
+            Handler?.Invoke(nameof(SelectGasStation), args);
+        }
     }
 }

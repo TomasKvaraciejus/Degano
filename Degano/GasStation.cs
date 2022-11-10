@@ -1,16 +1,23 @@
 ﻿namespace Degano
 {
-    public class GasStation :
+    [System.ComponentModel.Bindable(true)]
+    public class GasStation : 
 #if ANDROID
         Java.Lang.Object, // Necessary for casting GasStation to java object in MapHandler.Android.cs
 #endif
     IComparable
     {
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
+        public double appealCoef { get { return GetAppeal(); } }
         public Location location;
         public double price95, price98, priceDiesel, priceLPG, distance;
         private const int R = 6371; // radius of the earth
         private const double _r = 0.01745329251; // used for converting coordinates to rad
+        public static double preferredPriceMin = -1;
+        public static double preferredPriceMax = -1;
+        public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
+        private const double wDist = 0.5;
+        private const double wPrice = 0.5;
 
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
@@ -25,7 +32,7 @@
             type = _brand;
         }
 
-        public void GetDistanceToUser()
+        public void GetDistanceToUser() // Should probably be moved to Location
         {
             // We could get the distance using the Google Maps API as well, this would result in more accurate results
             // (it would account for the actual distance required to drive), unfortunately this would result in an excess
@@ -45,7 +52,14 @@
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1-a));
 
             distance = c * R;
+        }
 
+        private double GetAppeal()
+        {
+            double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin));
+            double dist = ((distMax - distance) / distMax);
+            //System.Diagnostics.Debug.WriteLine("p / d: " + " " + price + ' ' + distance + " " + dist);
+            return ((price * wPrice) + (dist * wDist));
         }
 
         int IComparable.CompareTo(object? obj) // This function is only preliminary
@@ -65,6 +79,10 @@
         public static int ComparePrice95(GasStation g1, GasStation g2)
         {
             return g1.price95.CompareTo(g2.price95);
+        }
+        public static int CompareAppeal(GasStation g1, GasStation g2)
+        {
+            return g2.appealCoef.CompareTo(g1.appealCoef);
         }
     }
 }

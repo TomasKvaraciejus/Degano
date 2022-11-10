@@ -5,13 +5,9 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
-using Android.Speech;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
-using Degano.Views;
-using Java.Interop;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Handlers;
 using Debug = System.Diagnostics.Debug;
@@ -21,6 +17,8 @@ namespace Degano.Handlers
 {
     public partial class MapHandler : ViewHandler<IMap, MapView>
     {
+        private static SortedDictionary<GasStation, Marker> gasStationMap = new SortedDictionary<GasStation, Marker>();
+
         MapView? _mapView;
         MapCallbackHandler? _mapReady;
 
@@ -160,6 +158,7 @@ namespace Degano.Handlers
             marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
 
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
+            gasStationMap.Add(_args, _marker);
             _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
         }
 
@@ -205,13 +204,24 @@ namespace Degano.Handlers
             googleMap.AnimateCamera(CameraUpdateFactory.ZoomTo(_args), 800, null);
         }
 
+        public static void MapSelectGasStation(IMapHandler handler, IMap map, object? args)
+        {
+            GoogleMap? googleMap = handler?.Map;
+            if (googleMap == null)
+                return;
+
+            var gasStation = (GasStation)args;
+
+            gasStationMap[gasStation].ShowInfoWindow();
+        }
+
         internal void OnMapReady(GoogleMap map)
         {
             if (map == null)
                 return;
 
             Map = map;
-            var _infoWindowAdapter = new InfoWindowAdapter();
+            var _infoWindowAdapter = new InfoWindowAdapter(this);
             Map.SetInfoWindowAdapter(_infoWindowAdapter);
             Map.SetOnInfoWindowClickListener(_infoWindowAdapter);
             var R = Android.App.Application.Context;
@@ -223,6 +233,13 @@ namespace Degano.Handlers
 
     class InfoWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter, GoogleMap.IOnInfoWindowClickListener
     {
+        private MapHandler mapHandler;
+
+        public InfoWindowAdapter(MapHandler _mapHandler)
+        {
+            mapHandler = _mapHandler;
+        }
+
         public Android.Views.View GetInfoContents(Marker marker)
         {
             return null;

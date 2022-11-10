@@ -1,9 +1,9 @@
+using System.Diagnostics;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
-using static Android.Gms.Common.Apis.Api;
 
 namespace Degano.Views
 {
@@ -89,6 +89,9 @@ namespace Degano.Views
                     mainPageMap.AddMarker(gasStation);
                     gasStationList.Add(gasStation);
                 }
+
+                GasStation.preferredPriceMin = gasStationList.Min(g => g.price95);
+                GasStation.preferredPriceMax = gasStationList.Max(g => g.price95);
             }
             catch
             {
@@ -116,11 +119,18 @@ namespace Degano.Views
             mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
         }
 
-		private async void OnINeedGasClick(object sender, EventArgs e)
+        private async Task<GasStation> FindGasStation()
+        {
+            // finds GasStation with highest appealCoef within specified distance
+            var g = gasStationList.Where(g => g.distance < GasStation.distMax).Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1); 
+            return g;
+        }
+
+        private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            gasStationList.Sort(GasStation.ComparePrice95);
-            mainPageMap.AnimateCamera((gasStationList[0].location, 16f, 0));
-			//await DisplayAlert("STOP", "You need gas", "OK");
+            GasStation g = await FindGasStation();
+            mainPageMap.AnimateCamera((g.location, 16f, 0));
+            mainPageMap.SelectGasStation(g);
 		}
 	}
 }
