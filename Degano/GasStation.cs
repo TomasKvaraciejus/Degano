@@ -1,6 +1,5 @@
 ﻿namespace Degano
 {
-    [System.ComponentModel.Bindable(true)]
     public class GasStation : 
 #if ANDROID
         Java.Lang.Object, // Necessary for casting GasStation to java object in MapHandler.Android.cs
