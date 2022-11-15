@@ -15,8 +15,8 @@
         public static double preferredPriceMin = -1;
         public static double preferredPriceMax = -1;
         public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
-        private const double wDist = 0.5;
-        private const double wPrice = 0.5;
+        private const double wDist = 0.4;
+        private const double wPrice = 0.6;
 
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
@@ -40,6 +40,11 @@
             // one call. Still way more expensive than literally free, but this method gives us skewed data as it doesn't
             // factor in driving distance. It'll work for now. 
 
+            if (location.lat == -1 || location.lng == -1)
+                throw new Exception("GasStation location invalid");
+            if (UserLocation.location.lat == -1 || UserLocation.location.lng == -1)
+                throw new Exception("User location invalid");
+
             double gLat = location.lat * _r;
             double uLat = UserLocation.location.lat * _r;
             double deltaLat = (UserLocation.location.lat - location.lat) * _r;
@@ -55,9 +60,9 @@
 
         private double GetAppeal()
         {
-            double price = (preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin);
+            double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin)) + 0.5;
             double dist = (distMax - distance) / distMax;
-            return ((price * wPrice) + (dist * wDist));
+            return ((price * price * wPrice) + (dist * wDist));
         }
 
         int IComparable.CompareTo(object? obj) // This function is only preliminary
@@ -67,7 +72,7 @@
             if (_gasStation == null)
                 return 1;
             else
-                return this.distance.CompareTo(_gasStation.distance);
+                return this.appealCoef.CompareTo(_gasStation.appealCoef);
         }
 
         public static int CompareDistance(GasStation g1, GasStation g2)

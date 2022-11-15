@@ -14,36 +14,50 @@ namespace Degano
 
         public static async Task GetLastKnownLocation()
         {
-            var _location = await Geolocation.Default.GetLastKnownLocationAsync();
+            try
+            {
+                var _location = await Geolocation.Default.GetLastKnownLocationAsync();
 
-            if (_location != null)
-            {
-                location.lng = _location.Longitude;
-                location.lat = _location.Latitude;
+                if (_location != null)
+                {
+                    location.lng = _location.Longitude;
+                    location.lat = _location.Latitude;
+                }
+                else
+                {
+                    throw new Exception("Unable to get last-known user location");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Unable to get last-known user location");
+                ExceptionLogger.Log(ex.Message);
             }
         }
         public static async Task GetLocation()
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-            _cancelTokenSource = new CancellationTokenSource();
-            _isCheckingLocation = true;
-            var _location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
-
-            if(_location != null)
+            try
             {
-                location.lng = _location.Longitude;
-                location.lat = _location.Latitude;
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Unable to get current user location");
-            }
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                _cancelTokenSource = new CancellationTokenSource();
+                _isCheckingLocation = true;
+                var _location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
 
-            _isCheckingLocation = false;
+                if (_location != null)
+                {
+                    location.lng = _location.Longitude;
+                    location.lat = _location.Latitude;
+                }
+                else
+                {
+                    throw new Exception("Unable to get user location");
+                }
+
+                _isCheckingLocation = false;
+            }
+            catch(Exception ex)
+            {
+                ExceptionLogger.Log(ex.Message);
+            }
         }
 
         public static void CancelLocationRequest()

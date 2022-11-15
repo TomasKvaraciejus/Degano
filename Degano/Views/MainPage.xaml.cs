@@ -114,13 +114,16 @@ namespace Degano.Views
 
 		}
 
-        public void OnCenterUserClick(object sender, EventArgs e)
+        public async void OnCenterUserClick(object sender, EventArgs e)
         {
+            await UserLocation.GetLastKnownLocation();
             mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
         }
 
         private async Task<GasStation> FindGasStation()
         {
+            if (gasStationList.Count == 0)
+                throw new Exception("gasStationList empty");
             // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
             gasStationList.ForEach(g => g.GetDistanceToUser());
             // finds GasStation with highest appealCoef within specified distance
@@ -130,9 +133,17 @@ namespace Degano.Views
 
         private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            GasStation g = await FindGasStation();
-            mainPageMap.AnimateCamera((g.location, 16f, 0));
-            mainPageMap.SelectGasStation(g);
+            try
+            {
+                await UserLocation.GetLastKnownLocation();
+                GasStation g = await FindGasStation();
+                mainPageMap.AnimateCamera((g.location, 16f, 0));
+                mainPageMap.SelectGasStation(g);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.Log(ex.Message);
+            }
 		}
 	}
 }
