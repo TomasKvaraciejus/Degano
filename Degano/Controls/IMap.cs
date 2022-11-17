@@ -8,7 +8,7 @@
         bool IsTrafficEnabled { get; }
         float MinZoomLevel { get; }
         float MaxZoomLevel { get; }
-        (double, double, double, double) MapBounds { get; }
+        (Location, Location) MapBounds { get; }
 
         // Adds Marker to map,
         // currently takes GasStation as argument to be tagged to marker

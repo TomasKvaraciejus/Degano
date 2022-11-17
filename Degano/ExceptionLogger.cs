@@ -11,7 +11,7 @@ namespace Degano
         public static void Log(string error)
         {
             // we need to output this to the database
-            System.Diagnostics.Debug.WriteLine("err: " + error + $"\ntimestamp: {DateTime.Now}\n");
+            System.Diagnostics.Debug.WriteLine("Exception thrown: " + error + $"\ntimestamp: {DateTime.Now}\n");
         }
     }
 }

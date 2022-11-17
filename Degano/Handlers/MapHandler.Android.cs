@@ -132,8 +132,8 @@ namespace Degano.Handlers
             if (googleMap == null)
                 return;
 
-            var sw = new LatLng(map.MapBounds.Item3, map.MapBounds.Item4);
-            var ne = new LatLng(map.MapBounds.Item1, map.MapBounds.Item2);
+            var sw = new LatLng(map.MapBounds.Item2.lat, map.MapBounds.Item2.lng);
+            var ne = new LatLng(map.MapBounds.Item1.lat, map.MapBounds.Item1.lng);
             googleMap.SetLatLngBoundsForCameraTarget(new LatLngBounds(sw, ne));
         }
 

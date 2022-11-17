@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,9 +11,17 @@ namespace Degano
     public static class UserLocation
     {
         public static Location location;
+        public static bool isLocationAvailable;
         private static CancellationTokenSource _cancelTokenSource;
         private static bool _isCheckingLocation;
+        public delegate void PropertyChanged();
+        public static event PropertyChanged LocationAvailableChanged;
 
+        static UserLocation()
+        {
+            isLocationAvailable = false;
+
+        }
         public static async Task GetLastKnownLocation()
         {
             try
@@ -27,9 +37,14 @@ namespace Degano
                 {
                     throw new Exception("Unable to get last-known user location");
                 }
+
+                isLocationAvailable = true;
+                LocationAvailableChanged();
             }
             catch(Exception ex)
             {
+                isLocationAvailable = false;
+                LocationAvailableChanged();
                 ExceptionLogger.Log(ex.Message);
             }
         }
@@ -52,10 +67,14 @@ namespace Degano
                     throw new Exception("Unable to get user location");
                 }
 
+                isLocationAvailable = true;
+                LocationAvailableChanged();
                 _isCheckingLocation = false;
             }
             catch(Exception ex)
             {
+                isLocationAvailable = false;
+                LocationAvailableChanged();
                 ExceptionLogger.Log(ex.Message);
             }
         }

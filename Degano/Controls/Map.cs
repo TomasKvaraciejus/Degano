@@ -15,7 +15,7 @@
 
         public static readonly BindableProperty MaxZoomLevelProperty = BindableProperty.Create(nameof(MaxZoomLevel), typeof(float), typeof(Map), null);
 
-        public static readonly BindableProperty MapBoundsProperty = BindableProperty.Create(nameof(MapBounds), typeof((double, double, double, double)), typeof(Map), null);
+        public static readonly BindableProperty MapBoundsProperty = BindableProperty.Create(nameof(MapBounds), typeof((Location, Location)), typeof(Map), null);
 
         public bool IsScrollEnabled
         {
@@ -53,9 +53,9 @@
             set { SetValue(MaxZoomLevelProperty, value); }
         }
 
-        public (double, double, double, double) MapBounds
+        public (Location, Location) MapBounds
         {
-            get { return ((double, double, double, double))GetValue(MapBoundsProperty); }
+            get { return ((Location, Location))GetValue(MapBoundsProperty); }
             set { SetValue(MapBoundsProperty, value); }
         }
 
