@@ -79,7 +79,7 @@ namespace Degano.Views
                     }
                     else
                     {
-                        lpgPrice = 0;
+                        lpgPrice = -1;
                     }
                     double lat = double.Parse(item.Value.lat);
                     double lng = double.Parse(item.Value.lng);
@@ -91,7 +91,7 @@ namespace Degano.Views
                     }
                     else
                     {
-                        petrol98Price = 0;
+                        petrol98Price = -1;
                     }
                     GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
