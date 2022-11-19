@@ -10,7 +10,7 @@ namespace Degano.Views
 	public partial class MainPage : ContentPage
 	{
 		private static Controls.Map mainPageMap;
-        private static List<GasStation> gasStationList = new List<GasStation>();
+        public delegate void INeedGasToggleHandler();
 
         // We should probably figure out a way to keep the map in between
         // content pages, otherwise a new one to be generated every time this                                                                              
@@ -20,6 +20,8 @@ namespace Degano.Views
 		{
 			InitializeComponent();
 			mainPageMap = MainPageMap;
+            UserLocation.LocationAvailableChanged += ToggleINeedGas;
+            ToggleINeedGas();
 		}
 
 		internal static async void InitializeMainPage(ContentPage _p)
@@ -30,16 +32,23 @@ namespace Degano.Views
 
 		public static async void InitializeMap()
 		{
-			mainPageMap.MapBounds = (54.765296, 25.371505, 54.619564, 25.146730); // These parameters are necessary for Google Maps to initialize properly
+			mainPageMap.MapBounds = (new Location(54.765296, 25.371505), new Location(54.619564, 25.146730)); // These parameters are necessary for Google Maps to initialize properly
 			mainPageMap.IsTrafficEnabled = false;
 			mainPageMap.MinZoomLevel = 10f;
 			mainPageMap.MaxZoomLevel = 16f;
 
             if (UserPermissions.locationPermissionStatus)
             {
-                mainPageMap.IsShowingUser = true;
-                await UserLocation.GetLastKnownLocation(); // preliminary
-                mainPageMap.AnimateCamera((UserLocation.location, 14f, 800)); // preliminary
+                try
+                {
+                    mainPageMap.IsShowingUser = true;
+                    await UserLocation.GetLastKnownLocation(); // preliminary
+                    mainPageMap.AnimateCamera((UserLocation.location, 14f, 800)); // preliminary
+                }
+                catch(Exception ex)
+                {
+                    ExceptionLogger.Log(ex.Message);
+                }
             }
 
             GetGasStationData();
@@ -69,7 +78,7 @@ namespace Degano.Views
                     }
                     else
                     {
-                        lpgPrice = 0;
+                        lpgPrice = -1;
                     }
                     double lat = double.Parse(item.Value.lat);
                     double lng = double.Parse(item.Value.lng);
@@ -81,21 +90,21 @@ namespace Degano.Views
                     }
                     else
                     {
-                        petrol98Price = 0;
+                        petrol98Price = -1;
                     }
                     GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
                     gasStation.GetDistanceToUser();
                     mainPageMap.AddMarker(gasStation);
-                    gasStationList.Add(gasStation);
+                    GasStation.gasStationList.Add(gasStation);
                 }
 
-                GasStation.preferredPriceMin = gasStationList.Min(g => g.price95);
-                GasStation.preferredPriceMax = gasStationList.Max(g => g.price95);
+                GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
+                GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
-            catch
+            catch(Exception ex)
             {
-                // Error handling here
+                ExceptionLogger.Log(ex.Message);
             }
         }
 
@@ -114,25 +123,46 @@ namespace Degano.Views
 
 		}
 
-        public void OnCenterUserClick(object sender, EventArgs e)
+        public async void OnCenterUserClick(object sender, EventArgs e)
         {
-            mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
-        }
-
-        private async Task<GasStation> FindGasStation()
-        {
-            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
-            gasStationList.ForEach(g => g.GetDistanceToUser());
-            // finds GasStation with highest appealCoef within specified distance
-            var g = gasStationList.Where(g => g.distance < GasStation.distMax).Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1); 
-            return g;
+            try
+            {
+                await UserLocation.GetLastKnownLocation();
+                mainPageMap.AnimateCamera((UserLocation.location, 16f, 0));
+            }
+            catch(Exception ex)
+            {
+                ExceptionLogger.Log(ex.Message);
+            }
         }
 
         private async void OnINeedGasClick(object sender, EventArgs e)
 		{
-            GasStation g = await FindGasStation();
-            mainPageMap.AnimateCamera((g.location, 16f, 0));
-            mainPageMap.SelectGasStation(g);
+            try
+            {
+                await UserLocation.GetLastKnownLocation();
+                GasStation g = await GasStation.FindGasStation();
+                mainPageMap.AnimateCamera((g.location, 16f, 0));
+                mainPageMap.SelectGasStation(g);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.Log(ex.Message);
+            }
 		}
+
+        private void ToggleINeedGas()
+        {
+            if (UserLocation.isLocationAvailable)
+            {
+                GasButton.BackgroundColor = Colors.Red;
+                GasButton.IsEnabled = true;
+            }
+            else
+            {
+                GasButton.BackgroundColor = Colors.Grey;
+                GasButton.IsEnabled = false;
+            }
+        }
 	}
 }

@@ -6,6 +6,8 @@
 #endif
     IComparable
     {
+        public static List<GasStation> gasStationList = new List<GasStation>();
+
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
         public Location location;
@@ -15,8 +17,8 @@
         public static double preferredPriceMin = -1;
         public static double preferredPriceMax = -1;
         public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
-        private const double wDist = 0.5;
-        private const double wPrice = 0.5;
+        private const double wDist = 0.4;
+        private const double wPrice = 0.6;
 
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
@@ -40,6 +42,11 @@
             // one call. Still way more expensive than literally free, but this method gives us skewed data as it doesn't
             // factor in driving distance. It'll work for now. 
 
+            if (location.lat == -1 || location.lng == -1)
+                throw new Exception("GasStation location invalid");
+            if (UserLocation.location.lat == -1 || UserLocation.location.lng == -1)
+                throw new Exception("User location invalid");
+
             double gLat = location.lat * _r;
             double uLat = UserLocation.location.lat * _r;
             double deltaLat = (UserLocation.location.lat - location.lat) * _r;
@@ -52,12 +59,38 @@
 
             distance = c * R;
         }
+        public static async Task<GasStation> FindGasStation()
+        {
+            if (gasStationList.Count == 0)
+                throw new Exception("gasStationList empty");
+            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
+            gasStationList.ForEach(g => g.GetDistanceToUser());
+            // finds GasStation with highest appealCoef within specified distance
+            var g = gasStationList.Where(g => g.distance < distMax).ToList();
+            if (g.Count == 0)
+                throw new Exception("no GasStations under max range");
+            preferredPriceMax = g.Max(g1 => g1.price95);
+            preferredPriceMax = g.Max(g2 => g2.price95);
+            return g.Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1);
+        }
 
         private double GetAppeal()
         {
-            double price = (preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin);
+            if (preferredPriceMax == preferredPriceMin)
+            {
+                if (preferredPriceMax == -1)
+                    throw new Exception("GasStation price range undefined");
+                else
+                    preferredPriceMin = 0;
+            }
+            if(distance == -1)
+            {
+                throw new Exception("GasStation distance undefined");
+            }
+
+            double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin)) + 0.5;
             double dist = (distMax - distance) / distMax;
-            return ((price * wPrice) + (dist * wDist));
+            return ((price * price * wPrice) + (dist * wDist));
         }
 
         int IComparable.CompareTo(object? obj) // This function is only preliminary
@@ -67,7 +100,7 @@
             if (_gasStation == null)
                 return 1;
             else
-                return this.distance.CompareTo(_gasStation.distance);
+                return this.appealCoef.CompareTo(_gasStation.appealCoef);
         }
 
         public static int CompareDistance(GasStation g1, GasStation g2)

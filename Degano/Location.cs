@@ -11,6 +11,12 @@ namespace Degano
         public double lat { set; get; }
         public double lng { set; get; }
 
+        public Location()
+        {
+            lat = -1;
+            lng = -1;
+        }
+
         public Location(double _lat, double _lng)
         {
             lat = _lat;
