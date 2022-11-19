@@ -60,7 +60,6 @@ namespace Degano.Views
         {
             IFirebaseConfig config = new FirebaseConfig
             {
-                //AuthSecret = "mpbd3Up8Hykggejr0R8IRtsUhnnLrfwjNtPnmVaJ",
                 BasePath = "https://degano-70426-default-rtdb.europe-west1.firebasedatabase.app/"
             };
             try
@@ -70,6 +69,7 @@ namespace Degano.Views
                 Dictionary<string, DatabaseEntry> data = JsonConvert.DeserializeObject<Dictionary<string, DatabaseEntry>>(response.Body.ToString());
                 foreach(var item in data)
                 {
+                    Lazy<GasStation> gasStation;
                     double dieselPrice = double.Parse(item.Value.diesel);
                     double lpgPrice;
                     if (item.Value.lpg != "-")
@@ -92,11 +92,11 @@ namespace Degano.Views
                     {
                         petrol98Price = -1;
                     }
-                    GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
-                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
-                    gasStation.GetDistanceToUser();
-                    mainPageMap.AddMarker(gasStation);
-                    GasStation.gasStationList.Add(gasStation);
+                    gasStation = new Lazy<GasStation>(() => new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
+                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
+                    gasStation.Value.GetDistanceToUser();
+                    mainPageMap.AddMarker(gasStation.Value);
+                    GasStation.gasStationList.Add(gasStation.Value);
                 }
 
                 GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
