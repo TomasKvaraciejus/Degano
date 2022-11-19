@@ -27,6 +27,8 @@ namespace Degano
     {
         public static async void Log(string error)
         {
+            System.Diagnostics.Debug.WriteLine("Exception thrown: " + error + $"\ntimestamp: {DateTime.Now}\n");
+
             Ex ex = new Ex(DateTime.Now, error);
 
             IFirebaseConfig config = new FirebaseConfig
