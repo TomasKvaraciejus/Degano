@@ -297,6 +297,7 @@ namespace Degano.Handlers
                 viewText.Text += "-";
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_distance);
+            gasStation.GetDistanceToUser();
             if (gasStation.distance != -1)
             {
                 string dist;

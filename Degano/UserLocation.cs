@@ -20,7 +20,8 @@ namespace Degano
         static UserLocation()
         {
             isLocationAvailable = false;
-
+            location.lng = -1;
+            location.lat = -1;
         }
         public static async Task GetLastKnownLocation()
         {

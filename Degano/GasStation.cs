@@ -6,6 +6,8 @@
 #endif
     IComparable
     {
+        public static List<GasStation> gasStationList = new List<GasStation>();
+
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
         public Location location;
@@ -57,9 +59,35 @@
 
             distance = c * R;
         }
+        public static async Task<GasStation> FindGasStation()
+        {
+            if (gasStationList.Count == 0)
+                throw new Exception("gasStationList empty");
+            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
+            gasStationList.ForEach(g => g.GetDistanceToUser());
+            // finds GasStation with highest appealCoef within specified distance
+            var g = gasStationList.Where(g => g.distance < distMax).ToList();
+            if (g.Count == 0)
+                throw new Exception("no GasStations under max range");
+            preferredPriceMax = g.Max(g1 => g1.price95);
+            preferredPriceMax = g.Max(g2 => g2.price95);
+            return g.Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1);
+        }
 
         private double GetAppeal()
         {
+            if (preferredPriceMax == preferredPriceMin)
+            {
+                if (preferredPriceMax == -1)
+                    throw new Exception("GasStation price range undefined");
+                else
+                    preferredPriceMin = 0;
+            }
+            if(distance == -1)
+            {
+                throw new Exception("GasStation distance undefined");
+            }
+
             double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin)) + 0.5;
             double dist = (distMax - distance) / distMax;
             return ((price * price * wPrice) + (dist * wDist));

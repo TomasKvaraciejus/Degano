@@ -18,9 +18,9 @@ namespace Degano
                 if(locationPermission == PermissionStatus.Granted)
                     locationPermissionStatus = true;
             }
-            catch
+            catch(Exception ex)
             {
-                // Not currently implemented
+                ExceptionLogger.Log(ex.Message);
             }
         }
     }

@@ -10,7 +10,6 @@ namespace Degano.Views
 	public partial class MainPage : ContentPage
 	{
 		private static Controls.Map mainPageMap;
-        private static List<GasStation> gasStationList = new List<GasStation>();
         public delegate void INeedGasToggleHandler();
 
         // We should probably figure out a way to keep the map in between
@@ -97,11 +96,11 @@ namespace Degano.Views
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
                     gasStation.GetDistanceToUser();
                     mainPageMap.AddMarker(gasStation);
-                    gasStationList.Add(gasStation);
+                    GasStation.gasStationList.Add(gasStation);
                 }
 
-                GasStation.preferredPriceMin = gasStationList.Min(g => g.price95);
-                GasStation.preferredPriceMax = gasStationList.Max(g => g.price95);
+                GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
+                GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
             catch(Exception ex)
             {
@@ -137,25 +136,12 @@ namespace Degano.Views
             }
         }
 
-        private async Task<GasStation> FindGasStation()
-        {
-            if (gasStationList.Count == 0)
-                throw new Exception("gasStationList empty");
-            // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
-            gasStationList.ForEach(g => g.GetDistanceToUser());
-            // finds GasStation with highest appealCoef within specified distance
-            var g = gasStationList.Where(g => g.distance < GasStation.distMax).ToList();
-            if (g.Count == 0)
-                throw new Exception("no GasStations under max range");
-            return g.Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1); 
-        }
-
         private async void OnINeedGasClick(object sender, EventArgs e)
 		{
             try
             {
                 await UserLocation.GetLastKnownLocation();
-                GasStation g = await FindGasStation();
+                GasStation g = await GasStation.FindGasStation();
                 mainPageMap.AnimateCamera((g.location, 16f, 0));
                 mainPageMap.SelectGasStation(g);
             }
