@@ -1,20 +1,29 @@
 using Degano.Helpers;
+using Degano.SqliteDb;
 
 namespace Degano.Views
 {
     public partial class SignUpPage : ContentPage
     {
-        private EmailValidator emailValidator { get; } = new EmailValidator();
-        private PasswordValidator passwordValidator { get; } = new PasswordValidator();
-        public SignUpPage()
+        SqliteDatabase database;
+        EmailValidator emailValidator;
+        PasswordValidator passwordValidator;
+        MainPage mainPage;
+        UserResult userResult;
+        public SignUpPage(EmailValidator _emailValidator, PasswordValidator _passwordValidator, SqliteDatabase _database, MainPage _mainPage, UserResult _userResult)
         {
             InitializeComponent();
+            emailValidator = _emailValidator;
+            passwordValidator = _passwordValidator;
+            database = _database;
+            mainPage = _mainPage;
+            userResult = _userResult;
         }
 
         private void OnEmailTextChange(object sender, EventArgs e)
         {
             UserInfo.EMail = ((Entry)sender).Text;
-            if (emailValidator.IsEmailValid(((Entry)sender).Text))
+            if (string.IsNullOrEmpty(((Entry)sender).Text) || emailValidator.IsEmailValid(((Entry)sender).Text))
             {
                 EmailLabel.IsVisible = false;
             }
@@ -28,7 +37,7 @@ namespace Degano.Views
         private void OnPasswordTextChange(object sender, EventArgs e)
         {
             UserInfo.Password = ((Entry)sender).Text;
-            if (passwordValidator.IsPasswordValid(((Entry)sender).Text))
+            if (string.IsNullOrEmpty(((Entry)sender).Text) || passwordValidator.IsPasswordValid(((Entry)sender).Text))
             {
                 PasswordLabel.IsVisible = false;
             }
@@ -39,8 +48,22 @@ namespace Degano.Views
             }
             CheckIsValid();
         }
+        
+        private async void OnSubmitClick(object sender, EventArgs e)
+        {
+            if (await database.GetItemAsync(EmailEntry.Text) is null)
+            {
+                userResult.Email = EmailEntry.Text;
+                userResult.Password = PasswordEntry.Text;
+                await database.SaveItemAsync(userResult);
+                mainPage.Title = userResult.Email;
+                await Navigation.PushAsync(mainPage);
+                return;
+            }
+            await DisplayAlert("Error", "User already exists", "OK");
+            return;
 
-        private void OnSubmitClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
+        }
 
         private void CheckIsValid()
         {

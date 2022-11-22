@@ -1,4 +1,6 @@
-﻿namespace Degano
+﻿using Android.Gms.Common.Logging;
+
+namespace Degano
 {
     public class GasStation : 
 #if ANDROID
@@ -18,8 +20,8 @@
         public static double preferredPriceMax = -1;
         public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
         private const double wDist = 0.4;
-        private const double wPrice = 0.6;
-
+        private const double wPrice = 0.6;      
+        
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
             name = _name;
@@ -79,7 +81,7 @@
             if (preferredPriceMax == preferredPriceMin)
             {
                 if (preferredPriceMax == -1)
-                    throw new Exception("GasStation price range undefined");
+                    ExceptionLogger.Log("GasStation price range undefined");
                 else
                     preferredPriceMin = 0;
             }

@@ -3,11 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Degano.Helpers
 {
-    internal class PasswordValidator
+    public class PasswordValidator
     {
-        internal bool isValid { get; set; } = false;
-        internal string ErrorMessage { get; set; }
-        internal bool IsPasswordValid(string text)
+        public bool isValid { get; set; } = false;
+        public string ErrorMessage { get; set; }
+        public bool IsPasswordValid(string text)
         {
             if (text.Length < 10)
             {

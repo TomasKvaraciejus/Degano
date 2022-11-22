@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Degano.Helpers
 {
-    internal class EmailValidator
+    public class EmailValidator
     {
-        internal bool isValid { get; set; } = false;
-        private Regex regex { get; } = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-        internal bool IsEmailValid(string email)
+        public bool isValid { get; set; } = false;
+
+        public string errorMessage = "Should be valid e-mail!";
+        
+        private string expression = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+        public bool IsEmailValid(string email)
         {
-            Match match = regex.Match(email);
+            Match match = Regex.Match(email,expression);
             isValid = match.Success;
             return match.Success;
         }

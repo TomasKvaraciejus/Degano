@@ -8,16 +8,14 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center"
-            WidthRequest="400">
+            VerticalOptions="Center" >
 
             <Entry
                 x:Name="EmailEntry"
                 Keyboard="Email"
                 Placeholder="Enter e-mail"
                 ClearButtonVisibility="WhileEditing"
-                TextChanged="OnEmailTextChange">
-            </Entry>
+                TextChanged="OnEmailTextChange" />
 
             <Label 
                 x:Name="EmailLabel"
@@ -29,9 +27,8 @@
                 x:Name="PasswordEntry"
                 IsPassword="True"
                 Placeholder="Enter password"
-                TextChanged="OnPasswordTextChange" >
-            </Entry>
-            
+                TextChanged="OnPasswordTextChange" />
+
             <Label 
                 x:Name="PasswordLabel"
                 TextColor="Red"
@@ -41,7 +38,9 @@
                 x:Name="Submit"
                 Text="Submit"
                 Clicked="OnSubmitClick"
-                IsEnabled="false" />
+                IsEnabled="false"
+                WidthRequest="300"
+                HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>
