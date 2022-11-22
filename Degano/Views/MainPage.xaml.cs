@@ -46,6 +46,12 @@ namespace Degano.Views
             await GetGasStationData();
         }
 
+        public static void AddMarkersToMap<T>(List<T> items)
+        {
+            foreach (T item in items)
+                mainPageMap.AddMarker(item);
+        }
+
         public static double ToDouble<T>(T arg)
         {
             return (double)Convert.ChangeType(arg, typeof(double));
@@ -73,6 +79,7 @@ namespace Degano.Views
                 Func<string, double> parser = ToDouble;
                 foreach(var item in data)
                 {
+                    Lazy<GasStation> g;
                     double dieselPrice = parser(item.Value.diesel);
                     double lpgPrice;
                     if (item.Value.lpg != "-")
@@ -95,14 +102,14 @@ namespace Degano.Views
                     {
                         petrol98Price = -1;
                     }
-                    GasStation g = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
-                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
+                    g = new Lazy<GasStation>(() => new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
+                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
 
-                    g.GetDistanceToUser();
-                    GasStation.gasStationList.Add(g);
-                    mainPageMap.AddMarker(g);
+                    g.Value.GetDistanceToUser();
+                    GasStation.gasStationList.Add(g.Value);
                 }
 
+                AddMarkersToMap(GasStation.gasStationList);
                 GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
                 GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
