@@ -8,6 +8,7 @@ using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
+using Degano.Views;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Handlers;
 using Debug = System.Diagnostics.Debug;
@@ -157,16 +158,10 @@ namespace Degano.Handlers
             }
             marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
 
-            try
-            {
-                var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker\
-                gasStationMap.Add(_args, _marker);
-                _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
-            }
-            catch
-            {
-                ExceptionLogger.Log("Some bogus error");
-            }
+            var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
+            gasStationMap.Add(_args, _marker);
+            _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
+            Debug.WriteLine("aaa" + gasStationMap.Count);
         }
 
         public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
@@ -217,9 +212,7 @@ namespace Degano.Handlers
             if (googleMap == null)
                 return;
 
-            var gasStation = (GasStation)args;
-
-            gasStationMap[gasStation].ShowInfoWindow();
+            gasStationMap[(GasStation)args].ShowInfoWindow();
         }
 
         public static void MapRemoveGasStation(IMapHandler handler, IMap map, object? args)

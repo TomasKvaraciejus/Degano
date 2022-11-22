@@ -21,6 +21,10 @@ namespace Degano
 
 		private void OnSignUpClick(object sender, EventArgs e) => Navigation.PushAsync(signUpPage);
 
-		private void OnContinueWithoutSignInClick(object sender, EventArgs e) => Navigation.PushAsync(mainPage);
+		private async void OnContinueWithoutSignInClick(object sender, EventArgs e)
+		{
+			await UserPermissions.GetPermissions();
+			Navigation.PushAsync(mainPage);
+		}
 	}
 }

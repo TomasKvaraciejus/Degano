@@ -1,10 +1,5 @@
-﻿
-using Degano.Handlers;
+﻿using Degano.Handlers;
 using Degano.SqliteDb;
-using FireSharp;
-using FireSharp.Config;
-using SQLite;
-using System.Collections.Generic;
 using Map = Degano.Controls.Map;
 
 namespace Degano;

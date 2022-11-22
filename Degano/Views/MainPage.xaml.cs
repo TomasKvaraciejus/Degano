@@ -1,6 +1,4 @@
-using System.Diagnostics;
-using System.Linq;
-using Degano.Handlers;
+using Android.OS;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
@@ -17,15 +15,12 @@ namespace Degano.Views
         public MainPage(SettingsPage _settingsPage)
         {
             InitializeComponent();
-            GetUserPermisions();
             //NavigationPage.SetHasBackButton(this, false);
             mainPageMap = MainPageMap;
             UserLocation.LocationAvailableChanged += ToggleINeedGas;
             settingsPage = _settingsPage;
             ToggleINeedGas();
         }
-
-        private static async void GetUserPermisions() => await UserPermissions.GetPermissions();
 
         public static async void InitializeMap()
         {
@@ -48,13 +43,7 @@ namespace Degano.Views
                 }
             }
 
-            GetGasStationData();
-        }
-
-        public static void AddMarkersToMap<T>(List<T> items)
-        {
-            foreach (T item in items)
-                mainPageMap.AddMarker(item);
+            await GetGasStationData();
         }
 
         public static double ToDouble<T>(T arg)
@@ -64,7 +53,7 @@ namespace Degano.Views
 
         // We need to implement a system to only load gas stations if they are within a certain range of the user / 
         // in the viewable area of their screen
-        public async static void GetGasStationData()
+        public async static Task GetGasStationData()
         {
             IFirebaseConfig config = new FirebaseConfig
             {
@@ -84,7 +73,6 @@ namespace Degano.Views
                 Func<string, double> parser = ToDouble;
                 foreach(var item in data)
                 {
-                    Lazy<GasStation> gasStation;
                     double dieselPrice = parser(item.Value.diesel);
                     double lpgPrice;
                     if (item.Value.lpg != "-")
@@ -107,13 +95,14 @@ namespace Degano.Views
                     {
                         petrol98Price = -1;
                     }
-                    gasStation = new Lazy<GasStation>(() => new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
-                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
-                    gasStation.Value.GetDistanceToUser();
-                    GasStation.gasStationList.Add(gasStation.Value);
+                    GasStation g = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
+                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
+
+                    g.GetDistanceToUser();
+                    GasStation.gasStationList.Add(g);
+                    mainPageMap.AddMarker(g);
                 }
 
-                AddMarkersToMap(GasStation.gasStationList);
                 GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
                 GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
@@ -166,6 +155,7 @@ namespace Degano.Views
                 await UserLocation.GetLastKnownLocation();
                 GasStation g = await GasStation.FindGasStation();
                 mainPageMap.AnimateCamera((g.location, 16f, 0));
+
                 mainPageMap.SelectGasStation(g);
             }
             catch (Exception ex)
