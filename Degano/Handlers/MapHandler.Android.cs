@@ -157,9 +157,16 @@ namespace Degano.Handlers
             }
             marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
 
-            var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
-            gasStationMap.Add(_args, _marker);
-            _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
+            try
+            {
+                var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker\
+                gasStationMap.Add(_args, _marker);
+                _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
+            }
+            catch
+            {
+                ExceptionLogger.Log("Some bogus error");
+            }
         }
 
         public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
@@ -225,6 +232,7 @@ namespace Degano.Handlers
 
             Marker marker = gasStationMap[g];
             marker.Remove();
+            gasStationMap.Remove(g);
         }
 
         internal void OnMapReady(GoogleMap map)

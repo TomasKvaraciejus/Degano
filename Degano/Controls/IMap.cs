@@ -18,5 +18,7 @@
         void ZoomCamera(object? args);
         void SelectGasStation(object? args);
         void RemoveGasStation(object? args);
+
+        void Clear();
     }
 }

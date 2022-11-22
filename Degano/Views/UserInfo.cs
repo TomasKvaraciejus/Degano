@@ -1,8 +1,8 @@
 ﻿namespace Degano.Views
 {
-    internal struct UserInfo
+    public static class UserInfo
     {
-        internal static string EMail { get; set; }
-        internal static string Password { get; set; }
+        public static string EMail { get; set; }
+        public static string Password { get; set; }
     }
 }

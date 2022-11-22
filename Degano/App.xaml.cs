@@ -2,10 +2,10 @@
 namespace Degano;
 public partial class App : Application
 {
-	public App()
+	public App(LandingPage landingPage, NavigationPage navigationPage)
 	{
 		InitializeComponent();
-
-		MainPage = new NavigationPage(new LandingPage());
+        navigationPage.PushAsync(landingPage);
+		MainPage = navigationPage;
 	}
 }

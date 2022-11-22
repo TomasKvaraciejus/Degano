@@ -1,21 +1,26 @@
-namespace Degano;
 using Degano.Views;
-public partial class LandingPage : ContentPage
+
+namespace Degano
 {
-	public LandingPage()
+	public partial class LandingPage : ContentPage
 	{
-		InitializeComponent();
-	}
+		SignInPage signInPage;
 
-	private void OnSignInClick(object sender, EventArgs e)
-	{
-		Navigation.PushAsync(new SignInPage());
-	}
+		SignUpPage signUpPage;
 
-	private void OnSignUpClick(object sender, EventArgs e)
-	{
-		Navigation.PushAsync(new SignUpPage());
-	}
+		MainPage mainPage;
+        public LandingPage(SignUpPage _signUpPage, SignInPage _signInPage, MainPage _mainPage)
+        {
+			InitializeComponent();
+            signInPage = _signInPage;
+            signUpPage = _signUpPage;
+            mainPage = _mainPage;
+        }
 
-	private void OnContinueWithoutSignInClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
+		private void OnSignInClick(object sender, EventArgs e) => Navigation.PushAsync(signInPage);
+
+		private void OnSignUpClick(object sender, EventArgs e) => Navigation.PushAsync(signUpPage);
+
+		private void OnContinueWithoutSignInClick(object sender, EventArgs e) => Navigation.PushAsync(mainPage);
+	}
 }

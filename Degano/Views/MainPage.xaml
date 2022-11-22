@@ -2,17 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Degano.Controls"
-			 x:Class="Degano.Views.MainPage"
-			 Title="Degano">
+			 x:Class="Degano.Views.MainPage">
     
-	<Grid 
+    <ScrollView>
+        <Grid 
         x:Name="MainGrid" 
         RowDefinitions="48,12*,*" 
         Grid.ColumnDefinitions="*, 220,*"
         Padding="0,0,0,0"
         RowSpacing="0">
-		
-        <Entry 
+
+            <Entry 
             x:Name="NavigationBar" 
             BackgroundColor="White"
             VerticalTextAlignment="Center" 
@@ -20,7 +20,7 @@
             Grid.Column="1" 
             Placeholder="Search here" />
 
-        <Button 
+            <Button 
             x:Name="Settings" 
             Text="Settings" 
             Clicked="OnSettingsClick"
@@ -31,7 +31,7 @@
             BackgroundColor="Gray" 
             BorderColor="Black" />
 
-        <Button 
+            <Button 
             x:Name="CenterUser" 
             Text="Center" 
             Clicked="OnCenterUserClick"
@@ -41,13 +41,13 @@
             BackgroundColor="Gray" 
             BorderColor="Black" />
 
-        <maps:Map
+            <maps:Map
             x:Name="MainPageMap"
             ZIndex="-1"
             Grid.RowSpan="2"
             Grid.ColumnSpan="3" />
 
-        <Button 
+            <Button 
             x:Name="GasButton" 
             Clicked="OnINeedGasClick"
             Grid.Row="2" 
@@ -56,6 +56,7 @@
             Text="⚠️ I Need Gas! ⚠" 
             WidthRequest="300" 
             BorderColor="Black" />
-        
-	</Grid>
+
+        </Grid>
+    </ScrollView>
 </ContentPage>

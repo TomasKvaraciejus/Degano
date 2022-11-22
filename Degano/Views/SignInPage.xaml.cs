@@ -1,20 +1,27 @@
 using Degano.Helpers;
+using Degano.SqliteDb;
 
 namespace Degano.Views
 {
     public partial class SignInPage : ContentPage
     {
-        private EmailValidator emailValidator { get; } = new EmailValidator();
-        private PasswordValidator passwordValidator { get; } = new PasswordValidator();
-        public SignInPage()
+        SqliteDatabase database;
+        EmailValidator emailValidator;
+        PasswordValidator passwordValidator;
+        MainPage mainPage;
+        public SignInPage(EmailValidator _emailValidator, PasswordValidator _passwordValidator, SqliteDatabase _database, MainPage _mainPage)
         {
             InitializeComponent();
+            emailValidator = _emailValidator;
+            passwordValidator = _passwordValidator;
+            database = _database;
+            mainPage = _mainPage;
         }
 
         private void OnEmailTextChange(object sender, EventArgs e)
         {
             UserInfo.EMail = ((Entry)sender).Text;
-            if (emailValidator.IsEmailValid(((Entry)sender).Text))
+            if (string.IsNullOrEmpty(((Entry)sender).Text) || emailValidator.IsEmailValid(((Entry)sender).Text))
             {
                 EmailLabel.IsVisible = false;
             }
@@ -28,7 +35,7 @@ namespace Degano.Views
         private void OnPasswordTextChange(object sender, EventArgs e)
         {
             UserInfo.Password = ((Entry)sender).Text;
-            if (passwordValidator.IsPasswordValid(((Entry)sender).Text))
+            if (string.IsNullOrEmpty(((Entry)sender).Text) || passwordValidator.IsPasswordValid(((Entry)sender).Text))
             {
                 PasswordLabel.IsVisible = false;
             }
@@ -40,7 +47,25 @@ namespace Degano.Views
             CheckIsValid();
         }
 
-        private void OnSubmitClick(object sender, EventArgs e) => MainPage.InitializeMainPage(this);
+        private async void OnSubmitClick(object sender, EventArgs e)
+        {
+            if (await database.GetItemAsync(EmailEntry.Text) is null)
+            {
+                await DisplayAlert("Error", "User does not exist", "OK");
+            }
+            else
+            {
+                var user = await database.GetItemAsync(EmailEntry.Text);
+                if (user.Password == PasswordEntry.Text)
+                {
+                    
+                    mainPage.Title = user.Email;
+                    await Navigation.PushAsync(mainPage);
+                    return;
+                }
+                await DisplayAlert("Error", "Password is incorrect", "OK");
+            }
+        }
 
         private void CheckIsValid()
         {

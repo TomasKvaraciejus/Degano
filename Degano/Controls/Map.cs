@@ -88,5 +88,10 @@
         {
             Handler?.Invoke(nameof(RemoveGasStation), args);
         }
+
+        public void Clear()
+        {
+            Handler?.Invoke(nameof(Clear), null);
+        }
     }
 }

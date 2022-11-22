@@ -1,41 +1,40 @@
 using System.Diagnostics;
+using System.Linq;
+using Android.App;
+using Degano.Handlers;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
+using Org.Apache.Http.Conn;
 
 namespace Degano.Views
 {
     public partial class MainPage : ContentPage
-	{
-		private static Controls.Map mainPageMap;
+    {
+        private static Controls.Map mainPageMap;
         public delegate void INeedGasToggleHandler();
-
-        // We should probably figure out a way to keep the map in between
-        // content pages, otherwise a new one to be generated every time this                                                                              
-        // page is opened
-
-        public MainPage()
-		{
-			InitializeComponent();
-			mainPageMap = MainPageMap;
+        SettingsPage settingsPage;
+        public MainPage(SettingsPage _settingsPage)
+        {
+            InitializeComponent();
+            GetUserPermisions();
+            //NavigationPage.SetHasBackButton(this, false);
+            mainPageMap = MainPageMap;
             UserLocation.LocationAvailableChanged += ToggleINeedGas;
+            settingsPage = _settingsPage;
             ToggleINeedGas();
-		}
-
-		internal static async void InitializeMainPage(ContentPage _p)
-		{
-            await UserPermissions.GetPermissions();
-            await _p.Navigation.PushAsync(new MainPage());
         }
 
-		public static async void InitializeMap()
-		{
-			mainPageMap.MapBounds = (new Location(54.765296, 25.371505), new Location(54.619564, 25.146730)); // These parameters are necessary for Google Maps to initialize properly
-			mainPageMap.IsTrafficEnabled = false;
-			mainPageMap.MinZoomLevel = 10f;
-			mainPageMap.MaxZoomLevel = 16f;
+        private static async void GetUserPermisions() => await UserPermissions.GetPermissions();
+
+        public static async void InitializeMap()
+        {
+            mainPageMap.MapBounds = (new Location(54.765296, 25.371505), new Location(54.619564, 25.146730)); // These parameters are necessary for Google Maps to initialize properly
+            mainPageMap.IsTrafficEnabled = false;
+            mainPageMap.MinZoomLevel = 10f;
+            mainPageMap.MaxZoomLevel = 16f;
 
             if (UserPermissions.locationPermissionStatus)
             {
@@ -45,14 +44,14 @@ namespace Degano.Views
                     await UserLocation.GetLastKnownLocation(); // preliminary
                     mainPageMap.AnimateCamera((UserLocation.location, 14f, 800)); // preliminary
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionLogger.Log(ex.Message);
                 }
             }
 
             GetGasStationData();
-		}
+        }
 
         public static void AddMarkersToMap<T>(List<T> items)
         {
@@ -75,6 +74,12 @@ namespace Degano.Views
             };
             try
             {
+                GasStation.gasStationList.ForEach(g => mainPageMap.RemoveGasStation(g));
+                mainPageMap.Clear();
+                while (GasStation.gasStationList.Count > 0)
+                {
+                    GasStation.gasStationList.RemoveAt(0);
+                }
                 IFirebaseClient client = new FirebaseClient(config);
                 FirebaseResponse response = await client.GetAsync("Degano/");
                 Dictionary<string, DatabaseEntry> data = JsonConvert.DeserializeObject<Dictionary<string, DatabaseEntry>>(response.Body.ToString());
@@ -114,7 +119,7 @@ namespace Degano.Views
                 GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
                 GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ExceptionLogger.Log(ex.Message);
             }
@@ -131,9 +136,17 @@ namespace Degano.Views
         // generation of the map resulting in them having to be set to null
 
         public void OnSettingsClick(object sender, EventArgs e)
-		{
-
-		}
+        {
+            if (UserInfo.EMail != null)
+            {
+                settingsPage.Title = UserInfo.EMail + " " +settingsPage.Title;
+                Navigation.PushAsync(settingsPage);
+            }
+            else
+            {
+                DisplayAlert("Error", "Please sign in or sign up first!", "OK");
+            }
+        }
 
         public async void OnCenterUserClick(object sender, EventArgs e)
         {
@@ -176,5 +189,5 @@ namespace Degano.Views
                 GasButton.IsEnabled = false;
             }
         }
-	}
+    }
 }
