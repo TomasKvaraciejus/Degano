@@ -1,4 +1,5 @@
 using Degano;
+using Degano.Helpers;
 
 namespace UnitTesting
 {
@@ -91,6 +92,72 @@ namespace UnitTesting
             GasStation.gasStationList.Add(g1);
             GasStation.gasStationList.Add(g2);
             Assert.Throws<Exception>(() => g2.appealCoef < g1.appealCoef);
+        }
+
+        [Fact]
+        public void RegexReturnsFalse1()
+        {
+            EmailValidator emailValidator = new EmailValidator();
+            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail"));
+        }
+
+        [Fact]
+        public void RegexReturnsFalse2()
+        {
+            EmailValidator emailValidator = new EmailValidator();
+            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a"));
+        }
+        
+        [Fact]
+        public void RegexReturnsFalse3()
+        {
+            EmailValidator emailValidator = new EmailValidator();
+            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a.a.a"));
+        }
+
+        [Fact]
+        public void RegexReturnsTrue1()
+        {
+            EmailValidator emailValidator = new EmailValidator();
+            Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.com"));
+        }
+        
+        [Fact]
+        public void RegexReturnsTrue2()
+        {
+            EmailValidator emailValidator = new EmailValidator();
+            Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.co.uk"));
+        }
+
+        [Fact]
+        public void PasswordReturnsMessage1()
+        {
+            PasswordValidator passwordValidator = new PasswordValidator();
+            passwordValidator.IsPasswordValid("a");
+            Assert.Equal("Password should contain at least 10 characters!", passwordValidator.ErrorMessage);    
+        }
+
+        [Fact]
+        public void PasswordReturnsMessage2()
+        {
+            PasswordValidator passwordValidator = new PasswordValidator();
+            passwordValidator.IsPasswordValid("a a  fasfasfasfasfasfasfasf");
+            Assert.Equal("Password should not contain whitespaces!", passwordValidator.ErrorMessage);
+        }
+
+        [Fact]
+        public void PasswordReturnsMessage3()
+        {
+            PasswordValidator passwordValidator = new PasswordValidator();
+            passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa");
+            Assert.Equal("Password should contain at least one digit!", passwordValidator.ErrorMessage);
+        }
+
+        [Fact]
+        public void PasswordIsGood()
+        {
+            PasswordValidator passwordValidator = new PasswordValidator();
+            Assert.True(passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa123"));
         }
     }
 }

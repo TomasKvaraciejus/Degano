@@ -1,13 +1,11 @@
 using System.Diagnostics;
 using System.Linq;
-using Android.App;
 using Degano.Handlers;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
-using Org.Apache.Http.Conn;
 
 namespace Degano.Views
 {
