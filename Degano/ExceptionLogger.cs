@@ -1,14 +1,7 @@
 ﻿using FireSharp;
 using FireSharp.Config;
-using FireSharp.Extensions;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-using Java.Sql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Degano
 {
@@ -36,7 +29,11 @@ namespace Degano
                 BasePath = "https://degano-70426-default-rtdb.europe-west1.firebasedatabase.app/"
             };
             IFirebaseClient client = new FirebaseClient(config);
-            FirebaseResponse response = await client.SetAsync("Exceptions/" + DateTime.Now.ToString("MM-dd-yyyy_HH-mm-ss"), ex.exMessage);
+            FirebaseResponse response = await client.SetAsync("Exceptions/" + DateTime.Now.ToString("MM-dd-yyyy_HH-mm-ss"), ex.exMessage
+                #if ANDROID || IOS 
+                + " on " + DeviceInfo.Name + ", " + DeviceInfo.Model
+                #endif
+                );
         }
     }
 }

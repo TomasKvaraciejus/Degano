@@ -1,6 +1,4 @@
-﻿using Android.Gms.Common.Logging;
-
-namespace Degano
+﻿namespace Degano
 {
     public class GasStation : 
 #if ANDROID
@@ -34,6 +32,8 @@ namespace Degano
             priceLPG = _priceLPG;
             type = _brand;
         }
+
+        public GasStation() { }
 
         public void GetDistanceToUser() // Should probably be moved to Location
         {
@@ -81,7 +81,7 @@ namespace Degano
             if (preferredPriceMax == preferredPriceMin)
             {
                 if (preferredPriceMax == -1)
-                    ExceptionLogger.Log("GasStation price range undefined");
+                    throw new Exception("GasStation price range undefined");
                 else
                     preferredPriceMin = 0;
             }
@@ -102,7 +102,7 @@ namespace Degano
             if (_gasStation == null)
                 return 1;
             else
-                return this.appealCoef.CompareTo(_gasStation.appealCoef);
+                return this.distance.CompareTo(_gasStation.distance);
         }
 
         public static int CompareDistance(GasStation g1, GasStation g2)

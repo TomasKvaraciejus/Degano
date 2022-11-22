@@ -60,6 +60,7 @@ namespace Degano.Views
                 {
                     
                     mainPage.Title = user.Email;
+                    await UserPermissions.GetPermissions();
                     await Navigation.PushAsync(mainPage);
                     return;
                 }

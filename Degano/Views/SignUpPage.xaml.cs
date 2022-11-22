@@ -57,6 +57,7 @@ namespace Degano.Views
                 userResult.Password = PasswordEntry.Text;
                 await database.SaveItemAsync(userResult);
                 mainPage.Title = userResult.Email;
+                await UserPermissions.GetPermissions();
                 await Navigation.PushAsync(mainPage);
                 return;
             }
