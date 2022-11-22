@@ -53,13 +53,23 @@ namespace Degano.Views
             GetGasStationData();
         }
 
+        public static void AddMarkersToMap<T>(List<T> items)
+        {
+            foreach (T item in items)
+                mainPageMap.AddMarker(item);
+        }
+
+        public static double ToDouble<T>(T arg)
+        {
+            return (double)Convert.ChangeType(arg, typeof(double));
+        }
+
         // We need to implement a system to only load gas stations if they are within a certain range of the user / 
         // in the viewable area of their screen
         public async static void GetGasStationData()
         {
             IFirebaseConfig config = new FirebaseConfig
             {
-                //AuthSecret = "mpbd3Up8Hykggejr0R8IRtsUhnnLrfwjNtPnmVaJ",
                 BasePath = "https://degano-70426-default-rtdb.europe-west1.firebasedatabase.app/"
             };
             try
@@ -73,41 +83,39 @@ namespace Degano.Views
                 IFirebaseClient client = new FirebaseClient(config);
                 FirebaseResponse response = await client.GetAsync("Degano/");
                 Dictionary<string, DatabaseEntry> data = JsonConvert.DeserializeObject<Dictionary<string, DatabaseEntry>>(response.Body.ToString());
-                foreach (var item in data)
+                Func<string, double> parser = ToDouble;
+                foreach(var item in data)
                 {
-                    double dieselPrice = double.Parse(item.Value.diesel);
+                    Lazy<GasStation> gasStation;
+                    double dieselPrice = parser(item.Value.diesel);
                     double lpgPrice;
                     if (item.Value.lpg != "-")
                     {
-                        lpgPrice = double.Parse(item.Value.lpg);
+                        lpgPrice = parser(item.Value.lpg);
                     }
                     else
                     {
                         lpgPrice = -1;
                     }
-                    double lat = double.Parse(item.Value.lat);
-                    double lng = double.Parse(item.Value.lng);
-                    double petrol95Price = double.Parse(item.Value.petrol95);
+                    double lat = parser(item.Value.lat);
+                    double lng = parser(item.Value.lng);
+                    double petrol95Price = parser(item.Value.petrol95);
                     double petrol98Price;
                     if (item.Value.petrol98 != "-")
                     {
-                        petrol98Price = double.Parse(item.Value.petrol98);
+                        petrol98Price = parser(item.Value.petrol98);
                     }
                     else
                     {
                         petrol98Price = -1;
                     }
-                    GasStation gasStation = new GasStation(item.Value.name, item.Value.address, new Location(lat, lng),
-                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand);
-                    
-                    if (GasStation.gasStationList.Count!=121)
-                    {
-                        gasStation.GetDistanceToUser();
-                        mainPageMap.AddMarker(gasStation);
-                        GasStation.gasStationList.Add(gasStation);
-                    }
+                    gasStation = new Lazy<GasStation>(() => new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
+                        petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
+                    gasStation.Value.GetDistanceToUser();
+                    GasStation.gasStationList.Add(gasStation.Value);
                 }
 
+                AddMarkersToMap(GasStation.gasStationList);
                 GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
                 GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
             }
