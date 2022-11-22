@@ -161,7 +161,6 @@ namespace Degano.Handlers
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
             gasStationMap.Add(_args, _marker);
             _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
-            Debug.WriteLine("aaa" + gasStationMap.Count);
         }
 
         public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
