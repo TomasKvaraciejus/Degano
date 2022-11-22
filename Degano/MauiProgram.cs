@@ -1,4 +1,4 @@
-﻿using Android.Gms.Maps.Model;
+﻿
 using Degano.Handlers;
 using Degano.SqliteDb;
 using FireSharp;

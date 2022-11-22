@@ -1,4 +1,4 @@
-﻿using Android.Gms.Common.Logging;
+﻿
 
 namespace Degano
 {

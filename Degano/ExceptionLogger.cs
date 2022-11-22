@@ -3,7 +3,6 @@ using FireSharp.Config;
 using FireSharp.Extensions;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-using Java.Sql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
