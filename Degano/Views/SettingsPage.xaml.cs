@@ -10,8 +10,18 @@ namespace Degano.Views
         public SettingsPage(SqliteDatabase db, UserResult _userResult)
         {
             InitializeComponent();
+            GasStationSelect.ItemsSource = GasStation.selectedGasStations;
             database = db;
             userResult = _userResult;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            MainPage.UpdateShownGasStations();
+            System.Diagnostics.Debug.WriteLine("aaa");
+            Navigation.PopAsync();
+
+            return true;
         }
 
         private async void OnAddCardButton(object sender, EventArgs e)
@@ -32,6 +42,14 @@ namespace Degano.Views
             {
                 await DisplayAlert("Card", $"Gas station - {card.CardName}\nDiscount - {card.Discount}%", "OK");
             }
+        }
+
+        private async void OnGasStationToggle(object sender, CheckedChangedEventArgs e)
+        {
+            var cb = (CheckBox)sender;
+            var kvp = (KeyValuePair<string, bool>)cb.BindingContext;
+
+            GasStation.selectedGasStations[kvp.Key] = e.Value;
         }
     }
 }

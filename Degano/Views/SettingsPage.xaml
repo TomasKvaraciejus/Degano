@@ -13,6 +13,17 @@
             x:Name="ShowCards"
             Text="Show cards"
             Clicked="OnShowCards"/>
-        
+
+        <CollectionView x:Name="GasStationSelect">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Text="{Binding Key}" HorizontalOptions="Start"/>
+                        <CheckBox IsChecked="{Binding Value}" CheckedChanged="OnGasStationToggle" HorizontalOptions="End"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 </ContentPage>

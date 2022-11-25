@@ -53,7 +53,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\gasstationalausa.png" />
+	  <MauiImage Remove="Resources\Images\gasstationbaltic petroleum.png" />
+	  <MauiImage Remove="Resources\Images\gasstationcircle k.png" />
 	  <MauiImage Remove="Resources\Images\gasstationdefault.png" />
+	  <MauiImage Remove="Resources\Images\gasstationecoil.png" />
+	  <MauiImage Remove="Resources\Images\gasstationemsi.png" />
+	  <MauiImage Remove="Resources\Images\gasstationneste.png" />
+	  <MauiImage Remove="Resources\Images\gasstationorlen.png" />
+	  <MauiImage Remove="Resources\Images\gasstationviada.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,7 +86,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Images\gasstationalausa.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationbaltic petroleum.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationcircle k.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationdefault.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationecoil.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationemsi.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationneste.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationorlen.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationviada.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,7 +105,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="LandingPage.xaml">
+	  <MauiXaml Update="Views\LandingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MainPage.xaml">

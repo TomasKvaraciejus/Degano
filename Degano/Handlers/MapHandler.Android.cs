@@ -1,4 +1,5 @@
-﻿using Android;
+﻿using System.Reflection;
+using Android;
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Common.Apis;
@@ -23,7 +24,16 @@ namespace Degano.Handlers
         MapView? _mapView;
         MapCallbackHandler? _mapReady;
 
+        private static Dictionary<string, Bitmap> GasStationResources = new Dictionary<string, Bitmap>();
         private static Bitmap GasStation_Default;
+        /*private static Bitmap GasStation_Alausa;
+        private static Bitmap GasStation_BP;
+        private static Bitmap GasStation_CK;
+        private static Bitmap GasStation_Ecoil;
+        private static Bitmap GasStation_Emsi;
+        private static Bitmap GasStation_Neste;
+        private static Bitmap GasStation_Orlen;
+        private static Bitmap GasStation_Viada;*/
 
         public GoogleMap? Map { get; set; }
 
@@ -144,24 +154,24 @@ namespace Degano.Handlers
             if (googleMap == null)
                 return;
 
-            var _args = (GasStation)args;
+            var g = (GasStation)args;
 
             var marker = new MarkerOptions();
-            marker.SetPosition(new LatLng(_args.location.lat, _args.location.lng));
-            marker.SetTitle(_args.name);
+            marker.SetPosition(new LatLng(g.location.lat, g.location.lng));
+            marker.SetTitle(g.name);
 
-            if(GasStation_Default == null)
+            if (GasStationResources.ContainsKey(g.type.ToLower()))
             {
-                var imgSrc = ImageSource.FromResource("Degano.Resources.Images.gasstationdefault.png");
-                var _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
-                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true);
+                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStationResources[g.type.ToLower()]));
             }
-            marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
+            else
+            {
+                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStation_Default));
+            }
 
             var _marker = googleMap.AddMarker(marker); // AddMarker returns new marker
-            gasStationMap.Add(_args, _marker);
-            _marker.Tag = _args; // Tags GasStation object to marker for use in displaying custom info-window
-            Debug.WriteLine("aaa" + gasStationMap.Count);
+            gasStationMap.Add(g, _marker);
+            _marker.Tag = g; // Tags GasStation object to marker for use in displaying custom info-window
         }
 
         public static void MapAnimateCamera(IMapHandler handler, IMap map, object? args)
@@ -218,14 +228,41 @@ namespace Degano.Handlers
         public static void MapRemoveGasStation(IMapHandler handler, IMap map, object? args)
         {
             GoogleMap? googleMap = handler?.Map;
-            if (googleMap == null)
-                return;
-
             GasStation g = (GasStation)args;
+            if (googleMap == null || !gasStationMap.ContainsKey(g))
+                return;
 
             Marker marker = gasStationMap[g];
             marker.Remove();
+
             gasStationMap.Remove(g);
+        }
+
+        private async void LoadResources()
+        {
+            try
+            {
+                var imgSrc = ImageSource.FromResource("Degano.Resources.Images.gasstationdefault.png");
+                var _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
+                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true);
+
+                var assembly = Assembly.GetExecutingAssembly();
+                foreach (var name in assembly.GetManifestResourceNames())
+                {
+                    if (name.StartsWith("Degano.Resources.Images"))
+                    {
+                        var gasStationName = name.Substring("Degano.Resources.Images.gasstation".Length);
+
+                        imgSrc = ImageSource.FromResource(name);
+                        _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
+                        GasStationResources.Add(gasStationName.Remove(gasStationName.IndexOf('.')), Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true));
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                ExceptionLogger.Log(ex.Message);
+            }
         }
 
         internal void OnMapReady(GoogleMap map)
@@ -240,6 +277,10 @@ namespace Degano.Handlers
             var R = Android.App.Application.Context;
             Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 
+            if(GasStationResources.Count == 0)
+            {
+                LoadResources();
+            }
             Views.MainPage.InitializeMap();
         }
     }
