@@ -1,4 +1,3 @@
-using Android.OS;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
@@ -24,6 +23,11 @@ namespace Degano.Views
 
         public static async void InitializeMap()
         {
+            mainPageMap.MapBounds = (new Location(0, 0), new Location(0, 0)); // bugfix
+            mainPageMap.IsTrafficEnabled = true;
+            mainPageMap.MinZoomLevel = 0f;
+            mainPageMap.MaxZoomLevel = 0f;
+
             mainPageMap.MapBounds = (new Location(54.765296, 25.371505), new Location(54.619564, 25.146730)); // These parameters are necessary for Google Maps to initialize properly
             mainPageMap.IsTrafficEnabled = false;
             mainPageMap.MinZoomLevel = 10f;
@@ -33,6 +37,7 @@ namespace Degano.Views
             {
                 try
                 {
+                    mainPageMap.IsShowingUser = false; // bugfix
                     mainPageMap.IsShowingUser = true;
                     await UserLocation.GetLastKnownLocation(); // preliminary
                     mainPageMap.AnimateCamera((UserLocation.location, 14f, 800)); // preliminary
@@ -46,10 +51,13 @@ namespace Degano.Views
             await GetGasStationData();
         }
 
-        public static void AddMarkersToMap<T>(List<T> items)
+        public static async Task AddMarkersToMap()
         {
-            foreach (T item in items)
-                mainPageMap.AddMarker(item);
+            foreach (GasStation g in GasStation.enabledGasStationList)
+            {
+                if (GasStation.selectedGasStations[g.type])
+                    mainPageMap.AddMarker(g);
+            }
         }
 
         public static double ToDouble<T>(T arg)
@@ -68,11 +76,8 @@ namespace Degano.Views
             try
             {
                 GasStation.gasStationList.ForEach(g => mainPageMap.RemoveGasStation(g));
+                GasStation.gasStationList.Clear();
                 mainPageMap.Clear();
-                while (GasStation.gasStationList.Count > 0)
-                {
-                    GasStation.gasStationList.RemoveAt(0);
-                }
                 IFirebaseClient client = new FirebaseClient(config);
                 FirebaseResponse response = await client.GetAsync("Degano/");
                 Dictionary<string, DatabaseEntry> data = JsonConvert.DeserializeObject<Dictionary<string, DatabaseEntry>>(response.Body.ToString());
@@ -109,14 +114,34 @@ namespace Degano.Views
                     GasStation.gasStationList.Add(g.Value);
                 }
 
-                AddMarkersToMap(GasStation.gasStationList);
-                GasStation.preferredPriceMin = GasStation.gasStationList.Min(g => g.price95);
-                GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.price95);
+                GasStation.gasStationList.GroupBy(g => g.type).Select(g => g.First()).ToList().ForEach(g => GasStation.selectedGasStations.TryAdd(g.type, true));
+
+                await UpdateShownGasStations();
             }
             catch (Exception ex)
             {
                 ExceptionLogger.Log(ex.Message);
             }
+        }
+
+        public static async Task UpdateShownGasStations()
+        {
+            foreach(GasStation g in GasStation.enabledGasStationList)
+            {
+                mainPageMap.RemoveGasStation(g);
+            }
+            GasStation.enabledGasStationList.Clear();
+            foreach(GasStation g in GasStation.gasStationList)
+            {
+                if (GasStation.selectedGasStations[g.type])
+                {
+                    GasStation.enabledGasStationList.Add(g);
+                }
+            }
+            await AddMarkersToMap();
+
+            GasStation.preferredPriceMin = GasStation.enabledGasStationList.Min(g => g.price95);
+            GasStation.preferredPriceMax = GasStation.enabledGasStationList.Max(g => g.price95);
         }
 
         // The map has to be initialized every time this window is opened
@@ -160,6 +185,8 @@ namespace Degano.Views
             try
             {
                 await UserLocation.GetLastKnownLocation();
+                /*var brand = GasStation.gasStationList.GroupBy(g => g.type).Select(g => g.First()).ToList();
+                brand.ForEach(g => System.Diagnostics.Debug.WriteLine("aaa" + g.type));*/
                 GasStation g = await GasStation.FindGasStation();
                 mainPageMap.AnimateCamera((g.location, 16f, 0));
 

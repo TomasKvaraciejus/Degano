@@ -7,6 +7,8 @@
     IComparable
     {
         public static List<GasStation> gasStationList = new List<GasStation>();
+        public static List<GasStation> enabledGasStationList = new List<GasStation>();
+        public static SortedDictionary<string, bool> selectedGasStations = new SortedDictionary<string, bool>();
 
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
@@ -63,12 +65,12 @@
         }
         public static async Task<GasStation> FindGasStation()
         {
-            if (gasStationList.Count == 0)
+            if (enabledGasStationList.Count == 0)
                 throw new Exception("gasStationList empty");
             // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
-            gasStationList.ForEach(g => g.GetDistanceToUser());
+            enabledGasStationList.ForEach(g => g.GetDistanceToUser());
             // finds GasStation with highest appealCoef within specified distance
-            var g = gasStationList.Where(g => g.distance < distMax).ToList();
+            var g = enabledGasStationList.Where(g => g.distance < distMax).ToList();
             if (g.Count == 0)
                 throw new Exception("no GasStations under max range");
             preferredPriceMax = g.Max(g1 => g1.price95);
