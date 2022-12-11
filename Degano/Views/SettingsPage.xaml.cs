@@ -4,27 +4,39 @@ namespace Degano.Views
 {
     public partial class SettingsPage : ContentPage
     {
+        SettingsPage_Brands settingsPageBrands;
+        SettingsPage_MyAccount settingsPageMyAccount;
+
         UserResult userResult;
         
         SqliteDatabase database;
-        public SettingsPage(SqliteDatabase db, UserResult _userResult)
+        public SettingsPage(SqliteDatabase db, UserResult _userResult, SettingsPage_Brands _settingsPageBrands, SettingsPage_MyAccount _settingsPageMyAccount)
         {
             InitializeComponent();
-            GasStationSelect.ItemsSource = GasStation.selectedGasStations;
             database = db;
             userResult = _userResult;
+            settingsPageBrands = _settingsPageBrands;
+            settingsPageMyAccount = _settingsPageMyAccount;
+            DistanceSlider.Value = GasStation.distMax;
         }
 
-        protected override bool OnBackButtonPressed()
+        private void OnDistanceChange(object sender, EventArgs e)
         {
-            MainPage.UpdateShownGasStations();
-            System.Diagnostics.Debug.WriteLine("aaa");
-            Navigation.PopAsync();
-
-            return true;
+            GasStation.distMax = DistanceSlider.Value;
         }
 
-        private async void OnAddCardButton(object sender, EventArgs e)
+        private async void OnMyAccount(object sender, EventArgs e)
+        {
+            settingsPageMyAccount.OnPageEntry();
+            await Navigation.PushAsync(settingsPageMyAccount);
+        }
+
+        private async void OnFilterBrands(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(settingsPageBrands); 
+        }
+
+        private async void OnAddCard(object sender, EventArgs e)
         {
             Cards card = new Cards();
             card.CardName = "viada";
@@ -44,12 +56,12 @@ namespace Degano.Views
             }
         }
 
-        private async void OnGasStationToggle(object sender, CheckedChangedEventArgs e)
+        protected override bool OnBackButtonPressed()
         {
-            var cb = (CheckBox)sender;
-            var kvp = (KeyValuePair<string, bool>)cb.BindingContext;
+            MainPage.UpdateShownGasStations();
+            Navigation.PopAsync();
 
-            GasStation.selectedGasStations[kvp.Key] = e.Value;
+            return true;
         }
     }
 }
