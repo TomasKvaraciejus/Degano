@@ -13,7 +13,7 @@ namespace Degano.SqliteDb
     [Table("Card")]
     public class Cards
     {
-        [PrimaryKey, AutoIncrement]
+        [SQLite.PrimaryKey, SQLite.AutoIncrement]
         public int id { get; set; }
         public string Email { get; set; }
         public string CardName { get; set; }

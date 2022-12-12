@@ -5,21 +5,24 @@
              Title="My Account">
     <VerticalStackLayout
         Padding="4"
-        Spacing="4"
-        >
+        Spacing="4" >
         
         <Label
-            x:Name="UserName"
-            />
+            x:Name="UserName" />
 
+        <Button
+            x:Name="SignOutButton"
+            Text="Sign Out"
+            Clicked="OnSignOutButton" />
         <Button
             x:Name="SignInButton"
             Text="Sign In"
-            Clicked="OnSignIn"/>
+            Clicked="OnSignIn" />
 
         <Button
             x:Name="SignUpButton"
             Text="Sign Up"
-            Clicked="OnSignUp"/>
+            Clicked="OnSignUp" />
+        
     </VerticalStackLayout>
 </ContentPage>

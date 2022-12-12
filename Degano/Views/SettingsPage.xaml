@@ -7,21 +7,16 @@
         Padding="4"
         Spacing="4"
         >
-        
+
         <Button
             x:Name="MyAccountButton"
             Text="My account"
             Clicked="OnMyAccount"/>
 
         <Button
-            x:Name="AddCardButton"
-            Text="Add card"
-            Clicked="OnAddCard"/>
-
-        <Button
-            x:Name="ShowCardsButton"
-            Text="Show cards"
-            Clicked="OnShowCards"/>
+            x:Name="ManageCardsButton"
+            Text="Manage cards"
+            Clicked="OnManageCards"/>
 
         <Button
             x:Name="FilterBrandsButton"
