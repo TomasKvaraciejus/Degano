@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Degano.Views.SettingsPage_MyAccount"
+             Title="My Account">
+    <VerticalStackLayout
+        Padding="4"
+        Spacing="4"
+        >
+        
+        <Label
+            x:Name="UserName"
+            />
+
+        <Button
+            x:Name="SignInButton"
+            Text="Sign In"
+            Clicked="OnSignIn"/>
+
+        <Button
+            x:Name="SignUpButton"
+            Text="Sign Up"
+            Clicked="OnSignUp"/>
+    </VerticalStackLayout>
+</ContentPage>

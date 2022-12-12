@@ -3,59 +3,70 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Degano.Controls"
 			 x:Class="Degano.Views.MainPage"
-			 Title="Degano">
+			 Title="Degano"
+             NavigationPage.HasNavigationBar="False">
     
 	<Grid 
         x:Name="MainGrid" 
-        RowDefinitions="48,12*,*" 
+        RowDefinitions="0.12*,48,10*,*,0.45*" 
         Grid.ColumnDefinitions="*, 220,*"
-        Padding="0,0,0,0"
         RowSpacing="0">
 		
         <Entry 
             x:Name="NavigationBar" 
+            HeightRequest="40"
+            WidthRequest="225" 
+            Grid.Row="1" 
+            Grid.Column="1"
             BackgroundColor="White"
             VerticalTextAlignment="Center" 
-            Grid.Row = "0" 
-            Grid.Column="1" 
             Placeholder="Search here" />
 
-        <Button 
+        <ImageButton 
             x:Name="Settings" 
-            Text="Settings" 
+            Padding="8,8,8,8"
+            CornerRadius="25"
+            Source="settingsicon.png"
+            Aspect="Fill"
             Clicked="OnSettingsClick"
-            HorizontalOptions="Start" 
-            WidthRequest="80" 
-            Grid.Row="0" 
+            HeightRequest="65"
+            WidthRequest="65" 
+            Grid.Row="1" 
             Grid.Column="0" 
-            BackgroundColor="Gray" 
-            BorderColor="Black" />
+            HorizontalOptions="Start" 
+            BackgroundColor="White" 
+            BorderColor="Black"/>
 
-        <Button 
+        <ImageButton 
             x:Name="CenterUser" 
-            Text="Center" 
+            Padding="8,8,8,8"
+            CornerRadius="25"
+            Source="centerusericon.png"
+            Aspect="Fill"
             Clicked="OnCenterUserClick"
-            WidthRequest="80" 
-            Grid.Row="0" 
+            HeightRequest="65"
+            WidthRequest="65" 
+            Grid.Row="1" 
             Grid.Column="2" 
-            BackgroundColor="Gray" 
+            BackgroundColor="White" 
             BorderColor="Black" />
 
         <maps:Map
             x:Name="MainPageMap"
             ZIndex="-1"
-            Grid.RowSpan="2"
+            Grid.RowSpan="5"
             Grid.ColumnSpan="3" />
 
         <Button 
             x:Name="GasButton" 
             Clicked="OnINeedGasClick"
-            Grid.Row="2" 
+            Grid.Row="3" 
             Grid.ColumnSpan="3" 
             BackgroundColor="Red" 
             Text="⚠️ I Need Gas! ⚠" 
             WidthRequest="300" 
-            BorderColor="Black" />
+            HeightRequest="50">
+        </Button>
         
 	</Grid>
 </ContentPage>

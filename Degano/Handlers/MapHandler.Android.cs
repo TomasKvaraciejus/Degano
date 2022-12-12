@@ -26,14 +26,6 @@ namespace Degano.Handlers
 
         private static Dictionary<string, Bitmap> GasStationResources = new Dictionary<string, Bitmap>();
         private static Bitmap GasStation_Default;
-        /*private static Bitmap GasStation_Alausa;
-        private static Bitmap GasStation_BP;
-        private static Bitmap GasStation_CK;
-        private static Bitmap GasStation_Ecoil;
-        private static Bitmap GasStation_Emsi;
-        private static Bitmap GasStation_Neste;
-        private static Bitmap GasStation_Orlen;
-        private static Bitmap GasStation_Viada;*/
 
         public GoogleMap? Map { get; set; }
 
@@ -308,35 +300,36 @@ namespace Degano.Handlers
             var viewText = (TextView)view.FindViewById(Resource.Id.station_name);
             viewText.Text = gasStation.name;
             viewText = (TextView)view.FindViewById(Resource.Id.station_address);
-            viewText.Text = gasStation.address;
+            var address = (gasStation.address).Split(',');
+            viewText.Text = address[0] + '\n' + address[1];
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price95);
-            viewText.Text = "95: ";
+            viewText.Text = "95:";
             if (gasStation.price95 != -1)
-                viewText.Text += gasStation.price95.ToString("0.000");
+                viewText.Text += gasStation.price95.ToString("0.000").PadLeft(22 - viewText.Text.Length);
             else
-                viewText.Text += "-";
+                viewText.Text += "-".PadLeft(26 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price98);
-            viewText.Text = "98: ";
+            viewText.Text = "98:";
             if (gasStation.price98 != -1)
-                viewText.Text += gasStation.price98.ToString("0.000");
+                viewText.Text += gasStation.price98.ToString("0.000").PadLeft(22 - viewText.Text.Length);
             else
-                viewText.Text += "-";
+                viewText.Text += "-".PadLeft(26 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceDiesel);
-            viewText.Text = "Diesel: ";
+            viewText.Text = "Diesel:";
             if (gasStation.priceDiesel != -1)
-                viewText.Text += gasStation.priceDiesel.ToString("0.000");
+                viewText.Text += gasStation.priceDiesel.ToString("0.000").PadLeft(20 - viewText.Text.Length);
             else
-                viewText.Text += "-";
+                viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceLPG);
-            viewText.Text = "LPG: ";
+            viewText.Text = "LPG:";
             if (gasStation.priceLPG != -1)
-                viewText.Text += gasStation.priceLPG.ToString("0.000");
+                viewText.Text += gasStation.priceLPG.ToString("0.000").PadLeft(20 - viewText.Text.Length);
             else
-                viewText.Text += "-";
+                viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_distance);
             gasStation.GetDistanceToUser();

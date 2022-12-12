@@ -14,7 +14,7 @@ namespace Degano
         public static bool isLocationAvailable;
         private static CancellationTokenSource _cancelTokenSource;
         private static bool _isCheckingLocation;
-        public delegate void PropertyChanged();
+        public delegate void PropertyChanged(bool status);
         public static event PropertyChanged LocationAvailableChanged;
 
         static UserLocation()
@@ -40,12 +40,12 @@ namespace Degano
                 }
 
                 isLocationAvailable = true;
-                LocationAvailableChanged();
+                LocationAvailableChanged(true);
             }
             catch(Exception ex)
             {
                 isLocationAvailable = false;
-                LocationAvailableChanged();
+                LocationAvailableChanged(false);
                 ExceptionLogger.Log(ex.Message);
             }
         }
@@ -69,13 +69,13 @@ namespace Degano
                 }
 
                 isLocationAvailable = true;
-                LocationAvailableChanged();
+                LocationAvailableChanged(true);
                 _isCheckingLocation = false;
             }
             catch(Exception ex)
             {
                 isLocationAvailable = false;
-                LocationAvailableChanged();
+                LocationAvailableChanged(false);
                 ExceptionLogger.Log(ex.Message);
             }
         }

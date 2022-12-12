@@ -21,6 +21,8 @@ public static class MauiProgram
 				handlers.AddHandler(typeof(Map), typeof(MapHandler));
 			}).RegisterModels();
 
+		MauiApp app = builder.Build();
+
         return builder.Build();
 	}
 
@@ -32,9 +34,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<Views.SignUpPage>();
         builder.Services.AddSingleton<Views.MainPage>();
 		builder.Services.AddSingleton<Views.SettingsPage>();
+        builder.Services.AddSingleton<Views.SettingsPage_Brands>();
+		builder.Services.AddSingleton<Views.SettingsPage_MyAccount>();
 
-		// Navigation page
-		builder.Services.AddSingleton<NavigationPage>();
+        // Navigation page
+        builder.Services.AddSingleton<NavigationPage>();
 
         // Validators
         builder.Services.AddSingleton<Helpers.EmailValidator>();

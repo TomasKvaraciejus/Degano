@@ -65,7 +65,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Platforms\Android\Resources\layout\info_window.axml" />
+	  <None Remove="Platforms\Android\Resources\drawable\info_window_bg.xml" />
+	  <None Remove="Platforms\Android\Resources\layout\info_window.xml" />
 	  <None Remove="Platforms\Android\Resources\Raw\map_style.json" />
 	  <None Remove="Resources\Images\gasstationdefault.png" />
 	</ItemGroup>
@@ -109,6 +110,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SettingsPage_Brands.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SettingsPage_MyAccount.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SignInPage.xaml">

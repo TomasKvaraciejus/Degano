@@ -3,27 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Degano.Views.SettingsPage"
              Title="Settings">
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        Padding="4"
+        Spacing="4"
+        >
+        
+        <Button
+            x:Name="MyAccountButton"
+            Text="My account"
+            Clicked="OnMyAccount"/>
+
         <Button
             x:Name="AddCardButton"
             Text="Add card"
-            Clicked="OnAddCardButton"/>
+            Clicked="OnAddCard"/>
 
         <Button
-            x:Name="ShowCards"
+            x:Name="ShowCardsButton"
             Text="Show cards"
             Clicked="OnShowCards"/>
 
-        <CollectionView x:Name="GasStationSelect">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Label Text="{Binding Key}" HorizontalOptions="Start"/>
-                        <CheckBox IsChecked="{Binding Value}" CheckedChanged="OnGasStationToggle" HorizontalOptions="End"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <Button
+            x:Name="FilterBrandsButton"
+            Text="Filter by brand"
+            Clicked="OnFilterBrands"/>
+
+        <Slider
+            x:Name="DistanceSlider"
+            DragCompleted="OnDistanceChange"
+            Minimum="0.5"
+            Maximum="15"/>
+
+        <Grid>
+            <Label Text="0.5km" HorizontalOptions="Start" />
+            <Label Text="{Binding Source = {Reference DistanceSlider}, Path = Value, StringFormat='Range to search: {0:F1}km'}" HorizontalOptions="Center"/>
+            <Label Text="15km" HorizontalOptions="End"/>
+        </Grid>
 
     </VerticalStackLayout>
 </ContentPage>

@@ -9,6 +9,7 @@ namespace Degano.Views
     public partial class MainPage : ContentPage
     {
         private static Controls.Map mainPageMap;
+        private static MainPage mainPage;
         public delegate void INeedGasToggleHandler();
         SettingsPage settingsPage;
         public MainPage(SettingsPage _settingsPage)
@@ -16,10 +17,12 @@ namespace Degano.Views
             InitializeComponent();
             //NavigationPage.SetHasBackButton(this, false);
             mainPageMap = MainPageMap;
+            mainPage = this;
             UserLocation.LocationAvailableChanged += ToggleINeedGas;
             settingsPage = _settingsPage;
-            ToggleINeedGas();
         }
+
+        protected override bool OnBackButtonPressed() { return true; }
 
         public static async void InitializeMap()
         {
@@ -142,6 +145,8 @@ namespace Degano.Views
 
             GasStation.preferredPriceMin = GasStation.enabledGasStationList.Min(g => g.price95);
             GasStation.preferredPriceMax = GasStation.enabledGasStationList.Max(g => g.price95);
+
+            ToggleINeedGas(GasStation.enabledGasStationList.Any(g => g.distance <= GasStation.distMax));
         }
 
         // The map has to be initialized every time this window is opened
@@ -154,17 +159,9 @@ namespace Degano.Views
         // defaults provided in Degano.Controls.Map.cs even after successful
         // generation of the map resulting in them having to be set to null
 
-        public void OnSettingsClick(object sender, EventArgs e)
+        public async void OnSettingsClick(object sender, EventArgs e)
         {
-            if (UserInfo.EMail != null)
-            {
-                settingsPage.Title = UserInfo.EMail + " " +settingsPage.Title;
-                Navigation.PushAsync(settingsPage);
-            }
-            else
-            {
-                DisplayAlert("Error", "Please sign in or sign up first!", "OK");
-            }
+            await Navigation.PushAsync(settingsPage);
         }
 
         public async void OnCenterUserClick(object sender, EventArgs e)
@@ -198,17 +195,17 @@ namespace Degano.Views
             }
 		}
 
-        private void ToggleINeedGas()
+        private static void ToggleINeedGas(bool status)
         {
-            if (UserLocation.isLocationAvailable)
+            if (status)
             {
-                GasButton.BackgroundColor = Colors.Red;
-                GasButton.IsEnabled = true;
+                mainPage.GasButton.BackgroundColor = Colors.Red;
+                mainPage.GasButton.IsEnabled = true;
             }
             else
             {
-                GasButton.BackgroundColor = Colors.Grey;
-                GasButton.IsEnabled = false;
+                mainPage.GasButton.BackgroundColor = Colors.Grey;
+                mainPage.GasButton.IsEnabled = false;
             }
         }
     }
