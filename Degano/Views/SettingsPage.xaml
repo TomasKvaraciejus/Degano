@@ -40,5 +40,28 @@
             <Label Text="15km" HorizontalOptions="End"/>
         </Grid>
 
+        <VerticalStackLayout>
+            <RadioButton 
+                GroupName="FuelType"
+                Content="95"
+                CheckedChanged="OnFuelTypeChange"
+                IsChecked="True"/>
+
+            <RadioButton 
+                GroupName="FuelType"
+                Content="98"
+                CheckedChanged="OnFuelTypeChange"/>
+
+            <RadioButton 
+                GroupName="FuelType"
+                Content="Diesel"
+                CheckedChanged="OnFuelTypeChange"/>
+
+            <RadioButton 
+                GroupName="FuelType"
+                Content="LPG"
+                CheckedChanged="OnFuelTypeChange"/>
+        </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>

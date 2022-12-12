@@ -137,15 +137,12 @@ namespace Degano.Views
             GasStation.enabledGasStationList.Clear();
             foreach(GasStation g in GasStation.gasStationList)
             {
-                if (GasStation.selectedGasStations[g.type])
+                if (GasStation.selectedGasStations[g.type] && g.fuelPrice[GasStation.selectedType] != -1)
                 {
                     GasStation.enabledGasStationList.Add(g);
                 }
             }
             await AddMarkersToMap();
-
-            GasStation.preferredPriceMin = GasStation.enabledGasStationList.Min(g => g.price95);
-            GasStation.preferredPriceMax = GasStation.enabledGasStationList.Max(g => g.price95);
 
             ToggleINeedGas(GasStation.enabledGasStationList.Any(g => g.distance <= GasStation.distMax));
         }
