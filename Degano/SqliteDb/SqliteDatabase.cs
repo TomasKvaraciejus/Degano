@@ -51,5 +51,17 @@ namespace Degano.SqliteDb
             var a = await Database.Table<Cards>().Where(i => i.Email == email).ToListAsync();
             return a;
         }
+
+        public async Task<Cards> GetCardAsync(string email, int id)
+        {
+            await Init();
+            return await Database.Table<Cards>().Where(i => i.Email == email && i.id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<int> DeleteCardAsync(string email, int id)
+        {
+            await Init();
+            return await Database.DeleteAsync(await GetCardAsync(email, id));
+        }
     }
 }

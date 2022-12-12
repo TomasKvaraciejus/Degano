@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Degano.Views.SettingsPage_Brands"
              Title="Settings">
-    <VerticalStackLayout>
-        <CollectionView x:Name="GasStationSelect">
+    <CollectionView x:Name="GasStationSelect" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="16,8,8,4">
@@ -15,5 +14,4 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-    </VerticalStackLayout>
 </ContentPage>

@@ -6,11 +6,12 @@ namespace Degano.Views
     {
         SettingsPage_Brands settingsPageBrands;
         SettingsPage_MyAccount settingsPageMyAccount;
+        CardPage CardPage;
 
         UserResult userResult;
         
         SqliteDatabase database;
-        public SettingsPage(SqliteDatabase db, UserResult _userResult, SettingsPage_Brands _settingsPageBrands, SettingsPage_MyAccount _settingsPageMyAccount)
+        public SettingsPage(SqliteDatabase db, UserResult _userResult, SettingsPage_Brands _settingsPageBrands, SettingsPage_MyAccount _settingsPageMyAccount, CardPage cardPage)
         {
             InitializeComponent();
             database = db;
@@ -18,6 +19,7 @@ namespace Degano.Views
             settingsPageBrands = _settingsPageBrands;
             settingsPageMyAccount = _settingsPageMyAccount;
             DistanceSlider.Value = GasStation.distMax;
+            CardPage = cardPage;
         }
 
         private void OnDistanceChange(object sender, EventArgs e)
@@ -36,23 +38,16 @@ namespace Degano.Views
             await Navigation.PushAsync(settingsPageBrands); 
         }
 
-        private async void OnAddCard(object sender, EventArgs e)
+        private async void OnManageCards(object sender, EventArgs e)
         {
-            Cards card = new Cards();
-            card.CardName = "viada";
-            card.Discount = 10;
-            card.Email = UserInfo.EMail;
-            userResult.Email = UserInfo.EMail;
-            userResult.Password = UserInfo.Password;
-            var c = await database.InsertCardAsync(card);
-        }
-
-        private async void OnShowCards(object sender, EventArgs e)
-        {
-            var cards = await database.GetCardsAsync(UserInfo.EMail);
-            foreach (var card in cards)
+            if (!string.IsNullOrEmpty(UserInfo.EMail))
             {
-                await DisplayAlert("Card", $"Gas station - {card.CardName}\nDiscount - {card.Discount}%", "OK");
+                CardPage.LoadCards();
+                await Navigation.PushAsync(CardPage);
+            }
+            else
+            {
+                await DisplayAlert("Error", "You must be logged in to manage your cards", "OK");
             }
         }
 
