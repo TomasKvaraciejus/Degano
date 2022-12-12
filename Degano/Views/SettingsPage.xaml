@@ -28,19 +28,27 @@
             Text="Filter by brand"
             Clicked="OnFilterBrands"/>
 
-        <Slider
-            x:Name="DistanceSlider"
-            DragCompleted="OnDistanceChange"
-            Minimum="0.5"
-            Maximum="15"/>
-
-        <Grid>
-            <Label Text="0.5km" HorizontalOptions="Start" />
-            <Label Text="{Binding Source = {Reference DistanceSlider}, Path = Value, StringFormat='Range to search: {0:F1}km'}" HorizontalOptions="Center"/>
-            <Label Text="15km" HorizontalOptions="End"/>
+        <Grid
+            RowDefinitions="20,20"
+            Padding="10,10,10,10">
+            <Slider
+                x:Name="DistanceSlider"
+                Grid.Row="0"
+                DragCompleted="OnDistanceChange"
+                Minimum="0.5"
+                Maximum="15"/>
+            <Label Text="0.5km" Grid.Row="2" HorizontalOptions="Start" />
+            <Label Text="{Binding Source = {Reference DistanceSlider}, Path = Value, StringFormat='Range to search: {0:F1}km'}" Grid.Row="2" HorizontalOptions="Center"/>
+            <Label Text="15km" Grid.Row="2" HorizontalOptions="End"/>
         </Grid>
 
-        <VerticalStackLayout>
+        <VerticalStackLayout
+            Padding="10,10,0,10">
+            <Label
+                Text="Select fuel type:"
+                FontAttributes="Bold"
+                Padding="6,0,0,10"/>
+
             <RadioButton 
                 GroupName="FuelType"
                 Content="95"
