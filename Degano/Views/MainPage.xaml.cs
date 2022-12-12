@@ -113,7 +113,8 @@ namespace Degano.Views
                     g = new Lazy<GasStation>(() => new GasStation(item.Value.name, item.Value.address, new Location(lat, lng), 
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
 
-                    g.Value.GetDistanceToUser();
+                    //g.Value.GetDistanceToUser();
+                    g.Value.GetDrivingDistanceToUser();
                     GasStation.gasStationList.Add(g.Value);
                 }
 

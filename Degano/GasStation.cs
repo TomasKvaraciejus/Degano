@@ -1,4 +1,6 @@
-﻿namespace Degano
+﻿using System.Net.Http.Json;
+
+namespace Degano
 {
     public class GasStation : 
 #if ANDROID
@@ -20,7 +22,11 @@
         public static double preferredPriceMax = -1;
         public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
         private const double wDist = 0.4;
-        private const double wPrice = 0.6;      
+        private const double wPrice = 0.6;
+        private static HttpClient httpClient = new()
+        {
+            BaseAddress = new Uri("https://maps.googleapis.com/maps/api/distancematrix/json"),
+        };
         
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
@@ -36,6 +42,17 @@
         }
 
         public GasStation() { }
+
+        public async Task GetDrivingDistanceToUser()
+        {
+            string request = $"?origins={UserLocation.location.lat},{UserLocation.location.lng}" +
+                             $"&destinations={location.lat},{location.lng}&sensor=false" +
+                             $"&key=AIzaSyBbkz9JBShE8JYmYFoU2XG-jqIigrR4jyg";
+            HttpResponseMessage response = await httpClient.GetAsync(request);
+            GoogleMapResponse r = await response.Content.ReadFromJsonAsync<GoogleMapResponse>();
+
+            distance = r.Rows[0].Elements[0].Distance.Value/1000.0;
+        }
 
         public void GetDistanceToUser() // Should probably be moved to Location
         {
@@ -104,7 +121,7 @@
             if (_gasStation == null)
                 return 1;
             else
-                return this.distance.CompareTo(_gasStation.distance);
+                return this.distance.CompareTo(-3);
         }
 
         public static int CompareDistance(GasStation g1, GasStation g2)

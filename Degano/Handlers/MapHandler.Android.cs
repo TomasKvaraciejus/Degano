@@ -332,7 +332,8 @@ namespace Degano.Handlers
                 viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_distance);
-            gasStation.GetDistanceToUser();
+            //gasStation.GetDistanceToUser();
+            gasStation.GetDrivingDistanceToUser();
             if (gasStation.distance != -1)
             {
                 string dist;
