@@ -11,16 +11,6 @@
         RowDefinitions="0.12*,48,10*,*,0.45*" 
         Grid.ColumnDefinitions="*, 220,*"
         RowSpacing="0">
-		
-        <Entry 
-            x:Name="NavigationBar" 
-            HeightRequest="40"
-            WidthRequest="225" 
-            Grid.Row="1" 
-            Grid.Column="1"
-            BackgroundColor="White"
-            VerticalTextAlignment="Center" 
-            Placeholder="Search here" />
 
         <ImageButton 
             x:Name="Settings" 

@@ -1,4 +1,6 @@
-﻿namespace Degano
+﻿using System.Net.Http.Json;
+
+namespace Degano
 {
     public class GasStation : 
 #if ANDROID
@@ -20,7 +22,11 @@
         public static double preferredPriceMax = -1;
         public static double distMax = 2; // maximum distance to search for gas stations (probably user-defined)
         private const double wDist = 0.4;
-        private const double wPrice = 0.6;      
+        private const double wPrice = 0.6;
+        private static HttpClient httpClient = new()
+        {
+            BaseAddress = new Uri("https://maps.googleapis.com/maps/api/distancematrix/json"),
+        };
         
         public GasStation(string _name, string _address, Location _location, double _price95, double _price98, double _priceDiesel, double _priceLPG, string _brand)
         {
@@ -36,6 +42,52 @@
         }
 
         public GasStation() { }
+
+        public static async Task UpdateAllDistances()
+        {
+            List<GasStation> currentGasStations = new List<GasStation>();
+            foreach(GasStation g in enabledGasStationList)
+            {
+                currentGasStations.Add(g);
+                if (currentGasStations.Count == 25)
+                {
+                    await GetDrivingDistanceToUser(currentGasStations);
+                }
+            }
+            await GetDrivingDistanceToUser(currentGasStations);
+        }
+
+        private static async Task GetDrivingDistanceToUser(List<GasStation> currentGasStations)
+        {
+            string coords = String.Join("|", currentGasStations.Select(g => g.location.lat.ToString() + ',' + g.location.lng.ToString()).ToArray());
+
+            string request = $"?origins={UserLocation.location.lat},{UserLocation.location.lng}" +
+                     $"&destinations={coords}&sensor=false" +
+                     $"&key=AIzaSyBbkz9JBShE8JYmYFoU2XG-jqIigrR4jyg";
+            HttpResponseMessage response = await httpClient.GetAsync(request);
+            GoogleMapResponse r = await response.Content.ReadFromJsonAsync<GoogleMapResponse>();
+
+            int i = 0;
+            foreach (GasStation _g in currentGasStations)
+            {
+                _g.distance = r.Rows[0].Elements[i].Distance.Value / 1000.0;
+                ++i;
+            }
+
+            if(currentGasStations.Count != 0)
+                currentGasStations.Clear();
+        }
+
+        public async Task GetDrivingDistanceToUser()
+        {
+            string request = $"?origins={UserLocation.location.lat},{UserLocation.location.lng}" +
+                             $"&destinations={location.lat},{location.lng}&sensor=false" +
+                             $"&key=AIzaSyBbkz9JBShE8JYmYFoU2XG-jqIigrR4jyg";
+            HttpResponseMessage response = await httpClient.GetAsync(request);
+            GoogleMapResponse r = await response.Content.ReadFromJsonAsync<GoogleMapResponse>();
+
+            distance = r.Rows[0].Elements[0].Distance.Value/1000.0;
+        }
 
         public void GetDistanceToUser() // Should probably be moved to Location
         {
@@ -68,7 +120,9 @@
             if (enabledGasStationList.Count == 0)
                 throw new Exception("gasStationList empty");
             // we need to keep track of user's distance to all GasStations and update it regularly, so this function should also be invoked in other functions
-            enabledGasStationList.ForEach(g => g.GetDistanceToUser());
+            //enabledGasStationList.ForEach(g => g.GetDistanceToUser());
+
+            //enabledGasStationList.ForEach(g => g.GetDrivingDistanceToUser());
             // finds GasStation with highest appealCoef within specified distance
             var g = enabledGasStationList.Where(g => g.distance < distMax).ToList();
             if (g.Count == 0)

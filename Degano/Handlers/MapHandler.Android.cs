@@ -19,7 +19,7 @@ namespace Degano.Handlers
 {
     public partial class MapHandler : ViewHandler<IMap, MapView>
     {
-        private static SortedDictionary<GasStation, Marker> gasStationMap = new SortedDictionary<GasStation, Marker>();
+        private static Dictionary<GasStation, Marker> gasStationMap = new Dictionary<GasStation, Marker>();
 
         MapView? _mapView;
         MapCallbackHandler? _mapReady;
@@ -332,7 +332,6 @@ namespace Degano.Handlers
                 viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_distance);
-            gasStation.GetDistanceToUser();
             if (gasStation.distance != -1)
             {
                 string dist;

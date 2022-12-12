@@ -114,6 +114,7 @@ namespace Degano.Views
                         petrol95Price, petrol98Price, dieselPrice, lpgPrice, item.Value.brand));
 
                     g.Value.GetDistanceToUser();
+                    //g.Value.GetDrivingDistanceToUser();
                     GasStation.gasStationList.Add(g.Value);
                 }
 
@@ -181,6 +182,7 @@ namespace Degano.Views
 		{
             try
             {
+                await GasStation.UpdateAllDistances();
                 await UserLocation.GetLastKnownLocation();
                 /*var brand = GasStation.gasStationList.GroupBy(g => g.type).Select(g => g.First()).ToList();
                 brand.ForEach(g => System.Diagnostics.Debug.WriteLine("aaa" + g.type));*/
