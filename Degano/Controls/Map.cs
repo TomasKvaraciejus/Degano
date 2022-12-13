@@ -1,5 +1,8 @@
-﻿namespace Degano.Controls
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Degano.Controls
 {
+    [ExcludeFromCodeCoverage]
     public partial class Map : View, IMap
     {
 

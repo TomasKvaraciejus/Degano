@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Degano.Views;
 
 namespace Degano
 {
+    [ExcludeFromCodeCoverage]
     public static class UserPermissions
     {
         private static PermissionStatus locationPermission;

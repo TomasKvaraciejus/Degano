@@ -1,7 +1,9 @@
 using Degano.SqliteDb;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views;
 
+[ExcludeFromCodeCoverage]
 public partial class AddCardPage : ContentPage
 {
 

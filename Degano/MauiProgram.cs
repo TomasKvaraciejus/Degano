@@ -1,9 +1,11 @@
 ﻿using Degano.Handlers;
 using Degano.SqliteDb;
+using System.Diagnostics.CodeAnalysis;
 using Map = Degano.Controls.Map;
 
 namespace Degano;
 
+[ExcludeFromCodeCoverage]
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()

@@ -1,5 +1,8 @@
-﻿namespace Degano
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Degano
 {
+    [ExcludeFromCodeCoverage]
     public class DatabaseEntry
     {
         public string address, brand, diesel, lpg, lat, lng, name, petrol95, petrol98;

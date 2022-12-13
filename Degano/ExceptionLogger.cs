@@ -2,9 +2,11 @@
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano
 {
+    [ExcludeFromCodeCoverage]
     public class Ex
     {
         public DateTime date { get; set; }
@@ -16,6 +18,8 @@ namespace Degano
             this.exMessage = exMessage;
         }
     }
+    
+    [ExcludeFromCodeCoverage]
     public static class ExceptionLogger
     {
         public static async void Log(string error)

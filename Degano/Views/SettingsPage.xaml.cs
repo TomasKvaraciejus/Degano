@@ -1,7 +1,9 @@
 using Degano.SqliteDb;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views
 {
+    [ExcludeFromCodeCoverage]
     public partial class SettingsPage : ContentPage
     {
         SettingsPage_Brands settingsPageBrands;

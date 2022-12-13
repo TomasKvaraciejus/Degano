@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano
 {
+    [ExcludeFromCodeCoverage]
     public class GoogleMapResponse
     {
         public string Status { get; set; }

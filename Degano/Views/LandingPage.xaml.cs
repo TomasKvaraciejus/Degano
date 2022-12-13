@@ -1,8 +1,10 @@
 using Degano.Views;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano
 {
-	public partial class LandingPage : ContentPage
+    [ExcludeFromCodeCoverage]
+    public partial class LandingPage : ContentPage
 	{
 		SignInPage signInPage;
 

@@ -99,6 +99,7 @@ namespace UnitTesting
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail"));
+            Assert.False(emailValidator.isValid);
         }
 
         [Fact]
@@ -106,6 +107,7 @@ namespace UnitTesting
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a"));
+            Assert.False(emailValidator.isValid);
         }
         
         [Fact]
@@ -113,6 +115,7 @@ namespace UnitTesting
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a.a.a"));
+            Assert.False(emailValidator.isValid);
         }
 
         [Fact]
@@ -120,6 +123,7 @@ namespace UnitTesting
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.com"));
+            Assert.True(emailValidator.isValid);
         }
         
         [Fact]
@@ -127,6 +131,7 @@ namespace UnitTesting
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.co.uk"));
+            Assert.True(emailValidator.isValid);
         }
 
         [Fact]
@@ -134,7 +139,8 @@ namespace UnitTesting
         {
             PasswordValidator passwordValidator = new PasswordValidator();
             passwordValidator.IsPasswordValid("a");
-            Assert.Equal("Password should contain at least 10 characters!", passwordValidator.ErrorMessage);    
+            Assert.Equal("Password should contain at least 10 characters!", passwordValidator.ErrorMessage);
+            Assert.False(passwordValidator.isValid);
         }
 
         [Fact]
@@ -143,6 +149,7 @@ namespace UnitTesting
             PasswordValidator passwordValidator = new PasswordValidator();
             passwordValidator.IsPasswordValid("a a  fasfasfasfasfasfasfasf");
             Assert.Equal("Password should not contain whitespaces!", passwordValidator.ErrorMessage);
+            Assert.False(passwordValidator.isValid);
         }
 
         [Fact]
@@ -151,6 +158,7 @@ namespace UnitTesting
             PasswordValidator passwordValidator = new PasswordValidator();
             passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa");
             Assert.Equal("Password should contain at least one digit!", passwordValidator.ErrorMessage);
+            Assert.False(passwordValidator.isValid);
         }
 
         [Fact]
@@ -158,6 +166,7 @@ namespace UnitTesting
         {
             PasswordValidator passwordValidator = new PasswordValidator();
             Assert.True(passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa123"));
+            Assert.True(passwordValidator.isValid);
         }
     }
 }

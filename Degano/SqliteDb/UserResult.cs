@@ -1,7 +1,9 @@
 ﻿using SQLite;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.SqliteDb
 {
+    [ExcludeFromCodeCoverage]
     [Table("User")]
     public class UserResult
     {
@@ -9,7 +11,8 @@ namespace Degano.SqliteDb
         public string Email { get; set; }
         public string Password { get; set; }
     }
-
+    
+    [ExcludeFromCodeCoverage]
     [Table("Card")]
     public class Cards
     {

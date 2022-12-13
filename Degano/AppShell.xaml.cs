@@ -1,8 +1,11 @@
-﻿namespace Degano;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Degano;
+
+[ExcludeFromCodeCoverage]
 public partial class AppShell : Shell
 {
-	public AppShell()
+    public AppShell()
 	{
 		InitializeComponent();
 	}

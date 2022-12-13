@@ -1,8 +1,10 @@
 using Degano.SqliteDb;
 using Microsoft.Maui.Controls;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views;
 
+[ExcludeFromCodeCoverage]
 public partial class CardPage : ContentPage
 {
     SqliteDatabase Database;

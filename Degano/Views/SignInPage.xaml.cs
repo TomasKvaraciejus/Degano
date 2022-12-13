@@ -1,8 +1,10 @@
 using Degano.Helpers;
 using Degano.SqliteDb;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views
 {
+    [ExcludeFromCodeCoverage]
     public partial class SignInPage : ContentPage
     {
         SqliteDatabase database;
