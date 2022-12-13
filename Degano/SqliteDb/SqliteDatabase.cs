@@ -3,13 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.SqliteDb
 {
+    [ExcludeFromCodeCoverage]
     public class SqliteDatabase
     {
         SQLiteAsyncConnection Database;
         public SqliteDatabase()
         {
         }
-        async Task Init()
+        public async Task Init()
         {
             if (Database is not null)
                 return;

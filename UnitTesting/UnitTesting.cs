@@ -1,5 +1,7 @@
 using Degano;
 using Degano.Helpers;
+using Degano.SqliteDb;
+using SQLite;
 
 namespace UnitTesting
 {
@@ -167,6 +169,13 @@ namespace UnitTesting
             PasswordValidator passwordValidator = new PasswordValidator();
             Assert.True(passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa123"));
             Assert.True(passwordValidator.isValid);
+        }
+
+        [Fact]
+        public void DatabaseCreation()
+        {
+            SqliteDatabase db = new SqliteDatabase();
+            Assert.NotNull(db);
         }
     }
 }
