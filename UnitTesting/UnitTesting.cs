@@ -98,7 +98,7 @@ namespace UnitTesting
         [InlineData("thisisnotvalidemail")]
         [InlineData("thisisnotvalidemail@a")]
         [InlineData("thisisnotvalidemail@a.a.a")]
-        public void RegexReturnsFalse1(string email)
+        public void RegexReturnsFalse(string email)
         {
             EmailValidator emailValidator = new EmailValidator();
             Assert.False(emailValidator.IsEmailValid(email));
