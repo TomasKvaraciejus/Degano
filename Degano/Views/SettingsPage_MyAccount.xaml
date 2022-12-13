@@ -6,9 +6,13 @@
     <VerticalStackLayout
         Padding="4"
         Spacing="4" >
-        
+
         <Label
-            x:Name="UserName" />
+            x:Name="UserName" 
+            Text="not signed in"
+            FontSize="18"
+            FontAttributes="Bold"
+            Padding="10"/>
 
         <Button
             x:Name="SignOutButton"
@@ -16,13 +20,8 @@
             Clicked="OnSignOutButton" />
         <Button
             x:Name="SignInButton"
-            Text="Sign In"
+            Text="Sign In / Sign up"
             Clicked="OnSignIn" />
 
-        <Button
-            x:Name="SignUpButton"
-            Text="Sign Up"
-            Clicked="OnSignUp" />
-        
     </VerticalStackLayout>
 </ContentPage>

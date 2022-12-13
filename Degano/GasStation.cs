@@ -57,7 +57,7 @@ namespace Degano
             foreach(GasStation g in enabledGasStationList)
             {
                 currentGasStations.Add(g);
-                if (currentGasStations.Count == 25)
+                if (currentGasStations.Count == 25) // The maximum number of destinations in a Google Matrix API request is 25
                 {
                     await GetDrivingDistanceToUser(currentGasStations);
                 }

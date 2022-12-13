@@ -10,6 +10,7 @@ public partial class CardPage : ContentPage
     public CardPage(SqliteDatabase database, AddCardPage addCardPage)
     {
         InitializeComponent();
+        addCardPage.refresh = LoadCards;
         Database = database;
         AddCardpage = addCardPage;
     }
