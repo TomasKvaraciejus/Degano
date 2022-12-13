@@ -20,6 +20,7 @@ namespace Degano.Views
             mainPage = this;
             UserLocation.LocationAvailableChanged += ToggleINeedGas;
             settingsPage = _settingsPage;
+            settingsPage.UpdateTraffic = UpdateTraffic;
         }
 
         protected override bool OnBackButtonPressed() { return true; }
@@ -52,6 +53,11 @@ namespace Degano.Views
             }
 
             await GetGasStationData();
+        }
+
+        private static void UpdateTraffic(bool b)
+        {
+            mainPageMap.IsTrafficEnabled = b;
         }
 
         public static async Task AddMarkersToMap()

@@ -11,17 +11,14 @@ public partial class SettingsPage_MyAccount : ContentPage
 	{
 		if(UserInfo.EMail == null)
 		{
-			UserName.IsVisible = false;
+			UserName.Text = "not signed in";
 			SignInButton.IsVisible = true;
-			SignUpButton.IsVisible = true;
             SignOutButton.IsVisible = false;
         }
 		else
 		{
-			UserName.IsVisible = true;
 			UserName.Text = UserInfo.EMail;
             SignInButton.IsVisible = false;
-            SignUpButton.IsVisible = false;
 			SignOutButton.IsVisible = true;
         }
 	}

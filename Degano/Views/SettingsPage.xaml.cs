@@ -7,6 +7,7 @@ namespace Degano.Views
         SettingsPage_Brands settingsPageBrands;
         SettingsPage_MyAccount settingsPageMyAccount;
         CardPage CardPage;
+        public Action<bool> UpdateTraffic;
 
         UserResult userResult;
         
@@ -55,6 +56,11 @@ namespace Degano.Views
             {
                 await DisplayAlert("Error", "You must be logged in to manage your cards", "OK");
             }
+        }
+
+        private async void OnTrafficChanged(object sender, CheckedChangedEventArgs e)
+        {
+            UpdateTraffic(e.Value);
         }
 
         protected override bool OnBackButtonPressed()

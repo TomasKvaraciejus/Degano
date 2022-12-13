@@ -6,6 +6,7 @@ public partial class AddCardPage : ContentPage
 {
 
     SqliteDatabase Database;
+    public Action refresh;
     public AddCardPage(SqliteDatabase databe)
 	{
 		InitializeComponent();
@@ -24,6 +25,7 @@ public partial class AddCardPage : ContentPage
         {
             KeyValuePair<String, bool> a = (KeyValuePair<String, bool>)GasStationSelect.SelectedItem;
             await Database.InsertCardAsync(new Cards { Email = UserInfo.EMail, CardName = a.Key, Discount = int.Parse(discount) });
+            refresh.Invoke();
             await Navigation.PopAsync();
         }
         else

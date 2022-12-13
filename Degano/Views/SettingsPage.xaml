@@ -66,5 +66,18 @@
                 CheckedChanged="OnFuelTypeChange"/>
         </VerticalStackLayout>
 
+        <Grid
+            ColumnDefinitions="50, *">
+            <Label
+                Text="Show traffic"
+                Padding="-8,6,0,0"
+                Grid.Column="1"/>
+
+            <CheckBox
+                x:Name="TrafficButton"
+                Grid.Column="0"
+                CheckedChanged="OnTrafficChanged"/>
+        </Grid>
+
     </VerticalStackLayout>
 </ContentPage>
