@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Degano.Views;
 
+[ExcludeFromCodeCoverage]
 public partial class SettingsPage_Brands : ContentPage
 {
 	public SettingsPage_Brands()

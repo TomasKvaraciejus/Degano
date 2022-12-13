@@ -3,9 +3,11 @@ using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
 using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views
 {
+    [ExcludeFromCodeCoverage]
     public partial class MainPage : ContentPage
     {
         private static Controls.Map mainPageMap;

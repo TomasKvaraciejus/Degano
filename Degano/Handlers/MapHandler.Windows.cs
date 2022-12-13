@@ -1,9 +1,11 @@
 ﻿using Microsoft.Maui.Handlers;
 using Microsoft.UI.Xaml;
+using System.Diagnostics.CodeAnalysis;
 using IMap = Degano.Controls.IMap;
 
 namespace Degano.Handlers
 {
+    [ExcludeFromCodeCoverage]
     public partial class MapHandler : ViewHandler<IMap, FrameworkElement>
     {
         protected override FrameworkElement CreatePlatformView() => throw new PlatformNotSupportedException();

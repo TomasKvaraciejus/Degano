@@ -1,5 +1,8 @@
-﻿namespace Degano.SqliteDb
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Degano.SqliteDb
 {
+    [ExcludeFromCodeCoverage]
     public static class Constants
     {
         public const string DatabaseFilename = "SQLite.db3";

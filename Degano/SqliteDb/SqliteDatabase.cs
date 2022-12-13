@@ -1,15 +1,14 @@
 ﻿using SQLite;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.SqliteDb
 {
     public class SqliteDatabase
     {
         SQLiteAsyncConnection Database;
-
         public SqliteDatabase()
         {
         }
-
         async Task Init()
         {
             if (Database is not null)
@@ -38,7 +37,7 @@ namespace Degano.SqliteDb
             await Init();
             return await Database.UpdateAsync(item);
         }
-
+        
         public async Task<int> InsertCardAsync(Cards item)
         {
             await Init();
