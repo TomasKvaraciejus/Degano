@@ -305,29 +305,29 @@ namespace Degano.Handlers
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price95);
             viewText.Text = "95:";
-            if (gasStation.price95 != -1)
-                viewText.Text += gasStation.price95.ToString("0.000").PadLeft(22 - viewText.Text.Length);
+            if (gasStation.fuelPrice["95"] != -1)
+                viewText.Text += gasStation.fuelPrice["95"].ToString("0.000").PadLeft(22 - viewText.Text.Length);
             else
                 viewText.Text += "-".PadLeft(26 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_price98);
             viewText.Text = "98:";
-            if (gasStation.price98 != -1)
-                viewText.Text += gasStation.price98.ToString("0.000").PadLeft(22 - viewText.Text.Length);
+            if (gasStation.fuelPrice["98"] != -1)
+                viewText.Text += gasStation.fuelPrice["98"].ToString("0.000").PadLeft(22 - viewText.Text.Length);
             else
                 viewText.Text += "-".PadLeft(26 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceDiesel);
             viewText.Text = "Diesel:";
-            if (gasStation.priceDiesel != -1)
-                viewText.Text += gasStation.priceDiesel.ToString("0.000").PadLeft(20 - viewText.Text.Length);
+            if (gasStation.fuelPrice["Diesel"] != -1)
+                viewText.Text += gasStation.fuelPrice["Diesel"].ToString("0.000").PadLeft(20 - viewText.Text.Length);
             else
                 viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 
             viewText = (TextView)view.FindViewById(Resource.Id.station_priceLPG);
             viewText.Text = "LPG:";
-            if (gasStation.priceLPG != -1)
-                viewText.Text += gasStation.priceLPG.ToString("0.000").PadLeft(20 - viewText.Text.Length);
+            if (gasStation.fuelPrice["LPG"] != -1)
+                viewText.Text += gasStation.fuelPrice["LPG"].ToString("0.000").PadLeft(20 - viewText.Text.Length);
             else
                 viewText.Text += "-".PadLeft(24 - viewText.Text.Length);
 

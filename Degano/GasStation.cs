@@ -11,11 +11,19 @@ namespace Degano
         public static List<GasStation> gasStationList = new List<GasStation>();
         public static List<GasStation> enabledGasStationList = new List<GasStation>();
         public static SortedDictionary<string, bool> selectedGasStations = new SortedDictionary<string, bool>();
+        public static string selectedType = "95";
 
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
         public Location location;
-        public double price95, price98, priceDiesel, priceLPG, distance;
+        public SortedDictionary<string, double> fuelPrice = new SortedDictionary<string, double>()
+        {
+            { "95", -1 },
+            { "98", -1 },
+            { "Diesel", -1 },
+            { "LPG", -1 }
+        };
+        public double distance;
         private const int R = 6371; // radius of the earth
         private const double _r = 0.01745329251; // used for converting coordinates to rad
         public static double preferredPriceMin = -1;
@@ -34,10 +42,10 @@ namespace Degano
             address = _address;
             location = _location;
             distance = -1;
-            price95 = _price95;
-            price98 = _price98;
-            priceDiesel = _priceDiesel;
-            priceLPG = _priceLPG;
+            fuelPrice["95"] = _price95;
+            fuelPrice["98"] = _price98;
+            fuelPrice["Diesel"] = _priceDiesel;
+            fuelPrice["LPG"] = _priceLPG;
             type = _brand;
         }
 
@@ -115,6 +123,7 @@ namespace Degano
 
             distance = c * R;
         }
+
         public static async Task<GasStation> FindGasStation()
         {
             if (enabledGasStationList.Count == 0)
@@ -127,8 +136,10 @@ namespace Degano
             var g = enabledGasStationList.Where(g => g.distance < distMax).ToList();
             if (g.Count == 0)
                 throw new Exception("no GasStations under max range");
-            preferredPriceMax = g.Max(g1 => g1.price95);
-            preferredPriceMax = g.Max(g2 => g2.price95);
+
+            preferredPriceMax = g.Max(g1 => g1.fuelPrice[selectedType]);
+            preferredPriceMin = g.Min(g2 => g2.fuelPrice[selectedType]);
+
             return g.Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1);
         }
 
@@ -146,7 +157,7 @@ namespace Degano
                 throw new Exception("GasStation distance undefined");
             }
 
-            double price = ((preferredPriceMax - price95) / (preferredPriceMax - preferredPriceMin)) + 0.5;
+            double price = ((preferredPriceMax - fuelPrice[selectedType]) / (preferredPriceMax - preferredPriceMin)) + 0.5;
             double dist = (distMax - distance) / distMax;
             return ((price * price * wPrice) + (dist * wDist));
         }
@@ -161,14 +172,6 @@ namespace Degano
                 return this.distance.CompareTo(_gasStation.distance);
         }
 
-        public static int CompareDistance(GasStation g1, GasStation g2)
-        {
-            return g1.distance.CompareTo(g2.distance);
-        }
-        public static int ComparePrice95(GasStation g1, GasStation g2)
-        {
-            return g1.price95.CompareTo(g2.price95);
-        }
         public static int CompareAppeal(GasStation g1, GasStation g2)
         {
             return g2.appealCoef.CompareTo(g1.appealCoef);

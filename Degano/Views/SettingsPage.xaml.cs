@@ -27,6 +27,12 @@ namespace Degano.Views
             GasStation.distMax = DistanceSlider.Value;
         }
 
+        private void OnFuelTypeChange(object sender, EventArgs e)
+        {
+            RadioButton s = (RadioButton)sender;
+            GasStation.selectedType = s.Content.ToString();
+        }
+
         private async void OnMyAccount(object sender, EventArgs e)
         {
             settingsPageMyAccount.OnPageEntry();
