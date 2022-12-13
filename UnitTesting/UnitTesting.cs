@@ -9,6 +9,7 @@ namespace UnitTesting
         public async void GasStationListEmpty()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location();
             await Assert.ThrowsAsync<Exception>(() => GasStation.FindGasStation());
         }
@@ -16,9 +17,13 @@ namespace UnitTesting
         [Fact]
         public async void NoGasStationsInRange()
         {
-            GasStation.gasStationList = new List<GasStation>();
-            UserLocation.location = new Location();
-            GasStation.gasStationList.Add(new GasStation("a", "a", new Location(54, 27), 0, 0, 0, 0, "a"));
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
+            UserLocation.location = new Location(0, 0);
+            GasStation g = new GasStation("a", "a", new Location(54, 27), 0, 0, 0, 0, "a");
+            g.GetDistanceToUser();
+            GasStation.enabledGasStationList.Add(g);
+
             await Assert.ThrowsAsync<Exception>(() => GasStation.FindGasStation());
         }
 
@@ -26,6 +31,7 @@ namespace UnitTesting
         public void UserLocationNotDefined()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location();
             GasStation g = new GasStation("a", "a", new Location(54, 27), 0, 0, 0, 0, "a");
             Assert.Throws<Exception>(() => g.GetDistanceToUser());
@@ -35,6 +41,7 @@ namespace UnitTesting
         public void GasStationLocationNotDefined()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location();
             GasStation g = new GasStation("a", "a", new Location(54, 27), 0, 0, 0, 0, "a");
             Assert.Throws<Exception>(() => g.GetDistanceToUser());
@@ -44,6 +51,7 @@ namespace UnitTesting
         public void GasStationAppealComparisonUndefinedRange()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location();
             GasStation g = new GasStation("a", "a", new Location(0, 0), 1.5, 0, 0, 0, "a");
             GasStation.gasStationList.Add(g);
@@ -56,6 +64,7 @@ namespace UnitTesting
         public void GasStationAppealComparisonDistance()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location(0, 0);
             GasStation g1 = new GasStation("a", "a", new Location(0.01, 0.01), 1.5, 0, 0, 0, "a");
             GasStation g2 = new GasStation("b", "b", new Location(0, 0), 1.5, 0, 0, 0, "b");
@@ -71,6 +80,7 @@ namespace UnitTesting
         public void GasStationAppealComparisonPrice95()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location(0, 0);
             GasStation g1 = new GasStation("a", "a", new Location(0, 0), 1.4, 0, 0, 0, "a");
             GasStation g2 = new GasStation("b", "b", new Location(0, 0), 1.5, 0, 0, 0, "b");
@@ -86,6 +96,7 @@ namespace UnitTesting
         public void GasStationAppealComparisonDistanceUndefined()
         {
             GasStation.gasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
             UserLocation.location = new Location(0, 0);
             GasStation g1 = new GasStation("a", "a", new Location(0, 0), 1.4, 0, 0, 0, "a");
             GasStation g2 = new GasStation("b", "b", new Location(0, 0), 1.5, 0, 0, 0, "b");
@@ -93,6 +104,95 @@ namespace UnitTesting
             GasStation.gasStationList.Add(g2);
             Assert.Throws<Exception>(() => g2.appealCoef < g1.appealCoef);
         }
+
+        [Fact]
+        public async void GasStationUpdateAllUserLocationInvalid()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation g = new GasStation("a", "a", new Location(0, 0), 1.4, 0, 0, 0, "a");
+            GasStation.enabledGasStationList.Add(g);
+            GasStation.selectedType = "95";
+            UserLocation.location = new Location(-1, -1);
+            await Assert.ThrowsAsync<Exception>(() => GasStation.UpdateAllDistances());
+        }
+
+        [Fact]
+        public async void GasStationUpdateAllGasStationLocationInvalid()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
+            UserLocation.location = new Location(-1, -1);
+            GasStation g1 = new GasStation("a", "a", new Location(0, 0), 1.4, 0, 0, 0, "a");
+            GasStation g2 = new GasStation("b", "b", new Location(-1, -1), 1.5, 0, 0, 0, "b");
+            GasStation.enabledGasStationList.Add(g1);
+            GasStation.enabledGasStationList.Add(g2);
+            await Assert.ThrowsAsync<Exception>(() => GasStation.UpdateAllDistances());
+        }
+
+        [Fact]
+        public async void GasStationUpdateAllInvokesAll()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "95";
+            UserLocation.location = new Location(54.27, 27.54);
+            GasStation g1 = new GasStation("a", "a", new Location(54, 27), 1.4, 0, 0, 0, "a");
+            GasStation g2 = new GasStation("b", "b", new Location(54, 27), 1.5, 0, 0, 0, "b");
+            GasStation.enabledGasStationList.Add(g1);
+            GasStation.enabledGasStationList.Add(g2);
+            g1.GetDistanceToUser();
+            g2.GetDistanceToUser();
+            var g1Dist = g1.distance;
+            var g2Dist = g2.distance;
+            await GasStation.UpdateAllDistances();
+            Assert.True(g1Dist != g1.distance && g2Dist != g2.distance);
+        }
+
+        [Fact]
+        public async void GasStationAppealConsidersFuelType()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "98";
+            UserLocation.location = new Location(54, 27);
+            GasStation g1 = new GasStation("a", "a", new Location(54, 27), 1.4, 1.5, 0, 0, "a");
+            GasStation g2 = new GasStation("b", "b", new Location(54, 27), 1.5, 1.4, 0, 0, "b");
+            GasStation.enabledGasStationList.Add(g1);
+            GasStation.enabledGasStationList.Add(g2);
+            g1.GetDistanceToUser();
+            g2.GetDistanceToUser();
+            Assert.True(await GasStation.FindGasStation() == g2);
+        }
+
+        [Fact]
+        public async void GasStationAppealConsidersFuelType2()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "Diesel";
+            UserLocation.location = new Location(54, 27);
+            GasStation g1 = new GasStation("a", "a", new Location(54, 27), 1.4, 0, 1.5, 0, "a");
+            GasStation g2 = new GasStation("b", "b", new Location(54, 27), 1.5, 0, 1.4, 0, "b");
+            GasStation.enabledGasStationList.Add(g1);
+            GasStation.enabledGasStationList.Add(g2);
+            g1.GetDistanceToUser();
+            g2.GetDistanceToUser();
+            Assert.True(await GasStation.FindGasStation() == g2);
+        }
+
+        [Fact]
+        public async void GasStationAppealConsidersFuelType3()
+        {
+            GasStation.enabledGasStationList = new List<GasStation>();
+            GasStation.selectedType = "LPG";
+            UserLocation.location = new Location(54, 27);
+            GasStation g1 = new GasStation("a", "a", new Location(54, 27), 1.4, 0, 0, 1.5, "a");
+            GasStation g2 = new GasStation("b", "b", new Location(54, 27), 1.5, 0, 0, 1.4, "b");
+            GasStation.enabledGasStationList.Add(g1);
+            GasStation.enabledGasStationList.Add(g2);
+            g1.GetDistanceToUser();
+            g2.GetDistanceToUser();
+            Assert.True(await GasStation.FindGasStation() == g2);
+        }
+
+
 
         [Fact]
         public void RegexReturnsFalse1()

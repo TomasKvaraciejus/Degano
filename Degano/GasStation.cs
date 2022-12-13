@@ -62,12 +62,18 @@ namespace Degano
                     await GetDrivingDistanceToUser(currentGasStations);
                 }
             }
-            await GetDrivingDistanceToUser(currentGasStations);
+            if(currentGasStations.Count != 0)
+                await GetDrivingDistanceToUser(currentGasStations);
         }
 
         private static async Task GetDrivingDistanceToUser(List<GasStation> currentGasStations)
         {
+            if (UserLocation.location.lat == -1 || UserLocation.location.lng == -1)
+                throw new Exception("User location invalid"); 
+
             string coords = String.Join("|", currentGasStations.Select(g => g.location.lat.ToString() + ',' + g.location.lng.ToString()).ToArray());
+            if (coords.Contains("-1"))
+                throw new Exception("GasStation location invalid");
 
             string request = $"?origins={UserLocation.location.lat},{UserLocation.location.lng}" +
                      $"&destinations={coords}&sensor=false" +
