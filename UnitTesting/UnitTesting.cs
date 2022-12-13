@@ -94,63 +94,34 @@ namespace UnitTesting
             Assert.Throws<Exception>(() => g2.appealCoef < g1.appealCoef);
         }
 
-        [Fact]
-        public void RegexReturnsFalse1()
+        [Theory]
+        [InlineData("thisisnotvalidemail")]
+        [InlineData("thisisnotvalidemail@a")]
+        [InlineData("thisisnotvalidemail@a.a.a")]
+        public void RegexReturnsFalse(string email)
         {
             EmailValidator emailValidator = new EmailValidator();
-            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail"));
+            Assert.False(emailValidator.IsEmailValid(email));
         }
 
-        [Fact]
-        public void RegexReturnsFalse2()
+        [Theory]
+        [InlineData("thisisvalidemail@a.com")]
+        [InlineData("thisisvalidemail@a.co.uk")]
+        public void RegexReturnsTrue(string email)
         {
             EmailValidator emailValidator = new EmailValidator();
-            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a"));
-        }
-        
-        [Fact]
-        public void RegexReturnsFalse3()
-        {
-            EmailValidator emailValidator = new EmailValidator();
-            Assert.False(emailValidator.IsEmailValid("thisisnotvalidemail@a.a.a"));
+            Assert.True(emailValidator.IsEmailValid(email));
         }
 
-        [Fact]
-        public void RegexReturnsTrue1()
-        {
-            EmailValidator emailValidator = new EmailValidator();
-            Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.com"));
-        }
-        
-        [Fact]
-        public void RegexReturnsTrue2()
-        {
-            EmailValidator emailValidator = new EmailValidator();
-            Assert.True(emailValidator.IsEmailValid("thisisvalidemail@a.co.uk"));
-        }
-
-        [Fact]
-        public void PasswordReturnsMessage1()
+        [Theory]
+        [InlineData("a", "Password should contain at least 10 characters!")]
+        [InlineData("a a  fasfasfasfasfasfasfasf", "Password should not contain whitespaces!")]
+        [InlineData("aaaaaaaaaaaaaaaaaaaaaaaa", "Password should contain at least one digit!")]
+        public void PasswordReturnsMessage(string password, string errorMessage)
         {
             PasswordValidator passwordValidator = new PasswordValidator();
-            passwordValidator.IsPasswordValid("a");
-            Assert.Equal("Password should contain at least 10 characters!", passwordValidator.ErrorMessage);    
-        }
-
-        [Fact]
-        public void PasswordReturnsMessage2()
-        {
-            PasswordValidator passwordValidator = new PasswordValidator();
-            passwordValidator.IsPasswordValid("a a  fasfasfasfasfasfasfasf");
-            Assert.Equal("Password should not contain whitespaces!", passwordValidator.ErrorMessage);
-        }
-
-        [Fact]
-        public void PasswordReturnsMessage3()
-        {
-            PasswordValidator passwordValidator = new PasswordValidator();
-            passwordValidator.IsPasswordValid("aaaaaaaaaaaaaaaaaaaaaaaa");
-            Assert.Equal("Password should contain at least one digit!", passwordValidator.ErrorMessage);
+            passwordValidator.IsPasswordValid(password);
+            Assert.Equal(errorMessage, passwordValidator.ErrorMessage);
         }
 
         [Fact]
