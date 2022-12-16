@@ -9,7 +9,7 @@
         
         <Button
             x:Name="AddCardButton"
-            Text="Add card"
+            Text="Add/Edit card"
             Clicked="OnAddCard" />
 
         <Button
