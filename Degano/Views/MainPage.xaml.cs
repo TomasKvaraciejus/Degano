@@ -66,8 +66,7 @@ namespace Degano.Views
         {
             foreach (GasStation g in GasStation.enabledGasStationList)
             {
-                if (GasStation.selectedGasStations[g.type])
-                    mainPageMap.AddMarker(g);
+                mainPageMap.AddMarker(g);
             }
         }
 
@@ -145,8 +144,9 @@ namespace Degano.Views
             GasStation.enabledGasStationList.Clear();
             foreach(GasStation g in GasStation.gasStationList)
             {
-                if (GasStation.selectedGasStations[g.type] && g.fuelPrice[GasStation.selectedType] != -1)
+                if (GasStation.selectedGasStations[g.type] && g.fuelPriceBase[GasStation.selectedType] != -1)
                 {
+                    g.UpdatePrices();
                     GasStation.enabledGasStationList.Add(g);
                 }
             }

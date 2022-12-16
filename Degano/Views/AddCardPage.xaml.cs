@@ -25,8 +25,19 @@ public partial class AddCardPage : ContentPage
         var discount = await DisplayPromptAsync("Discount", "Enter the discount in ct/l", "OK", "Cancel", "0", 2, Keyboard.Numeric);
         if (!string.IsNullOrEmpty(discount))
         {
-            KeyValuePair<String, bool> a = (KeyValuePair<String, bool>)GasStationSelect.SelectedItem;
-            await Database.InsertCardAsync(new Cards { Email = UserInfo.EMail, CardName = a.Key, Discount = int.Parse(discount) });
+            string type = ((KeyValuePair<String, bool>)GasStationSelect.SelectedItem).Key;
+
+            Cards card = await Database.GetCardAsync(UserInfo.EMail, type);
+            if (card == null)
+            {
+                await Database.InsertCardAsync(new Cards { Email = UserInfo.EMail, CardName = type, Discount = int.Parse(discount) });
+            }
+            else
+            {
+                card.Discount = int.Parse(discount);
+                await Database.UpdateCardAsync(card);
+            }
+
             refresh.Invoke();
             await Navigation.PopAsync();
         }

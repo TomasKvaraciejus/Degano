@@ -13,9 +13,18 @@ namespace Degano
         public static SortedDictionary<string, bool> selectedGasStations = new SortedDictionary<string, bool>();
         public static string selectedType = "95";
 
+        public static SortedDictionary<string, double> discounts = new SortedDictionary<string, double>();
+
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
         public Location location;
+        public SortedDictionary<string, double> fuelPriceBase = new SortedDictionary<string, double>()
+        {
+            { "95", -1 },
+            { "98", -1 },
+            { "Diesel", -1 },
+            { "LPG", -1 }
+        };
         public SortedDictionary<string, double> fuelPrice = new SortedDictionary<string, double>()
         {
             { "95", -1 },
@@ -42,11 +51,13 @@ namespace Degano
             address = _address;
             location = _location;
             distance = -1;
-            fuelPrice["95"] = _price95;
-            fuelPrice["98"] = _price98;
-            fuelPrice["Diesel"] = _priceDiesel;
-            fuelPrice["LPG"] = _priceLPG;
+            fuelPriceBase["95"] = _price95;
+            fuelPriceBase["98"] = _price98;
+            fuelPriceBase["Diesel"] = _priceDiesel;
+            fuelPriceBase["LPG"] = _priceLPG;
             type = _brand;
+
+            UpdatePrices();
         }
 
         public GasStation() { }
@@ -90,6 +101,24 @@ namespace Degano
 
             if(currentGasStations.Count != 0)
                 currentGasStations.Clear();
+        }
+
+        public void UpdatePrices()
+        {
+            if(discounts.ContainsKey(type))
+            {
+                fuelPrice["95"] = fuelPriceBase["95"] - discounts[type];
+                fuelPrice["98"] = fuelPriceBase["98"] - discounts[type];
+                fuelPrice["LPG"] = fuelPriceBase["LPG"] - discounts[type];
+                fuelPrice["Diesel"] = fuelPriceBase["Diesel"] - discounts[type];
+            }
+            else
+            {
+                fuelPrice["95"] = fuelPriceBase["95"];
+                fuelPrice["98"] = fuelPriceBase["98"];
+                fuelPrice["LPG"] = fuelPriceBase["LPG"];
+                fuelPrice["Diesel"] = fuelPriceBase["Diesel"];
+            }
         }
 
         public async Task GetDrivingDistanceToUser()

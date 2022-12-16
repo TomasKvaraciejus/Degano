@@ -9,6 +9,9 @@ public partial class CardPage : ContentPage
 {
     SqliteDatabase Database;
     AddCardPage AddCardpage;
+
+    private SortedDictionary<string, TextCell> textCells = new SortedDictionary<string, TextCell>();
+
     public CardPage(SqliteDatabase database, AddCardPage addCardPage)
     {
         InitializeComponent();
@@ -28,28 +31,40 @@ public partial class CardPage : ContentPage
         }
         foreach (Cards card in cards)
         {
-            bool legit = true;
-            for (int i=0; i<classIds.Length; i++)
+            if (!textCells.ContainsKey(card.CardName))
             {
-                if (classIds[i] == card.id)
+                bool legit = true;
+                for (int i = 0; i < classIds.Length; i++)
                 {
-                    legit = false;
+                    if (classIds[i] == card.id)
+                    {
+                        legit = false;
+                    }
+                }
+                if (legit)
+                {
+                    var textCell = new TextCell { Text = card.CardName, Detail = card.Discount.ToString() + " ct/l (all types)", ClassId = card.id.ToString() };
+                    textCell.Tapped += async (object? sender, EventArgs e) =>
+                    {
+                        bool delete = await DisplayAlert("Alert", "Do you want to delete this card?", "YES", "NO");
+                        if (delete)
+                        {
+                            await Database.DeleteCardAsync(UserInfo.EMail, card.CardName);
+                            GasStation.discounts.Remove(card.CardName);
+                            textCells.Remove(card.CardName);
+                            CardsItem.Remove(textCell);
+                        }
+                    };
+                    GasStation.discounts.Add(card.CardName, card.Discount / 100.0);
+                    textCells.Add(card.CardName, textCell);
+                    CardsItem.Add(textCell);
+                    LoadCards();
                 }
             }
-            if (legit)
+            else
             {
-                var textCell = new TextCell { Text = card.CardName, Detail = card.Discount.ToString() + " ct/l", ClassId = card.id.ToString() };
-                textCell.Tapped += async (object? sender, EventArgs e) =>
-                {
-                    bool delete = await DisplayAlert("Alert", "Do you want to delete this card?", "YES", "NO");
-                    if (delete)
-                    {
-                        await Database.DeleteCardAsync(UserInfo.EMail, int.Parse((sender as TextCell).ClassId));
-                        CardsItem.Remove(textCell);
-                    }
-                };
-                CardsItem.Add(textCell);
-                LoadCards();
+                GasStation.discounts[card.CardName] = card.Discount / 100.0;
+                textCells[card.CardName].Detail = card.Discount.ToString() + " ct/l (all types)";
             }
         }
     }
