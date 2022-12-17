@@ -57,7 +57,7 @@ public partial class AddCardPage : ContentPage
             { "LPG", -1 }
         };
 
-        string fuelType = await DisplayActionSheet("Select discounted fuel type(s): ", "Cancel", null, "All", "95", "98", "LPG", "Diesel");
+        string fuelType = await DisplayActionSheet("Select discounted fuel type(s): ", "Cancel", null, "All", "95", "98", "Diesel", "LPG");
 
         if (fuelType != null)
         {
@@ -110,8 +110,8 @@ public partial class AddCardPage : ContentPage
     {
         if (discounts["95"] != -1)  card.Discount95 = (int)discounts["95"];
         if (discounts["98"] != -1)  card.Discount98 = (int)discounts["98"];
+        if (discounts["Diesel"] != -1) card.DiscountDiesel = (int)discounts["Diesel"];
         if (discounts["LPG"] != -1) card.DiscountLPG = (int)discounts["LPG"];
-        if (discounts["Diesel"] != -1)  card.DiscountDiesel = (int)discounts["Diesel"];
 
         return card;
     }
