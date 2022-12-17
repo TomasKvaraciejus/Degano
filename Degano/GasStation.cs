@@ -13,16 +13,13 @@ namespace Degano
         public static SortedDictionary<string, bool> selectedGasStations = new SortedDictionary<string, bool>();
         public static string selectedType = "95";
 
+        public static SortedDictionary<string, FuelType> discounts = new SortedDictionary<string, FuelType>();
+
         public string name, address, type; // type variable denotes gas station company (e.g. "Viada", "Circle-K"), whereas name can store entire name of gas station (i.e. "Viada pilaite")
         public double appealCoef { get { return GetAppeal(); } }
         public Location location;
-        public SortedDictionary<string, double> fuelPrice = new SortedDictionary<string, double>()
-        {
-            { "95", -1 },
-            { "98", -1 },
-            { "Diesel", -1 },
-            { "LPG", -1 }
-        };
+        public FuelType fuelPriceBase = new FuelType();
+        public FuelType fuelPrice = new FuelType();
         public double distance;
         private const int R = 6371; // radius of the earth
         private const double _r = 0.01745329251; // used for converting coordinates to rad
@@ -42,11 +39,13 @@ namespace Degano
             address = _address;
             location = _location;
             distance = -1;
-            fuelPrice["95"] = _price95;
-            fuelPrice["98"] = _price98;
-            fuelPrice["Diesel"] = _priceDiesel;
-            fuelPrice["LPG"] = _priceLPG;
+            fuelPriceBase.value["95"] = _price95;
+            fuelPriceBase.value["98"] = _price98;
+            fuelPriceBase.value["Diesel"] = _priceDiesel;
+            fuelPriceBase.value["LPG"] = _priceLPG;
             type = _brand;
+
+            UpdatePrices();
         }
 
         public GasStation() { }
@@ -90,6 +89,24 @@ namespace Degano
 
             if(currentGasStations.Count != 0)
                 currentGasStations.Clear();
+        }
+
+        public void UpdatePrices()
+        {
+            if(discounts.ContainsKey(type))
+            {
+                fuelPrice.value["95"] = fuelPriceBase.value["95"] - discounts[type].value["95"];
+                fuelPrice.value["98"] = fuelPriceBase.value["98"] - discounts[type].value["98"];
+                fuelPrice.value["LPG"] = fuelPriceBase.value["LPG"] - discounts[type].value["LPG"];
+                fuelPrice.value["Diesel"] = fuelPriceBase.value["Diesel"] - discounts[type].value["Diesel"];
+            }
+            else
+            {
+                fuelPrice.value["95"] = fuelPriceBase.value["95"];
+                fuelPrice.value["98"] = fuelPriceBase.value["98"];
+                fuelPrice.value["LPG"] = fuelPriceBase.value["LPG"];
+                fuelPrice.value["Diesel"] = fuelPriceBase.value["Diesel"];
+            }
         }
 
         public async Task GetDrivingDistanceToUser()
@@ -143,8 +160,8 @@ namespace Degano
             if (g.Count == 0)
                 throw new Exception("no GasStations under max range");
 
-            preferredPriceMax = g.Max(g1 => g1.fuelPrice[selectedType]);
-            preferredPriceMin = g.Min(g2 => g2.fuelPrice[selectedType]);
+            preferredPriceMax = g.Max(g1 => g1.fuelPrice.value[selectedType]);
+            preferredPriceMin = g.Min(g2 => g2.fuelPrice.value[selectedType]);
 
             return g.Aggregate((g1, g2) => g1.appealCoef < g2.appealCoef ? g2 : g1);
         }
@@ -163,7 +180,7 @@ namespace Degano
                 throw new Exception("GasStation distance undefined");
             }
 
-            double price = ((preferredPriceMax - fuelPrice[selectedType]) / (preferredPriceMax - preferredPriceMin)) + 0.5;
+            double price = ((preferredPriceMax - fuelPrice.value[selectedType]) / (preferredPriceMax - preferredPriceMin)) + 0.5;
             double dist = (distMax - distance) / distMax;
             return ((price * price * wPrice) + (dist * wDist));
         }
@@ -181,6 +198,24 @@ namespace Degano
         public static int CompareAppeal(GasStation g1, GasStation g2)
         {
             return g2.appealCoef.CompareTo(g1.appealCoef);
+        }
+    }
+
+    public class FuelType
+    {
+        public SortedDictionary<string, double> value = new SortedDictionary<string, double>()
+        {
+            { "95", -1 },
+            { "98", -1 },
+            { "Diesel", -1 },
+            { "LPG", -1 }
+        };
+
+        public FuelType() { }
+
+        public FuelType(SortedDictionary<string, double> _value)
+        {
+            value = _value;
         }
     }
 }

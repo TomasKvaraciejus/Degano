@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Degano.Views.AddCardPage"
-             Title="Add card">
+             Title="Add/Edit card">
     <Grid Margin="20,35,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="9*" />
@@ -18,6 +18,6 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Text="Add" Clicked="AddCard" Grid.Row="1"/>
+        <Button Text="Add/Edit" Clicked="AddCard" Grid.Row="1"/>
     </Grid>
 </ContentPage>
