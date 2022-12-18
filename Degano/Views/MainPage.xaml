@@ -54,6 +54,7 @@
             Grid.ColumnSpan="3" 
             BackgroundColor="#FF4500" 
             Text="⚠️ I Need Gas! ⚠" 
+            FontAttributes="Bold"
             WidthRequest="300" 
             HeightRequest="50">
         </Button>

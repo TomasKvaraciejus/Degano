@@ -1,4 +1,6 @@
 ﻿using Android.App;
+using Android.Content;
+using Android.OS;
 using Android.Runtime;
 
 namespace Degano;
@@ -11,5 +13,13 @@ public class MainApplication : MauiApplication
 	{
 	}
 
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    public override void StartActivity(Intent intent)
+    {
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+            intent.RemoveFlags(ActivityFlags.LaunchAdjacent);
+
+        base.StartActivity(intent);
+    }
+
+    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
