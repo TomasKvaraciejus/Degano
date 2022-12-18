@@ -1,4 +1,6 @@
 using Degano.SqliteDb;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Degano.Views
@@ -10,6 +12,8 @@ namespace Degano.Views
         SettingsPage_MyAccount settingsPageMyAccount;
         CardPage CardPage;
         public Action<bool> UpdateTraffic;
+
+        private static ObservableCollection<KeyValuePair<string, bool>> shownBrands = new ObservableCollection<KeyValuePair<string, bool>>();
 
         UserResult userResult;
         
@@ -23,6 +27,9 @@ namespace Degano.Views
             settingsPageMyAccount = _settingsPageMyAccount;
             DistanceSlider.Value = GasStation.distMax;
             CardPage = cardPage;
+            GasStationSelect.ItemsSource = GasStation.selectedGasStations;
+
+            ResetTappableLists();
         }
 
         private void OnDistanceChange(object sender, EventArgs e)
@@ -65,9 +72,71 @@ namespace Degano.Views
             UpdateTraffic(e.Value);
         }
 
+        private async void OnFilterByBrandsTapped(object sender, EventArgs e)
+        {
+            if(ToggleFilterByBrands.Text == "Open filter by brands")
+            {
+                ToggleFilterByBrands.Text = "Close filter by brands";
+                GasStationSelect.IsVisible = true;
+            }
+            else
+            {
+                ToggleFilterByBrands.Text = "Open filter by brands";
+                GasStationSelect.IsVisible = false;
+            }
+        }
+
+        private async void OnToggleDistanceSliderTapped(object sender, EventArgs e)
+        {
+            if (ToggleDistanceSlider.Text == "Open search range")
+            {
+                ToggleDistanceSlider.Text = "Close search range";
+                SearchRangeSelect.IsVisible = true;
+            }
+            else
+            {
+                ToggleDistanceSlider.Text = "Open search range";
+                SearchRangeSelect.IsVisible = false;
+            }
+        }
+
+        private async void OnToggleFuelTypeTapped(object sender, EventArgs e)
+        {
+            if (ToggleFuelType.Text == "Open fuel type selection")
+            {
+                ToggleFuelType.Text = "Close fuel type selection";
+                SelectFuelType.IsVisible = true;
+            }
+            else
+            {
+                ToggleFuelType.Text = "Open fuel type selection";
+                SelectFuelType.IsVisible = false;
+            }
+        }
+
+        private async void ResetTappableLists()
+        {
+            ToggleFilterByBrands.Text = ToggleFilterByBrands.Text = "Open filter by brands";
+            GasStationSelect.IsVisible = false;
+
+            ToggleDistanceSlider.Text = "Open search range";
+            SearchRangeSelect.IsVisible = false;
+
+            ToggleFuelType.Text = "Open fuel type selection";
+            SelectFuelType.IsVisible = false;
+        }
+        private async void OnGasStationToggle(object sender, CheckedChangedEventArgs e)
+        {
+            var cb = (CheckBox)sender;
+            var kvp = (KeyValuePair<string, bool>)cb.BindingContext;
+
+            GasStation.selectedGasStations[kvp.Key] = e.Value;
+        }
+
         protected override bool OnBackButtonPressed()
         {
             MainPage.UpdateShownGasStations();
+            ResetTappableLists();
             Navigation.PopAsync();
 
             return true;
