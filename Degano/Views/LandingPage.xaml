@@ -4,6 +4,7 @@
              x:Class="Degano.LandingPage"
              NavigationPage.HasNavigationBar="False">
 
+
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
