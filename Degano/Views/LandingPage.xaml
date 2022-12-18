@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Degano.LandingPage"
-             NavigationPage.HasNavigationBar="false">
+             NavigationPage.HasNavigationBar="False">
+
 
     <ScrollView>
         <VerticalStackLayout
@@ -10,9 +11,15 @@
             Padding="30,0"
             VerticalOptions="Center">
 
+            <Image
+                WidthRequest="280"
+                Source="logo_inapp.png"
+                Margin="40"/>
+
             <Button
                 x:Name="SignInBtn"
                 Text="Sign in"
+                FontAttributes="Bold"
                 Clicked="OnSignInClick"
                 WidthRequest="300"
                 HorizontalOptions="Center" />
@@ -20,6 +27,7 @@
             <Button
                 x:Name="SignUpBtn"
                 Text="Sign up"
+                FontAttributes="Bold"
                 Clicked="OnSignUpClick"
                 WidthRequest="300"
                 HorizontalOptions="Center" />
@@ -27,6 +35,7 @@
             <Button
                 x:Name="ContinueWithoutSignIn"
                 Text="Continue without signing in"
+                FontAttributes="Bold"
                 Clicked="OnContinueWithoutSignInClick"
                 WidthRequest="300"
                 HorizontalOptions="Center" />
