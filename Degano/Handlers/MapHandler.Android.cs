@@ -152,9 +152,12 @@ namespace Degano.Handlers
             marker.SetPosition(new LatLng(g.location.lat, g.location.lng));
             marker.SetTitle(g.name);
 
-            if (GasStationResources.ContainsKey(g.type.ToLower()))
+            var type = g.type;
+            type = type.Replace("š", "s");
+
+            if (GasStationResources.ContainsKey(type.ToLower()))
             {
-                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStationResources[g.type.ToLower()]));
+                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStationResources[type.ToLower()]));
             }
             else
             {
@@ -266,6 +269,7 @@ namespace Degano.Handlers
             var _infoWindowAdapter = new InfoWindowAdapter(this);
             Map.SetInfoWindowAdapter(_infoWindowAdapter);
             Map.SetOnInfoWindowClickListener(_infoWindowAdapter);
+            Map.UiSettings.MapToolbarEnabled = false;
             var R = Android.App.Application.Context;
             Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 

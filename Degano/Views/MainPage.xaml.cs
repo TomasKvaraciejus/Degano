@@ -142,9 +142,7 @@ namespace Degano.Views
                                                     int.Parse(updatedTimes[4]),
                                                     int.Parse(updatedTimes[5]));
 
-                GasStation.lastUpdated = (updatedDate - DateTime.Now).Hours;
-
-                System.Diagnostics.Debug.WriteLine("AAA" + GasStation.lastUpdated + " " + updatedDate + " " + updated);
+                GasStation.lastUpdated = (DateTime.Now - updatedDate).Hours;
             }
             catch (Exception ex)
             {
