@@ -14,6 +14,7 @@ namespace Degano.Views
         private static MainPage mainPage;
         public delegate void INeedGasToggleHandler();
         SettingsPage settingsPage;
+
         public MainPage(SettingsPage _settingsPage)
         {
             InitializeComponent();
@@ -126,6 +127,9 @@ namespace Degano.Views
                 }
 
                 GasStation.gasStationList.GroupBy(g => g.type).Select(g => g.First()).ToList().ForEach(g => GasStation.selectedGasStations.TryAdd(g.type, true));
+
+                response = await client.GetAsync("Updated/Datetime");
+                string updated = response.Body.ToString();
 
                 await UpdateShownGasStations();
             }
