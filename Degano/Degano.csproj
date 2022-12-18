@@ -36,9 +36,9 @@
 
 	<ItemGroup>
 	
-		<MauiIcon Include="Resources\AppIcon\logo_inapp_notext_whitebg.svg"/>
+		<MauiIcon Include="Resources\AppIcon\logo_inapp_notext_whitebg.png" Color="#FFFFFF" />
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logo_inapp_notext.svg" Color="#FFFFFF" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\logo_inapp_notext.svg" Color="#FFFFFF" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
