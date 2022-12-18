@@ -15,7 +15,7 @@
 		<ApplicationTitle>Degano</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.degano</ApplicationId>
+		<ApplicationId>com.apatinisbruksnys.degano</ApplicationId>
 		<ApplicationIdGuid>A9177255-097F-4D84-8FEF-A2BE9B677AD6</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -36,14 +36,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+ Resize 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\appicon.svg" Color="#FF4500" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -53,6 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\logo_inapp.png" />
 	  <MauiImage Remove="Resources\Images\gasstationalausa.png" />
 	  <MauiImage Remove="Resources\Images\gasstationbaltic petroleum.png" />
 	  <MauiImage Remove="Resources\Images\gasstationcircle k.png" />

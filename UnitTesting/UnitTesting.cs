@@ -74,7 +74,7 @@ namespace UnitTesting
             GasStation.gasStationList.Add(g2);
             GasStation.gasStationList.ForEach(g => g.GetDistanceToUser());
             GasStation.preferredPriceMin = -1;
-            GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.fuelPrice["95"]);
+            GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.fuelPrice.value["95"]);
             Assert.True(g2.appealCoef > g1.appealCoef);
         }
 
@@ -90,7 +90,7 @@ namespace UnitTesting
             GasStation.gasStationList.Add(g2);
             GasStation.gasStationList.ForEach(g => g.GetDistanceToUser());
             GasStation.preferredPriceMin = -1;
-            GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.fuelPrice["95"]);
+            GasStation.preferredPriceMax = GasStation.gasStationList.Max(g => g.fuelPrice.value["95"]);
             Assert.True(g2.appealCoef < g1.appealCoef);
         }
 
