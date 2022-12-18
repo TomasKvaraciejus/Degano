@@ -57,8 +57,12 @@
 	  <MauiImage Remove="Resources\Images\gasstationdefault.png" />
 	  <MauiImage Remove="Resources\Images\gasstationecoil.png" />
 	  <MauiImage Remove="Resources\Images\gasstationemsi.png" />
+	  <MauiImage Remove="Resources\Images\gasstationjozita.png" />
+	  <MauiImage Remove="Resources\Images\gasstationkvistija.png" />
 	  <MauiImage Remove="Resources\Images\gasstationneste.png" />
 	  <MauiImage Remove="Resources\Images\gasstationorlen.png" />
+	  <MauiImage Remove="Resources\Images\gasstationskulas.png" />
+	  <MauiImage Remove="Resources\Images\gasstationstateta.png" />
 	  <MauiImage Remove="Resources\Images\gasstationviada.png" />
 	</ItemGroup>
 
@@ -91,8 +95,12 @@
 	  <EmbeddedResource Include="Resources\Images\gasstationdefault.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationecoil.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationemsi.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationjozita.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationkvistija.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationneste.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationorlen.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationskulas.png" />
+	  <EmbeddedResource Include="Resources\Images\gasstationstateta.png" />
 	  <EmbeddedResource Include="Resources\Images\gasstationviada.png" />
 	</ItemGroup>
 
