@@ -152,9 +152,12 @@ namespace Degano.Handlers
             marker.SetPosition(new LatLng(g.location.lat, g.location.lng));
             marker.SetTitle(g.name);
 
-            if (GasStationResources.ContainsKey(g.type.ToLower()))
+            var type = g.type;
+            type = type.Replace("š", "s");
+
+            if (GasStationResources.ContainsKey(type.ToLower()))
             {
-                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStationResources[g.type.ToLower()]));
+                marker.SetIcon(BitmapDescriptorFactory.FromBitmap(GasStationResources[type.ToLower()]));
             }
             else
             {
@@ -236,7 +239,7 @@ namespace Degano.Handlers
             {
                 var imgSrc = ImageSource.FromResource("Degano.Resources.Images.gasstationdefault.png");
                 var _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
-                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true);
+                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 150, 150, true);
 
                 var assembly = Assembly.GetExecutingAssembly();
                 foreach (var name in assembly.GetManifestResourceNames())
@@ -247,7 +250,7 @@ namespace Degano.Handlers
 
                         imgSrc = ImageSource.FromResource(name);
                         _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
-                        GasStationResources.Add(gasStationName.Remove(gasStationName.IndexOf('.')), Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true));
+                        GasStationResources.Add(gasStationName.Remove(gasStationName.IndexOf('.')), Bitmap.CreateScaledBitmap(_bitmap, 150, 150, true));
                     }
                 }
             }
@@ -266,6 +269,7 @@ namespace Degano.Handlers
             var _infoWindowAdapter = new InfoWindowAdapter(this);
             Map.SetInfoWindowAdapter(_infoWindowAdapter);
             Map.SetOnInfoWindowClickListener(_infoWindowAdapter);
+            Map.UiSettings.MapToolbarEnabled = false;
             var R = Android.App.Application.Context;
             Map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(R, Resource.Raw.map_style));
 
@@ -343,6 +347,24 @@ namespace Degano.Handlers
             }
             else
                 viewText.Text += "err: distance not available";
+
+            viewText = (TextView)view.FindViewById(Resource.Id.db_last_updated);
+            viewText.Text = "Last Updated: ";
+            if (GasStation.lastUpdated != -1)
+                if(GasStation.lastUpdated < 1)
+                {
+                    viewText.Text += "<1h ago";
+                }
+                else if(GasStation.lastUpdated >= 24)
+                {
+                    viewText.Text += (GasStation.lastUpdated / 24).ToString() + "d ago";
+                }
+                else
+                {
+                    viewText.Text += GasStation.lastUpdated.ToString() + "h ago";
+                }
+            else
+                viewText.Text += "unknown".PadLeft(24 - viewText.Text.Length);
 
             return view;
         }

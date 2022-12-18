@@ -14,6 +14,7 @@ namespace Degano.Views
         private static MainPage mainPage;
         public delegate void INeedGasToggleHandler();
         SettingsPage settingsPage;
+
         public MainPage(SettingsPage _settingsPage)
         {
             InitializeComponent();
@@ -128,6 +129,20 @@ namespace Degano.Views
                 GasStation.gasStationList.GroupBy(g => g.type).Select(g => g.First()).ToList().ForEach(g => GasStation.selectedGasStations.TryAdd(g.type, true));
 
                 await UpdateShownGasStations();
+
+                response = await client.GetAsync("Updated/Datetime");
+                string updated = response.Body.ToString();
+                updated = updated.Replace("\"", "");
+                var updatedTimes = updated.Split(" ");
+
+                DateTime updatedDate = new DateTime(int.Parse(updatedTimes[0]),
+                                                    int.Parse(updatedTimes[1]),
+                                                    int.Parse(updatedTimes[2]),
+                                                    int.Parse(updatedTimes[3]),
+                                                    int.Parse(updatedTimes[4]),
+                                                    int.Parse(updatedTimes[5]));
+
+                GasStation.lastUpdated = (DateTime.Now - updatedDate).Hours;
             }
             catch (Exception ex)
             {
@@ -207,7 +222,7 @@ namespace Degano.Views
         {
             if (status)
             {
-                mainPage.GasButton.BackgroundColor = Colors.Red;
+                mainPage.GasButton.BackgroundColor = Color.FromRgba("FF4500");
                 mainPage.GasButton.IsEnabled = true;
             }
             else

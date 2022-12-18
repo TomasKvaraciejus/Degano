@@ -11,19 +11,22 @@
 
             <Button
             x:Name="MyAccountButton"
+            FontAttributes="Bold"
             HeightRequest="45"
             Text="My account"
             Clicked="OnMyAccount"/>
 
             <Button
             x:Name="ManageCardsButton"
+            FontAttributes="Bold"
             HeightRequest="45"
             Text="Manage cards"
             Clicked="OnManageCards"/>
 
             <Button
             x:Name="ToggleFilterByBrands"
-            HeightRequest="40"
+            FontAttributes="Bold"
+            HeightRequest="45"
             Text="Open filter by brands"
             Clicked="OnFilterByBrandsTapped"/>
 
@@ -40,7 +43,8 @@
 
             <Button
             x:Name="ToggleDistanceSlider"
-            HeightRequest="40"
+            FontAttributes="Bold"
+            HeightRequest="45"
             Text="Open search range"
             Clicked="OnToggleDistanceSliderTapped"/>
             
@@ -61,7 +65,8 @@
 
             <Button
             x:Name="ToggleFuelType"
-            HeightRequest="40"
+            FontAttributes="Bold"
+            HeightRequest="45"
             Text="Open fuel type selection"
             Clicked="OnToggleFuelTypeTapped"/>
 

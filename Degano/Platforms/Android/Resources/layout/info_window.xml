@@ -95,5 +95,16 @@
             android:textSize="14dp"
             android:textStyle="bold"
             android:text="Distance: "
+            android:layout_marginBottom="6dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/db_last_updated"
+            android:layout_gravity="center_horizontal"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12dp"
+            android:text="Last Updated: "
             android:layout_marginBottom="4dp" />
 </LinearLayout>
