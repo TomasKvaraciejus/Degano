@@ -35,10 +35,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- App Icon -->
- Resize 
+	
+		<MauiIcon Include="Resources\AppIcon\logo_inapp_notext_whitebg.svg"/>
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\appicon.svg" Color="#FF4500" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\logo_inapp_notext.svg" Color="#FFFFFF" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -51,7 +51,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\logo_inapp.png" />
 	  <MauiImage Remove="Resources\Images\gasstationalausa.png" />
 	  <MauiImage Remove="Resources\Images\gasstationbaltic petroleum.png" />
 	  <MauiImage Remove="Resources\Images\gasstationcircle k.png" />
