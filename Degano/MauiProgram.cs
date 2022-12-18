@@ -36,7 +36,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<Views.SignUpPage>();
         builder.Services.AddSingleton<Views.MainPage>();
 		builder.Services.AddSingleton<Views.SettingsPage>();
-        builder.Services.AddSingleton<Views.SettingsPage_Brands>();
 		builder.Services.AddSingleton<Views.SettingsPage_MyAccount>();
 		builder.Services.AddSingleton<Views.CardPage>();
 		builder.Services.AddSingleton<Views.AddCardPage>();

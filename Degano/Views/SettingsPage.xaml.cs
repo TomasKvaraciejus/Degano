@@ -8,7 +8,6 @@ namespace Degano.Views
     [ExcludeFromCodeCoverage]
     public partial class SettingsPage : ContentPage
     {
-        SettingsPage_Brands settingsPageBrands;
         SettingsPage_MyAccount settingsPageMyAccount;
         CardPage CardPage;
         public Action<bool> UpdateTraffic;
@@ -18,12 +17,11 @@ namespace Degano.Views
         UserResult userResult;
         
         SqliteDatabase database;
-        public SettingsPage(SqliteDatabase db, UserResult _userResult, SettingsPage_Brands _settingsPageBrands, SettingsPage_MyAccount _settingsPageMyAccount, CardPage cardPage)
+        public SettingsPage(SqliteDatabase db, UserResult _userResult, SettingsPage_MyAccount _settingsPageMyAccount, CardPage cardPage)
         {
             InitializeComponent();
             database = db;
             userResult = _userResult;
-            settingsPageBrands = _settingsPageBrands;
             settingsPageMyAccount = _settingsPageMyAccount;
             DistanceSlider.Value = GasStation.distMax;
             CardPage = cardPage;
@@ -47,11 +45,6 @@ namespace Degano.Views
         {
             settingsPageMyAccount.OnPageEntry();
             await Navigation.PushAsync(settingsPageMyAccount);
-        }
-
-        private async void OnFilterBrands(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(settingsPageBrands); 
         }
 
         private async void OnManageCards(object sender, EventArgs e)
