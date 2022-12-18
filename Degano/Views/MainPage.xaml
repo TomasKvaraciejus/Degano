@@ -52,7 +52,7 @@
             Clicked="OnINeedGasClick"
             Grid.Row="3" 
             Grid.ColumnSpan="3" 
-            BackgroundColor="Red" 
+            BackgroundColor="#FF4500" 
             Text="⚠️ I Need Gas! ⚠" 
             WidthRequest="300" 
             HeightRequest="50">

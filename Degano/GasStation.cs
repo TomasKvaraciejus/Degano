@@ -12,6 +12,7 @@ namespace Degano
         public static List<GasStation> enabledGasStationList = new List<GasStation>();
         public static SortedDictionary<string, bool> selectedGasStations = new SortedDictionary<string, bool>();
         public static string selectedType = "95";
+        public static int lastUpdated = -1;
 
         public static SortedDictionary<string, FuelType> discounts = new SortedDictionary<string, FuelType>();
 

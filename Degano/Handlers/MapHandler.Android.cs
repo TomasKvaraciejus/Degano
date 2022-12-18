@@ -236,7 +236,7 @@ namespace Degano.Handlers
             {
                 var imgSrc = ImageSource.FromResource("Degano.Resources.Images.gasstationdefault.png");
                 var _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
-                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true);
+                GasStation_Default = Bitmap.CreateScaledBitmap(_bitmap, 150, 150, true);
 
                 var assembly = Assembly.GetExecutingAssembly();
                 foreach (var name in assembly.GetManifestResourceNames())
@@ -247,7 +247,7 @@ namespace Degano.Handlers
 
                         imgSrc = ImageSource.FromResource(name);
                         _bitmap = await new ImageLoaderSourceHandler().LoadImageAsync(imgSrc, Android.App.Application.Context, CancellationToken.None);
-                        GasStationResources.Add(gasStationName.Remove(gasStationName.IndexOf('.')), Bitmap.CreateScaledBitmap(_bitmap, 130, 130, true));
+                        GasStationResources.Add(gasStationName.Remove(gasStationName.IndexOf('.')), Bitmap.CreateScaledBitmap(_bitmap, 150, 150, true));
                     }
                 }
             }
@@ -343,6 +343,24 @@ namespace Degano.Handlers
             }
             else
                 viewText.Text += "err: distance not available";
+
+            viewText = (TextView)view.FindViewById(Resource.Id.db_last_updated);
+            viewText.Text = "Last Updated: ";
+            if (GasStation.lastUpdated != -1)
+                if(GasStation.lastUpdated < 1)
+                {
+                    viewText.Text += "<1h ago";
+                }
+                else if(GasStation.lastUpdated >= 24)
+                {
+                    viewText.Text += (GasStation.lastUpdated / 24).ToString() + "d ago";
+                }
+                else
+                {
+                    viewText.Text += GasStation.lastUpdated.ToString() + "h ago";
+                }
+            else
+                viewText.Text += "unknown".PadLeft(24 - viewText.Text.Length);
 
             return view;
         }
